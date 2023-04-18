@@ -1,11 +1,10 @@
-import { combineReducers } from 'redux'
-import { StateType } from 'typesafe-actions'
+import { combineReducers } from 'redux';
+import { StateType } from 'typesafe-actions';
 
-const reducers = {
-}
+const reducers = {};
 
-const rootReducer = combineReducers(reducers)
+const rootReducer = combineReducers(reducers);
 
-export type ApplicationState = StateType<typeof reducers>
+export type ApplicationState = StateType<typeof reducers>;
 
-export default rootReducer
+export default rootReducer;
