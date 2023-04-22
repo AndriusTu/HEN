@@ -1,4 +1,21 @@
-import { DeliveryProps } from '../pages/deliveries/Delivery';
+interface UserContactInformation {
+  phone: string;
+}
+
+interface Address {
+  street: string;
+  city: string;
+  zip: string;
+  country: string;
+}
+
+export interface DeliveryProps {
+  id: string;
+  destinationAddress: Address;
+  currentAddress: Address;
+  status: string;
+  receiverContactInformation: UserContactInformation;
+}
 
 const deliveriesMock: DeliveryProps[] = [
   {

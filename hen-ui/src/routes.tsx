@@ -1,16 +1,7 @@
-import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
-import DeliveryPage from './pages/deliveries/DeliveryPage';
+const ROUTES = {
+  CREATE_PARCEL: '/create-parcel',
+  PARCELS: '/parcels',
+  ACCOUNTS: '/accounts',
+};
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <DeliveryPage />,
-  },
-  {
-    path: '/another-page',
-    element: <div>Hello</div>,
-  },
-]);
-
-export default router;
+export default ROUTES;
