@@ -1,6 +1,6 @@
 import React from 'react';
+import { Text } from '../../../components';
 import clsx from 'clsx';
-import {Text} from "../../../components";
 
 export interface DeliveryMethodCardProps {
   eta: string;
@@ -14,7 +14,14 @@ function DeliveryMethodCard(props: DeliveryMethodCardProps) {
   const { eta, deliveryType, price, onClick, isActive } = props;
 
   return (
-    <div className="bg-indigo_600 flex flex-1 flex-col gap-[54px] items-center justify-end pt-[43px] rounded-[25px] w-full">
+    <div
+      className={clsx(
+        'flex flex-1 flex-col gap-7 items-center justify-end pt-7' +
+        ' rounded-[25px] w-full cursor-pointer',
+        isActive ? 'bg-indigo_600 ring-4' : 'bg-indigo_500',
+      )}
+      onClick={onClick}
+    >
       <div className="flex flex-col gap-4 items-center justify-start w-[73%] md:w-full">
         <div className="flex flex-row items-start justify-between w-full">
           <Text
