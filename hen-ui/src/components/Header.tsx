@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, Img, Input, Button } from 'components/index';
+import { Text, Img, Input, Button } from 'components';
 import { CloseSVG } from '../assets/images';
 
 type HeaderProps = React.DetailedHTMLProps<

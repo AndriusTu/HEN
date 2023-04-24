@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ROUTES from './routes';
 import Layout from './components/Layout';
-import CreateParcelPage from './pages/CreateParcelPage';
+import CreateParcelPage from './pages/createParcel/CreateParcelPage';
 
 function App() {
   return (

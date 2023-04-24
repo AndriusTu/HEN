@@ -1,7 +1,7 @@
 import { Line } from 'components';
 import React from 'react';
-import Tab from './createParcel/Tab';
-import DeliveryInformationTab from './createParcel/DeliveryInformationTab';
+import Tab from './components/Tab';
+import DeliveryInformationTab from './components/DeliveryInformationTab';
 
 const tabs = [
   {

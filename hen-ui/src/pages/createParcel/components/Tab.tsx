@@ -1,5 +1,5 @@
 import React from 'react';
-import { Line, Text } from '../../components';
+import { Line, Text } from '../../../components';
 
 interface TabProps {
   title: string;
