@@ -13,7 +13,7 @@ const deliveryMethodsMock = [
     eta: '1 hour',
     deliveryType: 'Same day',
     price: '9.99',
-  }
+  },
 ];
 
 export default deliveryMethodsMock;
