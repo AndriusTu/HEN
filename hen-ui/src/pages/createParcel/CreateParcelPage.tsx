@@ -2,6 +2,7 @@ import { Line } from 'components';
 import React from 'react';
 import Tab from './components/Tab';
 import DeliveryInformationTab from './components/DeliveryInformationTab';
+import DeliveryMethodsTab from './components/DeliveryMethodsTab';
 
 const tabs = [
   {
@@ -34,6 +35,7 @@ function CreateParcelPage() {
         <Line className="bg-gray_300 h-px w-full" />
       </div>
       {activeTab === 'Delivery information' && <DeliveryInformationTab />}
+      {activeTab === 'Delivery methods' && <DeliveryMethodsTab />}
     </div>
   );
 }
