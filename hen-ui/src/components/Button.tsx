@@ -20,7 +20,7 @@ const variants = {
 } as const;
 const sizes = {
   sm: 'p-[7px]',
-  md: 'px-[7px] py-3.5',
+  md: 'px-4 py-3.5',
   lg: 'p-3.5',
   xl: 'p-[23px] sm:px-5',
   smIcn: 'p-[7px]',

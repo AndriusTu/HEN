@@ -3,11 +3,20 @@ import React from 'react';
 export type LineProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
->;
+> &
+  Partial<{
+    className: string;
+  }>;
 
-const Line: React.FC<React.PropsWithChildren<LineProps>> = () => {
+const Line: React.FC<React.PropsWithChildren<LineProps>> = ({
+  className,
+  ...restProps
+}) => {
   return (
-    <div className="bg-indigo_600 h-[60px] rounded-bl-none rounded-br-[10px] rounded-tl-none rounded-tr-[10px] w-1.5" />
+    <div
+      className={className}
+      {...restProps}
+    />
   );
 };
 export { Line };

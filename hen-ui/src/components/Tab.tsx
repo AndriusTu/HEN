@@ -23,7 +23,9 @@ function Tab(props: TabProps) {
 
   return (
     <div className="flex flex-row">
-      {isActive && <Line />}
+      {isActive && (
+        <Line className="bg-indigo_600 h-[60px] rounded-bl-none rounded-br-[10px] rounded-tl-none rounded-tr-[10px] w-1.5" />
+      )}
       <Link
         to={link}
         onClick={onClick}

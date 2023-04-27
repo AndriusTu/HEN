@@ -1,5 +1,5 @@
 import React from 'react';
-import { Img } from 'components/index';
+import { Img } from 'components';
 import Tab from './Tab';
 import ROUTES from '../routes';
 

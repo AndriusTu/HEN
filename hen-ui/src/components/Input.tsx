@@ -1,5 +1,5 @@
 import React from 'react';
-import { ErrorMessage } from './ErrorMessage';
+import { InputError } from './InputError';
 
 const variants = {
   OutlineGray300: 'bg-white_A700 border border-gray_300 border-solid',
@@ -30,7 +30,7 @@ export type InputProps = Omit<
     name: string;
     placeholder: string;
     type: string;
-    errors: string[];
+    errors: object;
     label: string;
     prefix: React.ReactNode;
     suffix: React.ReactNode;
@@ -49,7 +49,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       placeholder,
       type = 'text',
       children,
-      errors = [],
+      errors = {},
       label = '',
       prefix,
       suffix,
@@ -67,7 +67,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <>
+      <div className="h-20">
         <div
           className={`${wrapClassName} 
               ${(shape && shapes[shape]) || ''} 
@@ -87,8 +87,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
           {!!suffix && suffix}
         </div>
-        {!!errors && <ErrorMessage errors={errors} />}
-      </>
+        {!!errors && (
+          <InputError
+            errors={errors}
+            inputName={name}
+          />
+        )}
+      </div>
     );
   },
 );

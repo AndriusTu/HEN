@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ROUTES from './routes';
 import Layout from './components/Layout';
+import CreateParcelPage from './pages/createParcel/CreateParcelPage';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       >
         <Route
           path={ROUTES.CREATE_PARCEL}
-          element={<div>create parcel</div>}
+          element={<CreateParcelPage />}
         />
         <Route
           path={ROUTES.PARCELS}
