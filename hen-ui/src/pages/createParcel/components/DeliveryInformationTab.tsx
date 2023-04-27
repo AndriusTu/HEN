@@ -204,7 +204,7 @@ function DeliveryInformationTab() {
                 ></Input>
               </div>
               <Button
-                className="cursor-pointer font-medium leading-[normal] min-w-[190px] md:ml-[0] ml-[330px] mt-5 text-center text-lg text-white_A700 w-auto"
+                className="cursor-pointer font-medium leading-[normal] min-w-[190px] md:ml-[0] ml-[330px] mt-7 text-center text-lg text-white_A700 w-auto"
                 shape="RoundedBorder15"
                 size="md"
                 variant="FillIndigo600"

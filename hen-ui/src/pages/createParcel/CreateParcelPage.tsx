@@ -3,6 +3,7 @@ import React from 'react';
 import Tab from './components/Tab';
 import DeliveryInformationTab from './components/DeliveryInformationTab';
 import DeliveryMethodsTab from './components/DeliveryMethodsTab';
+import ParcelRegistrationTab from './components/ParcelRegistrationTab';
 
 const tabs = [
   {
@@ -36,6 +37,7 @@ function CreateParcelPage() {
       </div>
       {activeTab === 'Delivery information' && <DeliveryInformationTab />}
       {activeTab === 'Delivery methods' && <DeliveryMethodsTab />}
+      {activeTab === 'Parcel registration' && <ParcelRegistrationTab />}
     </div>
   );
 }

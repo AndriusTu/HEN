@@ -67,7 +67,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className="h-20">
+      <div className="h-16">
         <div
           className={`${wrapClassName} 
               ${(shape && shapes[shape]) || ''} 
