@@ -1,10 +1,10 @@
 import { Line } from 'components';
 import React from 'react';
 import Tab from './components/Tab';
-import DeliveryInformationTab from './components/DeliveryInformationTab';
-import DeliveryMethodsTab from './components/DeliveryMethodsTab';
-import SenderContactsTab from './components/SenderContactsTab';
-import ReceiverContactsTab from './components/ReceiverContactsTab';
+import DeliveryInformationTab from './tabs/DeliveryInformationTab';
+import DeliveryMethodsTab from './tabs/DeliveryMethodsTab';
+import SenderContactsTab from './tabs/SenderContactsTab';
+import ReceiverContactsTab from './tabs/ReceiverContactsTab';
 
 const tabs = [
   {

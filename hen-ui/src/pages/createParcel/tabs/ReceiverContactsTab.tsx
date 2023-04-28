@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Text } from '../../../components';
-import ContactInformationForm from './ContactInformationForm';
+import ContactInformationForm from '../components/ContactInformationForm';
 import { ArrowSVG } from '../../../assets/images/arrow';
 
 function ReceiverContactsTab() {

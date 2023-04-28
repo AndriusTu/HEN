@@ -1,21 +1,38 @@
 import React from 'react';
-import { Button, Text } from '../../../components';
-import ContactInformationForm from './ContactInformationForm';
+import { Text, List, Button } from '../../../components';
+import DeliveryMethodCard from '../components/DeliveryMethodCard';
+import deliveryMethodsMock from '../../../mocks/deliveryMethodsMock';
 import { ArrowSVG } from '../../../assets/images/arrow';
 
-function SenderContactsTab() {
+function DeliveryMethodsTab() {
+  const [activeCard, setActiveCard] = React.useState<string | undefined>(
+    undefined,
+  );
+
   return (
-    <div className="flex flex-row gap-[25px] justify-start mt-[7px] w-full">
-      <div className="flex flex-col items-start justify-between md:ml-[0] ml-8 pr-10 md:w-full mt-5">
+    <div className="flex flex-col items-center justify-start w-full pt-6 pr-10 pl-8">
+      <div className="flex flex-col gap-[21px] items-start justify-start w-full">
         <Text
-          className="text-left text-indigo_600 mb-4"
+          className="ml-0.5 md:ml-[0] text-indigo_600 text-left w-auto"
           as="h2"
           variant="h2"
         >
-          Your contact information
+          Choose your delivery type:
         </Text>
-        <ContactInformationForm />
-        <div className="flex flex-row gap-10 w-full justify-between">
+        <List
+          className="sm:flex-col flex-row md:gap-10 gap-10 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center w-full"
+          orientation="horizontal"
+        >
+          {deliveryMethodsMock.map((deliveryMethod, index) => (
+            <DeliveryMethodCard
+              key={index}
+              {...deliveryMethod}
+              isActive={activeCard === deliveryMethod.deliveryType}
+              onClick={() => setActiveCard(deliveryMethod.deliveryType)}
+            />
+          ))}
+        </List>
+        <div className="flex flex-row gap-10 w-full justify-between mt-28">
           <Button
             className="flex flex-row gap-2 justify-center items-center cursor-pointer font-medium leading-[normal] min-w-[190px] mt-5 text-center text-md text-indigo_600 w-auto"
             shape="RoundedBorder15"
@@ -56,4 +73,4 @@ function SenderContactsTab() {
   );
 }
 
-export default SenderContactsTab;
+export default DeliveryMethodsTab;
