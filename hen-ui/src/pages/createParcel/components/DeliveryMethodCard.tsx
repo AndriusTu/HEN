@@ -17,7 +17,7 @@ function DeliveryMethodCard(props: DeliveryMethodCardProps) {
     <div
       className={clsx(
         'flex flex-1 flex-col gap-7 items-center justify-end pt-7' +
-        ' rounded-[25px] w-full cursor-pointer',
+          ' rounded-[25px] w-full cursor-pointer',
         isActive ? 'bg-indigo_600 ring-4' : 'bg-indigo_500',
       )}
       onClick={onClick}
