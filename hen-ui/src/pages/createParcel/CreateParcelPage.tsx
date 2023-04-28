@@ -3,7 +3,8 @@ import React from 'react';
 import Tab from './components/Tab';
 import DeliveryInformationTab from './components/DeliveryInformationTab';
 import DeliveryMethodsTab from './components/DeliveryMethodsTab';
-import ParcelRegistrationTab from './components/ParcelRegistrationTab';
+import SenderContactsTab from './components/SenderContactsTab';
+import ReceiverContactsTab from './components/ReceiverContactsTab';
 
 const tabs = [
   {
@@ -13,7 +14,10 @@ const tabs = [
     title: 'Delivery methods',
   },
   {
-    title: 'Parcel registration',
+    title: 'Your contacts',
+  },
+  {
+    title: 'Receiver contacts',
   },
 ];
 
@@ -37,7 +41,8 @@ function CreateParcelPage() {
       </div>
       {activeTab === 'Delivery information' && <DeliveryInformationTab />}
       {activeTab === 'Delivery methods' && <DeliveryMethodsTab />}
-      {activeTab === 'Parcel registration' && <ParcelRegistrationTab />}
+      {activeTab === 'Your contacts' && <SenderContactsTab />}
+      {activeTab === 'Receiver contacts' && <ReceiverContactsTab />}
     </div>
   );
 }

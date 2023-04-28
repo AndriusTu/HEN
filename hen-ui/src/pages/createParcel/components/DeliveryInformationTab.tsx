@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Img, Input, Text } from '../../../components';
 import { useForm } from 'react-hook-form';
+import { ArrowSVG } from '../../../assets/images/arrow';
 
 function DeliveryInformationTab() {
   const {
@@ -12,7 +13,7 @@ function DeliveryInformationTab() {
   const onSubmit = (data: any) => console.log(data);
 
   return (
-    <div className="flex flex-col items-center justify-start w-[87%] md:w-full">
+    <div className="flex flex-col items-center justify-start w-[87%] pt-5">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-6 items-start justify-start w-full">
           <div className="flex md:flex-col flex-row gap-[13px] items-start justify-between w-full">
@@ -204,13 +205,21 @@ function DeliveryInformationTab() {
                 ></Input>
               </div>
               <Button
-                className="cursor-pointer font-medium leading-[normal] min-w-[190px] md:ml-[0] ml-[330px] mt-7 text-center text-lg text-white_A700 w-auto"
+                className="flex flex-row gap-2 cursor-pointer font-medium leading-[normal] ml-[330px] mt-7 text-md text-white_A700 w-auto"
                 shape="RoundedBorder15"
                 size="md"
                 variant="FillIndigo600"
                 type="submit"
               >
-                See delivery options
+                <div>See delivery options</div>
+                <ArrowSVG
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                  direction="right"
+                />
               </Button>
             </div>
           </div>
