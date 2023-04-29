@@ -8,12 +8,26 @@ public class ParcelEntityConfiguration : IEntityTypeConfiguration<ParcelEntity>
 {
     public void Configure(EntityTypeBuilder<ParcelEntity> builder)
     {
-        builder.ToTable("Parcels");
+        builder.ToTable("Parcel");
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Name).HasColumnType("nvarchar(256)").IsRequired();
-        builder.Property(x => x.Address).HasColumnType("nvarchar(256)");
-        builder.Property(x => x.Email).HasColumnType("nvarchar(256)");
-        builder.Property(x => x.Phone).HasColumnType("nvarchar(256)");
 
+        builder.HasOne(x => x.Sender).WithMany().HasForeignKey(x => x.SenderId);
+        builder.Property(x => x.SenderId).HasColumnType("integer");
+
+        builder.HasOne(x => x.Receiver).WithMany().HasForeignKey(x => x.ReceiverId);
+        builder.Property(x => x.ReceiverId).HasColumnType("integer");
+
+        builder.HasOne(x => x.Courier).WithMany().HasForeignKey(x => x.CourierId);
+        builder.Property(x => x.CourierId).HasColumnType("integer");
+
+        builder.Property(x => x.Type).HasColumnType("nvarchar(16)").IsRequired();
+        builder.Property(x => x.Description).HasColumnType("nvarchar(256)");
+        builder.Property(x => x.ETA).HasColumnType("timestamp");
+
+
+        builder.HasMany(x => x.DeliveryStatuses).WithOne().HasForeignKey(x => x.ParcelId);
+
+        builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasDefaultValueSql("CURRENT_TIMESTAMP");
+        builder.Property(x => x.UpdateAt).HasColumnType("timestamp").HasDefaultValueSql("CURRENT_TIMESTAMP");
     }
 }

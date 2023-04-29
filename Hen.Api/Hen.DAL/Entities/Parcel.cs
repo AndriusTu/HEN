@@ -1,10 +1,21 @@
-﻿namespace Hen.DAL.Entities;
+﻿using Hen.DAL.Enums;
 
-public class ParcelEntity
+namespace Hen.DAL.Entities
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-    public string? Address { get; set; }
-    public string? Phone { get; set; }
-    public string? Email { get; set; }
+    public class ParcelEntity
+    {
+        public Guid Id { get; set; }
+        public Guid SenderId { get; set; }
+        public UserEntity? Sender { get; set; }
+        public Guid ReceiverId { get; set; }
+        public UserEntity? Receiver { get; set; }
+        public Guid CourierId { get; set; }
+        public AccountEntity? Courier { get; set; }
+        public DeliveryType Type { get; set; }
+        public string? Description { get; set; }
+        public DateTime ETA { get; set; }
+        public IList<ParcelStatusGroupEntity> DeliveryStatuses { get; set; } = new List<ParcelStatusGroupEntity>();
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdateAt { get; set; }
+    }
 }
