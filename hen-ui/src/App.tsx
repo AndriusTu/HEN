@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import ROUTES from './routes';
 import Layout from './components/Layout';
 import CreateParcelPage from './pages/createParcel/CreateParcelPage';
+import SeePendingDeliveries from "./pages/seePendingDeliveries/SeePendingDeliveries";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         />
         <Route
           path={ROUTES.PARCELS}
-          element={<div>parcels</div>}
+          element={<SeePendingDeliveries/>}
         />
         <Route
           path={ROUTES.ACCOUNTS}
