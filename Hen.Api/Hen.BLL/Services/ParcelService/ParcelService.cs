@@ -43,16 +43,21 @@ public class ParcelService : IParcelService
 
     public ParcelEntity Update(Guid id, ParcelEntity request)
     {
-        var parcel = GetParcel(id);
-
-        parcel.Name = request.Name;
-        parcel.Email = request.Email;
-
-        _context.Parcels.Update(parcel);
-        _context.SaveChanges();
-
-        return parcel;
+        throw new NotImplementedException();
     }
+
+    //public ParcelEntity Update(Guid id, ParcelEntity request)
+    //{
+    //    var parcel = GetParcel(id);
+
+    //    parcel.Name = request.Name;
+    //    parcel.Email = request.Email;
+
+    //    _context.Parcels.Update(parcel);
+    //    _context.SaveChanges();
+
+    //    return parcel;
+    //}
 
     private ParcelEntity GetParcel(Guid id)
     {
