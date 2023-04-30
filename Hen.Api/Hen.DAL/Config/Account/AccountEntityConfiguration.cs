@@ -15,7 +15,8 @@ namespace Hen.DAL.Config.Account
             builder.Property(x => x.AccountInformationId).HasColumnType("integer");
 
             builder.Property(x => x.Username).HasColumnType("nvarchar(32)").IsRequired();
-            builder.Property(x => x.Password).HasColumnType("nvarchar(32)").IsRequired();
+            builder.Property(x => x.PasswordHash).HasColumnType("varbinary(20)").IsRequired();
+            builder.Property(x => x.PasswordSalt).HasColumnType("varbinary(32)").IsRequired();
             builder.Property(x => x.Role).HasColumnType("nvarchar(16)").IsRequired();
             builder.Property(x => x.Status).HasColumnType("nvarchar(16)").IsRequired();
             builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasDefaultValueSql("CURRENT_TIMESTAMP");

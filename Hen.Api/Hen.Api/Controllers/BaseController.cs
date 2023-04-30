@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hen.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hen.Api.Controllers;
@@ -12,6 +13,6 @@ public abstract class BaseController : ControllerBase
     protected IConfiguration Configuration =>
         HttpContext.RequestServices.GetRequiredService<IConfiguration>();
 
-    //protected ICallerAccessor Caller =>
-    //    HttpContext.RequestServices.GetRequiredService<ICallerAccessor>();
+    protected ICallerAccessor Caller =>
+        HttpContext.RequestServices.GetRequiredService<ICallerAccessor>();
 }
