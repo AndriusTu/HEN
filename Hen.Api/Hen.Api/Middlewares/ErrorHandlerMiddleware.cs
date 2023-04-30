@@ -1,4 +1,5 @@
 
+using Hen.BLL.Exceptions;
 using Hen.DAL;
 using System.Net;
 using System.Text.Json;
@@ -28,6 +29,10 @@ public class ErrorHandlerMiddleware
 
             switch (error)
             {
+                case ForbiddenException:
+                    // custom application error
+                    response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    break;
                 case AppException:
                     // custom application error
                     response.StatusCode = (int)HttpStatusCode.BadRequest;

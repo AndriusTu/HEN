@@ -8,6 +8,7 @@ public class DataContext : DbContext
 {
 
     public DbSet<ParcelEntity> Parcels => Set<ParcelEntity>();
+    public DbSet<AccountEntity> Accounts => Set<AccountEntity>();
 
     private readonly IConfiguration Configuration;
 
