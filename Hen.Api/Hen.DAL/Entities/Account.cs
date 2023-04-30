@@ -11,8 +11,8 @@ namespace Hen.DAL.Entities
         public string? Username { get; set; }
         public byte[] PasswordSalt { get; private set; } = Array.Empty<byte>();
         public byte[] PasswordHash { get; private set; } = Array.Empty<byte>();
-        public AccountRole Role { get; set; } = AccountRole.CLIENT;
-        public AccountStatus Status { get; set; } = AccountStatus.ACTIVE;
+        public AccountRole Role { get; set; }
+        public AccountStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
