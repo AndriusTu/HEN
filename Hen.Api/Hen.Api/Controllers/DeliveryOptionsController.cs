@@ -35,20 +35,20 @@ namespace Api.Controllers
             // M dydis: 19 cm (aukštis) x 38 cm (plotis) x 64 cm (gylis)
             // L dydis: 39 cm (aukštis) x 38 cm (plotis) x 64 cm (gylis)
             
-            if (dimensions.Height > 39 || dimensions.Width > 38 || dimensions.Length > 64)
+            if (dimensions.Height > 0.39 || dimensions.Width > 0.38 || dimensions.Length > 0.64)
             {
                 throw new AppException("The given parcel dimensions are bigger than allowed");
             }
-            if (dimensions.Weight > 30)
+            if (dimensions.Weight > 0.30)
             {
                 throw new AppException("The given parcel weight is heavier than allowed");
             }
 
             switch (dimensions.Height)
             {
-                case <= 9:
+                case <= 0.09f:
                     return ParcelSize.SMALL;
-                case <= 19:
+                case <= 0.19f:
                     return ParcelSize.MEDIUM;
                 default:
                     return ParcelSize.LARGE;
