@@ -12,6 +12,7 @@ namespace Hen.DAL.Entities
         public Guid CourierId { get; set; }
         public AccountEntity? Courier { get; set; }
         public DeliveryType Type { get; set; }
+        public ParcelSize Size { get; set; }
         public string? Description { get; set; }
         public DateTime ETA { get; set; }
         public IList<ParcelStatusGroupEntity> DeliveryStatuses { get; set; } = new List<ParcelStatusGroupEntity>();
