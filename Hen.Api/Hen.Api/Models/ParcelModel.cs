@@ -1,4 +1,6 @@
-﻿using Hen.Api.Enums;
+﻿
+
+using Hen.DAL.Enums;
 
 namespace Hen.Api.Models
 {
@@ -7,7 +9,7 @@ namespace Hen.Api.Models
         public Guid Id { get; set; }
         public UserModel? Sender { get; set; }
         public UserModel? Receiver { get; set; }
-        public UserModel? Courier { get; set; }
+        public AccountModel? Courier { get; set; }
         public DeliveryType Type { get; set; }
         public string? Description { get; set; }
         public DateTime ETA { get; set; }

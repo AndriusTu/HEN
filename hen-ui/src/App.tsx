@@ -1,8 +1,11 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import ROUTES from './routes';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
+import Protected from './components/Protected';
 import CreateParcelPage from './pages/createParcel/CreateParcelPage';
+import { LoginPage } from './pages/login/LoginPage';
+import ROUTES from './routes';
+import authService from './services/api/authService';
 
 function App() {
   return (
@@ -13,15 +16,40 @@ function App() {
       >
         <Route
           path={ROUTES.CREATE_PARCEL}
-          element={<CreateParcelPage />}
+          element={
+            <Protected isLoggedIn={authService.isLoggedIn()}>
+              <CreateParcelPage />
+            </Protected>
+          }
         />
         <Route
           path={ROUTES.PARCELS}
-          element={<div>parcels</div>}
+          element={
+            <Protected isLoggedIn={authService.isLoggedIn()}>
+              <div>parcels</div>
+            </Protected>
+          }
         />
         <Route
           path={ROUTES.ACCOUNTS}
-          element={<div>accounts</div>}
+          element={
+            <Protected isLoggedIn={authService.isLoggedIn()}>
+              <div>accounts</div>
+            </Protected>
+          }
+        />
+        <Route
+          path={ROUTES.LOGIN}
+          element={<LoginPage />}
+        />
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to={ROUTES.CREATE_PARCEL}
+              replace
+            />
+          }
         />
       </Route>
     </Routes>
