@@ -39,7 +39,7 @@ namespace Api.Controllers
             {
                 throw new AppException("The given parcel dimensions are bigger than allowed");
             }
-            if (dimensions.Weight > 0.30)
+            if (dimensions.Weight > 30)
             {
                 throw new AppException("The given parcel weight is heavier than allowed");
             }
