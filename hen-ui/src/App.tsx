@@ -6,6 +6,7 @@ import CreateParcelPage from './pages/createParcel/CreateParcelPage';
 import { LoginPage } from './pages/login/LoginPage';
 import ROUTES from './routes';
 import authService from './services/api/authService';
+import SeePendingDeliveries from "./pages/seePendingDeliveries/SeePendingDeliveries";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
           path={ROUTES.PARCELS}
           element={
             <Protected isLoggedIn={authService.isLoggedIn()}>
-              <div>parcels</div>
+             <SeePendingDeliveries/>
             </Protected>
           }
         />
