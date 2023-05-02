@@ -7,6 +7,38 @@ body {
   margin: 0;
   padding: 0;
 }
+.row {
+  display: table;
+  width:90%;
+  margin-bottom: 10px;
+}
+.parcelIcon{
+  justify-content: center;
+  padding: 30%;
+  border-radius: 40%;
+  background-color: white;
+  display: table-cell;
+}
+.parcelRowElement {
+  justify-content: center;
+  padding: 5px;
+  text-align: left;
+  display: table-cell;
+  vertical-align: middle;
+}
+.parcelRowElementDetails {
+  padding: 5px;
+  display: table-cell;
+  cursor: pointer;
+  font-size: medium;
+  width: 70%;
+  text-align: center;
+  color:#425ebd;
+  margin-left: 10%;
+}
+.toTheLeft {
+  float: left;
+}
 .dhiwise-code,
 .dhiwise-navigation {
   min-height: 100%;
@@ -141,7 +173,7 @@ ul li a {
   opacity: 0.7;
   position: fixed;
   left: 0px;
-  top: 0px;
+  top: 0;
 }
 .close-line1 {
   transform: translate(0, 6px) rotate(-45deg) skewX(0) skewY(0) scaleX(1)
@@ -165,4 +197,64 @@ ul li a {
 
 .common-column-list li {
   width: 100%;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 32px;
+  top: 12%;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 27px;
+  left: 2px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #54af18;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px  #54af18;
+}
+
+input:checked + .slider:before {
+  -ms-transform: translateX(28px);
+  transform: translateX(29px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 36px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
