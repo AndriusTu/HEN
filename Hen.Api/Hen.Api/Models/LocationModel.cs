@@ -1,4 +1,5 @@
-﻿using Hen.Api.Enums;
+﻿
+using Hen.DAL.Enums;
 
 namespace Hen.Api.Models
 {

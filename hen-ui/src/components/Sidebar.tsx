@@ -1,7 +1,8 @@
+import { Button, Img } from 'components';
 import React from 'react';
-import { Img } from 'components';
-import Tab from './Tab';
 import ROUTES from '../routes';
+import authService from '../services/api/authService';
+import Tab from './Tab';
 
 type SidebarProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -51,6 +52,20 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             <Img src={tab.imageSrc} />
           </Tab>
         ))}
+        {/* logout Button */}
+        {authService.isLoggedIn() && (
+          <Button
+            id="logout"
+            className="flex flex-row gap-2 justify-center items-center cursor-pointer font-medium leading-[normal] min-w-[190px] mt-5 text-center text-md text-white_A700 w-auto"
+            shape="RoundedBorder15"
+            size="md"
+            variant="FillIndigo600"
+            type="submit"
+            onClick={() => authService.logout()}
+          >
+            <div>Logout</div>
+          </Button>
+        )}
       </div>
     </aside>
   );

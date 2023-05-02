@@ -9,6 +9,8 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<ParcelEntity, ParcelModel>().ReverseMap();
+        CreateMap<UserEntity, UserModel>().ReverseMap();
+        CreateMap<AccountEntity, AccountModel>().ReverseMap();
         CreateMap<DeliveryOptionEntity, DeliveryOptionModel>().ReverseMap();
     }
 }
