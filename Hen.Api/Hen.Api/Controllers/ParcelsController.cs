@@ -18,9 +18,9 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ParcelModel> GetAll()
+        public IEnumerable<ParcelModel> GetAll([FromQuery] Guid? courierId)
         {
-            var parcels = _parcelService.GetAll();
+            var parcels = _parcelService.GetAll(courierId);
             return Mapper.Map<IEnumerable<ParcelModel>>(parcels);
         }
 

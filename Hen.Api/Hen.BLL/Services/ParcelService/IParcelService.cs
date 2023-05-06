@@ -3,7 +3,7 @@
 namespace Hen.BLL.Services.ParcelService;
 public interface IParcelService
 {
-    IEnumerable<ParcelEntity> GetAll();
+    IEnumerable<ParcelEntity> GetAll(Guid? courierId);
     ParcelEntity GetById(Guid id);
     ParcelEntity Create(ParcelEntity request);
     ParcelEntity Update(Guid id, ParcelEntity request);

@@ -30,10 +30,14 @@ public class ParcelService : IParcelService
         _context.SaveChanges();
     }
 
-    public IEnumerable<ParcelEntity> GetAll()
+    public IEnumerable<ParcelEntity> GetAll(Guid? courierId)
     {
-        var parcels = _context.Parcels.ToList();
-        return parcels;
+        var parcels = _context.Parcels.AsQueryable();
+        if (courierId.HasValue)
+        {
+            parcels = parcels.Where(x => x.CourierId == courierId);
+        }
+        return parcels.ToList();
     }
 
     public ParcelEntity GetById(Guid id)
