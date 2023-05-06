@@ -1,4 +1,6 @@
-const deliveryMethodsMock = [
+import { DeliveryOption } from '../models/DeliveryInfo';
+
+const deliveryMethodsMock: DeliveryOption[] = [
   {
     eta: '1-2 days',
     deliveryType: 'Standard',

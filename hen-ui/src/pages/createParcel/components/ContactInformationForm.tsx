@@ -1,7 +1,14 @@
 import React from 'react';
 import { Input, Text } from '../../../components';
 
-function ContactInformationForm() {
+interface ContactInformationFormProps {
+  register: any;
+  errors: any;
+}
+
+function ContactInformationForm(props: ContactInformationFormProps) {
+  const { register, errors } = props;
+
   return (
     <div className="grid grid-cols-2 grid-flow-row items-start justify-start gap-4 md:w-full">
       <div className="flex flex-col gap-3 items-start justify-start md:w-full">
@@ -19,6 +26,7 @@ function ContactInformationForm() {
           shape="RoundedBorder15"
           size="sm"
           variant="OutlineGray300"
+          {...register('fullName', { required: true })}
         ></Input>
       </div>
       <div className="flex flex-row gap-7 items-start justify-start md:w-full">

@@ -2,15 +2,38 @@ import React from 'react';
 import { Button, Img, Input, Text } from '../../../components';
 import { useForm } from 'react-hook-form';
 import { ArrowSVG } from '../../../assets/images/arrow';
+import { getDeliveryOptions } from '../../../services/api/deliveryOptionsService';
+import { DeliveryInfo, DeliveryOption } from '../../../models/DeliveryInfo';
+import { useFormData } from '../context/CreateParcelFormContext';
 
-function DeliveryInformationTab() {
+interface DeliveryInformationTabProps {
+  nextFormStep: () => void;
+}
+
+function DeliveryInformationTab(props: DeliveryInformationTabProps) {
+  const { nextFormStep } = props;
+  const { data, setFormValues } = useFormData();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: data.deliveryInfo });
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    setFormValues({ deliveryInfo: data });
+    const requestData = structuredClone(data) as DeliveryInfo;
+    requestData.dimensions.length = convertCmToM(requestData.dimensions.length);
+    requestData.dimensions.width = convertCmToM(requestData.dimensions.width);
+    requestData.dimensions.height = convertCmToM(requestData.dimensions.height);
+    console.log(requestData);
+    const responseData = getDeliveryOptions(requestData);
+    console.log(responseData);
+    nextFormStep();
+  };
+
+  const convertCmToM = (cm: number) => {
+    return cm / 100;
+  };
 
   return (
     <div className="flex flex-col items-center justify-start w-[87%] pt-5">
@@ -46,7 +69,7 @@ function DeliveryInformationTab() {
                     variant="OutlineGray300"
                     type="text"
                     errors={errors}
-                    {...register('fromCountry', {
+                    {...register('from.country', {
                       required: 'Required',
                       maxLength: { value: 20, message: 'Max length is 20' },
                     })}
@@ -68,7 +91,7 @@ function DeliveryInformationTab() {
                     variant="OutlineGray300"
                     type="text"
                     errors={errors}
-                    {...register('fromZipCode', {
+                    {...register('from.postalCode', {
                       required: 'Required',
                       maxLength: { value: 6, message: 'Max length is 6' },
                     })}
@@ -100,7 +123,7 @@ function DeliveryInformationTab() {
                   variant="OutlineGray300"
                   type="text"
                   errors={errors}
-                  {...register('toCountry', {
+                  {...register('to.country', {
                     required: 'Required',
                     maxLength: { value: 20, message: 'Max length is 20' },
                   })}
@@ -122,7 +145,7 @@ function DeliveryInformationTab() {
                   variant="OutlineGray300"
                   type="text"
                   errors={errors}
-                  {...register('toZipCode', {
+                  {...register('to.postalCode', {
                     required: 'Required',
                     maxLength: { value: 20, message: 'Max length is 20' },
                   })}
@@ -156,9 +179,11 @@ function DeliveryInformationTab() {
                   variant="OutlineGray300"
                   type="number"
                   errors={errors}
-                  {...register('length', {
+                  {...register('dimensions.length', {
                     required: 'Required',
-                    max: { value: 1000, message: 'Max length is 1000' + ' cm' },
+                    valueAsNumber: true,
+                    min: { value: 1, message: 'Min length is 1 cm' },
+                    max: { value: 64, message: 'Max length is 64 cm' },
                   })}
                 ></Input>
                 <Input
@@ -170,9 +195,11 @@ function DeliveryInformationTab() {
                   variant="OutlineGray300"
                   type="number"
                   errors={errors}
-                  {...register('width', {
+                  {...register('dimensions.width', {
                     required: 'Required',
-                    max: { value: 1000, message: 'Max width is 1000 cm' },
+                    valueAsNumber: true,
+                    min: { value: 1, message: 'Min width is 1 cm' },
+                    max: { value: 38, message: 'Max width is 38 cm' },
                   })}
                 ></Input>
                 <Input
@@ -184,9 +211,11 @@ function DeliveryInformationTab() {
                   variant="OutlineGray300"
                   type="number"
                   errors={errors}
-                  {...register('height', {
+                  {...register('dimensions.height', {
                     required: 'Required',
-                    max: { value: 1000, message: 'Max height is 1000' + ' cm' },
+                    valueAsNumber: true,
+                    min: { value: 1, message: 'Min height is 1 cm' },
+                    max: { value: 39, message: 'Max height is 39 cm' },
                   })}
                 ></Input>
                 <Input
@@ -198,9 +227,11 @@ function DeliveryInformationTab() {
                   variant="OutlineGray300"
                   type="number"
                   errors={errors}
-                  {...register('weight', {
+                  {...register('dimensions.weight', {
                     required: 'Required',
-                    max: { value: 100, message: 'Max weight is 100 kg' },
+                    valueAsNumber: true,
+                    min: { value: 0.05, message: 'Min weight is 0.05 kg' },
+                    max: { value: 30, message: 'Max weight is 30 kg' },
                   })}
                 ></Input>
               </div>
