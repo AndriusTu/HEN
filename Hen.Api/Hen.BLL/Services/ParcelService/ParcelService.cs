@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Hen.DAL;
+﻿using Hen.DAL;
 using Hen.DAL.Entities;
 
 namespace Hen.BLL.Services.ParcelService;
@@ -16,6 +15,11 @@ public class ParcelService : IParcelService
     public ParcelEntity Create(ParcelEntity parcel)
     {
         parcel.Id = Guid.NewGuid();
+
+        foreach (var status in parcel.DeliveryStatuses)
+        {
+            status.ParcelId = parcel.Id;
+        }
 
         _context.Parcels.Add(parcel);
         _context.SaveChanges();
@@ -41,23 +45,18 @@ public class ParcelService : IParcelService
         return GetParcel(id);
     }
 
+
     public ParcelEntity Update(Guid id, ParcelEntity request)
     {
-        throw new NotImplementedException();
+        var parcel = GetParcel(id);
+
+        parcel.Update(request);
+
+        _context.Parcels.Update(parcel);
+        _context.SaveChanges();
+
+        return parcel;
     }
-
-    //public ParcelEntity Update(Guid id, ParcelEntity request)
-    //{
-    //    var parcel = GetParcel(id);
-
-    //    parcel.Name = request.Name;
-    //    parcel.Email = request.Email;
-
-    //    _context.Parcels.Update(parcel);
-    //    _context.SaveChanges();
-
-    //    return parcel;
-    //}
 
     private ParcelEntity GetParcel(Guid id)
     {
