@@ -1,4 +1,3 @@
-﻿
 
 using Hen.DAL.Enums;
 
@@ -10,6 +9,7 @@ namespace Hen.Api.Models
         public UserModel Sender { get; set; } = null!;
         public UserModel Receiver { get; set; } = null!;
         public AccountModel Courier { get; set; } = null!;
+        public ParcelSize Size { get; set; }
         public DeliveryType Type { get; set; }
         public string? Description { get; set; }
         public DateTime ETA { get; set; }
