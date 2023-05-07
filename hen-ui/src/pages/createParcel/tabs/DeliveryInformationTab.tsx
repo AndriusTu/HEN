@@ -2,8 +2,6 @@ import React from 'react';
 import { Button, Img, Input, Text } from '../../../components';
 import { useForm } from 'react-hook-form';
 import { ArrowSVG } from '../../../assets/images/arrow';
-import { getDeliveryOptions } from '../../../services/api/deliveryOptionsService';
-import { DeliveryInfo, DeliveryOption } from '../../../models/DeliveryInfo';
 import { useFormData } from '../context/CreateParcelFormContext';
 
 interface DeliveryInformationTabProps {
@@ -21,18 +19,7 @@ function DeliveryInformationTab(props: DeliveryInformationTabProps) {
 
   const onSubmit = (data: any) => {
     setFormValues({ deliveryInfo: data });
-    const requestData = structuredClone(data) as DeliveryInfo;
-    requestData.dimensions.length = convertCmToM(requestData.dimensions.length);
-    requestData.dimensions.width = convertCmToM(requestData.dimensions.width);
-    requestData.dimensions.height = convertCmToM(requestData.dimensions.height);
-    console.log(requestData);
-    const responseData = getDeliveryOptions(requestData);
-    console.log(responseData);
     nextFormStep();
-  };
-
-  const convertCmToM = (cm: number) => {
-    return cm / 100;
   };
 
   return (

@@ -1,34 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, List, Button } from '../../../components';
 import DeliveryMethodCard from '../components/DeliveryMethodCard';
-import deliveryMethodsMock from '../../../mocks/deliveryMethodsMock';
 import { ArrowSVG } from '../../../assets/images/arrow';
 import { useForm } from 'react-hook-form';
 import { useFormData } from '../context/CreateParcelFormContext';
+import { DeliveryOption } from '../../../models/DeliveryInfo';
+import { capitalizeFirstLetter } from '../../../utils/stringUtils';
 
 interface DeliveryMethodsTabProps {
   previousFormStep: () => void;
   nextFormStep: () => void;
+  fetchDeliveryOptions: (requestData) => Promise<any>;
 }
 
 function DeliveryMethodsTab(props: DeliveryMethodsTabProps) {
-  const { previousFormStep, nextFormStep } = props;
+  const { previousFormStep, nextFormStep, fetchDeliveryOptions } = props;
   const { data, setFormValues } = useFormData();
-  const [activeCard, setActiveCard] = useState<string>(
-    data.deliveryOption.deliveryType,
+  const [deliveryOptions, setDeliveryOptions] = useState(
+    [] as DeliveryOption[],
   );
-  const { handleSubmit, setValue } = useForm({
-    defaultValues: { deliveryOption: data.deliveryOption },
-  });
+  const [activeCard, setActiveCard] = useState<DeliveryOption>(
+    data.deliveryOption,
+  );
+  const { handleSubmit, setValue } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    setFormValues({ deliveryOption: data.deliveryOption });
+  useEffect(() => {
+    fetchDeliveryOptions(data.deliveryInfo).then((responseData) => {
+      let deliveryOptions = responseData as DeliveryOption[];
+      deliveryOptions.forEach((deliveryOption) => {
+        deliveryOption.deliveryType = capitalizeFirstLetter(
+          deliveryOption.deliveryType,
+        );
+      });
+      setDeliveryOptions(deliveryOptions);
+      setActiveCard({ ...deliveryOptions[0], ...data.deliveryOption });
+    });
+  }, [data.deliveryInfo, data.deliveryOption, fetchDeliveryOptions]);
+
+  const onSubmit = () => {
+    setFormValues({ deliveryOption: activeCard });
     nextFormStep();
   };
 
   return (
-    <div className="flex flex-col items-center justify-start w-full pt-6 pr-10 pl-8">
+    <div className="flex flex-col justify-start w-full pt-6 pr-8 pl-10">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-[21px] items-start justify-start w-full">
           <Text
@@ -42,14 +57,16 @@ function DeliveryMethodsTab(props: DeliveryMethodsTabProps) {
             className="sm:flex-col flex-row md:gap-10 gap-10 grid sm:grid-cols-1 md:grid-cols-2 grid-cols-3 justify-center w-full"
             orientation="horizontal"
           >
-            {deliveryMethodsMock.map((deliveryMethod, index) => (
+            {deliveryOptions.map((deliveryMethod, index) => (
               <DeliveryMethodCard
                 key={index}
                 {...deliveryMethod}
-                isActive={activeCard === deliveryMethod.deliveryType}
+                isActive={
+                  activeCard?.deliveryType === deliveryMethod.deliveryType
+                }
                 onClick={() => {
                   setValue('deliveryOption', deliveryMethod);
-                  setActiveCard(deliveryMethod.deliveryType);
+                  setActiveCard(deliveryMethod);
                 }}
               />
             ))}

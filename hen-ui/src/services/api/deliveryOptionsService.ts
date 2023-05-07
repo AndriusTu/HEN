@@ -3,7 +3,7 @@ import { DeliveryInfo } from '../../models/DeliveryInfo';
 
 export const getDeliveryOptions = async (deliveryInfo: DeliveryInfo) => {
   const response = await api
-    .post('/delivery-options', deliveryInfo)
+    .post('/DeliveryOptions', deliveryInfo)
     .catch((e) => {
       console.log(e);
       return { data: [] };

@@ -30,12 +30,14 @@ export interface Dimensions {
 export interface DeliveryOption {
   eta: string;
   deliveryType: string;
-  price: string;
+  cost: string;
 }
 
 export interface CreateParcelForm {
   deliveryInfo: DeliveryInfo;
   deliveryOption: DeliveryOption;
   senderContacts: UserInfo;
+  senderFullAddress: FullAddress;
   receiverContacts: UserInfo;
+  receiverFullAddress: FullAddress;
 }

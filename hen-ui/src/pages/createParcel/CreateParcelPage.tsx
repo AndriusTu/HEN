@@ -6,6 +6,8 @@ import DeliveryMethodsTab from './tabs/DeliveryMethodsTab';
 import SenderContactsTab from './tabs/SenderContactsTab';
 import ReceiverContactsTab from './tabs/ReceiverContactsTab';
 import FormProvider from './context/CreateParcelFormContext';
+import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
+import { DeliveryInfo } from '../../models/DeliveryInfo';
 
 const tabs = [
   {
@@ -32,6 +34,20 @@ function CreateParcelPage() {
   const nextFormStep = () => setActiveTab((activeTab) => activeTab + 1);
   const previousFormStep = () => setActiveTab((activeTab) => activeTab - 1);
 
+  const fetchDeliveryOptions = async (requestData) => {
+    requestData = structuredClone(requestData) as DeliveryInfo;
+    requestData.dimensions.length = convertCmToM(requestData.dimensions.length);
+    requestData.dimensions.width = convertCmToM(requestData.dimensions.width);
+    requestData.dimensions.height = convertCmToM(requestData.dimensions.height);
+    let responseData = await getDeliveryOptions(requestData);
+    console.log(responseData);
+    return responseData;
+  };
+
+  const convertCmToM = (cm: number) => {
+    return cm / 100;
+  };
+
   return (
     <FormProvider>
       <div className="flex flex-col gap-[23px] items-center justify-start mb-16 mt-2 w-full">
@@ -54,6 +70,7 @@ function CreateParcelPage() {
           <DeliveryMethodsTab
             previousFormStep={previousFormStep}
             nextFormStep={nextFormStep}
+            fetchDeliveryOptions={fetchDeliveryOptions}
           />
         )}
         {activeTab === 3 && (

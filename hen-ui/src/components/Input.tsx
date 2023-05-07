@@ -78,7 +78,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {!!prefix && prefix}
           <input
             ref={ref}
-            className={`${className} bg-transparent border-0`}
+            className={`${className} bg-transparent border-0 disabled:cursor-not-allowed`}
             type={type}
             name={name}
             placeholder={placeholder}

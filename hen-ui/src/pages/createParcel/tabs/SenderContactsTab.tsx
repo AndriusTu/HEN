@@ -3,6 +3,7 @@ import { Button, Text } from '../../../components';
 import ContactInformationForm from '../components/ContactInformationForm';
 import { ArrowSVG } from '../../../assets/images/arrow';
 import { useForm } from 'react-hook-form';
+import { useFormData } from '../context/CreateParcelFormContext';
 
 interface SenderContactsTabProps {
   previousFormStep: () => void;
@@ -11,14 +12,35 @@ interface SenderContactsTabProps {
 
 function SenderContactsTab(props: SenderContactsTabProps) {
   const { previousFormStep, nextFormStep } = props;
+  const { data, setFormValues } = useFormData();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      ...data.senderFullAddress,
+      ...data.deliveryInfo.from,
+      ...data.senderContacts,
+    },
+  });
 
   const onSubmit = (data) => {
-    console.log(data);
+    setFormValues({
+      senderContacts: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      },
+      senderFullAddress: {
+        country: data.country,
+        postalCode: data.postalCode,
+        city: data.city,
+        street: data.street,
+        houseNumber: data.houseNumber,
+        apartmentNumber: data.apartmentNumber,
+      },
+    });
     nextFormStep();
   };
 
