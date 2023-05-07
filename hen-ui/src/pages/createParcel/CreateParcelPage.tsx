@@ -1,49 +1,89 @@
 import { Line } from 'components';
-import React from 'react';
+import React, { useState } from 'react';
 import Tab from './components/Tab';
 import DeliveryInformationTab from './tabs/DeliveryInformationTab';
 import DeliveryMethodsTab from './tabs/DeliveryMethodsTab';
 import SenderContactsTab from './tabs/SenderContactsTab';
 import ReceiverContactsTab from './tabs/ReceiverContactsTab';
+import FormProvider from './context/CreateParcelFormContext';
+import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
+import { DeliveryInfo } from '../../models/DeliveryInfo';
 
 const tabs = [
   {
+    step: 1,
     title: 'Delivery information',
   },
   {
+    step: 2,
     title: 'Delivery methods',
   },
   {
+    step: 3,
     title: 'Your contacts',
   },
   {
+    step: 4,
     title: 'Receiver contacts',
   },
 ];
 
 function CreateParcelPage() {
-  const [activeTab, setActiveTab] = React.useState('Delivery information');
+  const [activeTab, setActiveTab] = useState(1);
+
+  const nextFormStep = () => setActiveTab((activeTab) => activeTab + 1);
+  const previousFormStep = () => setActiveTab((activeTab) => activeTab - 1);
+
+  const fetchDeliveryOptions = async (requestData) => {
+    requestData = structuredClone(requestData) as DeliveryInfo;
+    requestData.dimensions.length = convertCmToM(requestData.dimensions.length);
+    requestData.dimensions.width = convertCmToM(requestData.dimensions.width);
+    requestData.dimensions.height = convertCmToM(requestData.dimensions.height);
+    let responseData = await getDeliveryOptions(requestData);
+    console.log(responseData);
+    return responseData;
+  };
+
+  const convertCmToM = (cm: number) => {
+    return cm / 100;
+  };
 
   return (
-    <div className="flex flex-col gap-[23px] items-center justify-start mb-16 mt-2 w-full">
-      <div className="flex flex-col justify-start w-full">
-        <div className="flex sm:flex-col flex-row gap-10 items-start justify-start ml-3.5 md:ml-[0] md:w-full">
-          {tabs.map((tab, index) => (
-            <Tab
-              key={index}
-              title={tab.title}
-              isActive={activeTab === tab.title}
-              onClick={() => setActiveTab(tab.title)}
-            />
-          ))}
+    <FormProvider>
+      <div className="flex flex-col gap-[23px] items-center justify-start mb-16 mt-2 w-full">
+        <div className="flex flex-col justify-start w-full">
+          <div className="flex sm:flex-col flex-row gap-10 items-start justify-start ml-3.5 md:ml-[0] md:w-full">
+            {tabs.map((tab, index) => (
+              <Tab
+                key={index}
+                title={tab.title}
+                isActive={activeTab === tab.step}
+              />
+            ))}
+          </div>
+          <Line className="bg-gray_300 h-px w-full" />
         </div>
-        <Line className="bg-gray_300 h-px w-full" />
+        {activeTab === 1 && (
+          <DeliveryInformationTab nextFormStep={nextFormStep} />
+        )}
+        {activeTab === 2 && (
+          <DeliveryMethodsTab
+            previousFormStep={previousFormStep}
+            nextFormStep={nextFormStep}
+            fetchDeliveryOptions={fetchDeliveryOptions}
+          />
+        )}
+        {activeTab === 3 && (
+          <SenderContactsTab
+            previousFormStep={previousFormStep}
+            nextFormStep={nextFormStep}
+          />
+        )}
+        {activeTab === 4 && (
+          <ReceiverContactsTab previousFormStep={previousFormStep} />
+        )}
       </div>
-      {activeTab === 'Delivery information' && <DeliveryInformationTab />}
-      {activeTab === 'Delivery methods' && <DeliveryMethodsTab />}
-      {activeTab === 'Your contacts' && <SenderContactsTab />}
-      {activeTab === 'Receiver contacts' && <ReceiverContactsTab />}
-    </div>
+    </FormProvider>
   );
 }
 
