@@ -1,5 +1,6 @@
 const ROUTES = {
   CREATE_PARCEL: '/create-parcel',
+  GET_PARCEL: '/get-parcel',
   PARCELS: '/parcels',
   ACCOUNTS: '/accounts',
   LOGIN: '/login',

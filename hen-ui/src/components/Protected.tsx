@@ -1,6 +1,16 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-const Protected = ({ isLoggedIn, children }) => {
+
+interface ProtectedProps {
+  isLoggedIn: boolean;
+  // userRoles?: string[];
+  // acceptedRoles?: string[];
+  children: JSX.Element;
+}
+
+const Protected = (props: ProtectedProps) => {
+  const { isLoggedIn } = props;
+
   if (!isLoggedIn) {
     return (
       <Navigate
@@ -9,6 +19,6 @@ const Protected = ({ isLoggedIn, children }) => {
       />
     );
   }
-  return children;
+  return props.children;
 };
 export default Protected;

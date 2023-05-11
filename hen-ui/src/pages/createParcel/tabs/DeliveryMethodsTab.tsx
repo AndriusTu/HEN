@@ -4,7 +4,7 @@ import DeliveryMethodCard from '../components/DeliveryMethodCard';
 import { ArrowSVG } from '../../../assets/images/arrow';
 import { useForm } from 'react-hook-form';
 import { useFormData } from '../context/CreateParcelFormContext';
-import { DeliveryOption } from '../../../models/DeliveryInfo';
+import { DeliveryOption } from '../../../models/DeliveryModel';
 import { capitalizeFirstLetter } from '../../../utils/stringUtils';
 
 interface DeliveryMethodsTabProps {

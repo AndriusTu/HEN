@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, createContext, useContext } from 'react';
-import { CreateParcelForm } from '../../../models/DeliveryInfo';
+import { CreateParcelForm } from '../../../models/DeliveryModel';
 
 export const CreateParcelFormContext = createContext({
   data: {} as CreateParcelForm,
