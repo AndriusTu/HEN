@@ -7,6 +7,8 @@ import { LoginPage } from './pages/login/LoginPage';
 import ROUTES from './routes';
 import authService from './services/api/authService';
 import SeePendingDeliveries from "./pages/seePendingDeliveries/SeePendingDeliveries";
+import ParcelStatusUpdate from "./pages/updateParcelStatus/updateParcelStatus";
+import UpdateParcelStatus from "./pages/updateParcelStatus/updateParcelStatus";
 
 function App() {
   return (
@@ -39,6 +41,10 @@ function App() {
             </Protected>
           }
         />
+          <Route
+              path={ROUTES.PARCEL_STATUS_UPDATE}
+              element={<UpdateParcelStatus />}
+          />
         <Route
           path={ROUTES.LOGIN}
           element={<LoginPage />}

@@ -1,5 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Img, Text} from "../../../components";
+import {useNavigate} from "react-router-dom";
+import ROUTES from "../../../routes";
+import UpdateParcelStatus from "../../updateParcelStatus/updateParcelStatus";
 
 export interface PendingParcelProps {
     id: number;
@@ -8,8 +11,9 @@ export interface PendingParcelProps {
     eta: string;
     onClick?: () => void;
 }
-function ParcelCard(props: PendingParcelProps) {
+function ParcelCard(this: any, props: PendingParcelProps) {
 
+    const [value, setValue] = useState(0);
     const {
         id,
         status,
@@ -17,6 +21,12 @@ function ParcelCard(props: PendingParcelProps) {
         eta,
     } = props;
 
+
+    const navigate = useNavigate();
+    const navigateToParcelStatusUpdate = () => {//nors funkcja vadinasi Status update, ten taip pat yra detalių puslapis
+        navigate(ROUTES.PARCEL_STATUS_UPDATE, {state: {id: id}}); //
+
+    }
 
     return(
         <div className="">
@@ -80,7 +90,12 @@ function ParcelCard(props: PendingParcelProps) {
                         className="parcelRowElementDetails top-[1px]"
                         shape="RoundedBorder25"
                         size="sm"
-                        variant="OutlineIndigo500">
+                        variant="OutlineIndigo500"
+                        value={props.id}
+                        onClick={
+                            navigateToParcelStatusUpdate
+                        }//kol kas nera onClick>
+                        >
                         View Details
                     </Button>
                 </div>
