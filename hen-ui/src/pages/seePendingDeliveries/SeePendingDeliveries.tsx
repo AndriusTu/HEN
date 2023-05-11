@@ -19,4 +19,5 @@ function SeePendingDeliveries() {
         </div>
     )
 }
-export default SeePendingDeliveries
+
+export default SeePendingDeliveries;

@@ -29,7 +29,7 @@ function App() {
           path={ROUTES.PARCELS}
           element={
             <Protected isLoggedIn={authService.isLoggedIn()}>
-             <SeePendingDeliveries/>
+              <SeePendingDeliveries />
             </Protected>
           }
         />

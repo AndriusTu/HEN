@@ -2,15 +2,16 @@ import React, {useState} from "react";
 import {Button, Img, Text} from "../../../components";
 import {useNavigate} from "react-router-dom";
 import ROUTES from "../../../routes";
-import UpdateParcelStatus from "../../updateParcelStatus/updateParcelStatus";
+import UpdateParcelStatus from "../../updateParcelStatus/updateParcelStatus"
 
 export interface PendingParcelProps {
-    id: number;
-    status: string;
-    location: string;
-    eta: string;
-    onClick?: () => void;
+  id: number;
+  status: string;
+  location: string;
+  eta: string;
+  onClick?: () => void;
 }
+
 function ParcelCard(this: any, props: PendingParcelProps) {
 
     const [value, setValue] = useState(0);
@@ -101,6 +102,9 @@ function ParcelCard(this: any, props: PendingParcelProps) {
                 </div>
             </div>
         </div>
-    )
+      </div>
+    </div>
+  );
 }
-export default ParcelCard
+        
+export default ParcelCard;
