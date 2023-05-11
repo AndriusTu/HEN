@@ -3,6 +3,7 @@ import { Img, Text, Input, Button } from '../../components';
 import { useForm } from 'react-hook-form';
 import { Parcel } from '../../models/ParcelModel';
 import { getParcelById } from '../../services/api/parcelService';
+import UpdateParcelStatus from "../updateParcelStatus/updateParcelStatus";
 
 function GetParcelByIdPage() {
   const [parcel, setParcel] = React.useState<Parcel | null>(null);
@@ -15,13 +16,15 @@ function GetParcelByIdPage() {
 
   const onSubmit = (data: any) => {
     console.log(data);
-    getParcelById(data.id).then((parcel) => {
-      setParcel(parcel);
-    }).catch((error) => {
-      console.log(error)
-      setIsNotFound(true);
-      setParcel(null);
-    });
+    getParcelById(data.id)
+      .then((parcel) => {
+        setParcel(parcel);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsNotFound(true);
+        setParcel(null);
+      });
   };
 
   return (
@@ -68,7 +71,7 @@ function GetParcelByIdPage() {
         </form>
       </div>
       {parcel ? (
-        <div />
+        <UpdateParcelStatus/>
       ) : isNotFound ? (
         <div className="flex flex-col items-center mt-20">
           <Img
