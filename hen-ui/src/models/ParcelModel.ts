@@ -15,4 +15,6 @@ export interface ParcelStatus {
   id: number;
   status: string;
   address: FullAddress;
+  deliveryType: string;
+  eta: string;
 }
