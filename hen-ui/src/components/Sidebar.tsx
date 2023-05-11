@@ -44,6 +44,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       <div className="flex flex-col items-start justify-start absolute">
         {tabs.map((tab) => (
           <Tab
+            key={tab.link}
             title={tab.title}
             link={tab.link}
             isActive={activeTab === tab.link}
