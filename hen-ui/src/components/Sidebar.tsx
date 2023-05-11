@@ -29,8 +29,8 @@ const tabs: TabInformation[] = [
     imageSrc: 'images/img_mail.svg',
   },
   {
-    title: 'Accounts',
-    link: ROUTES.ACCOUNTS,
+    title: 'Add courier',
+    link: ROUTES.CREATE_COURIER,
     imageSrc: 'images/img_user31.svg',
   },
 ];
