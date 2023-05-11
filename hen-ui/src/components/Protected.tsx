@@ -9,7 +9,7 @@ interface ProtectedProps {
 }
 
 const Protected = (props: ProtectedProps) => {
-  const { isLoggedIn} = props;
+  const { isLoggedIn } = props;
 
   if (!isLoggedIn) {
     return (

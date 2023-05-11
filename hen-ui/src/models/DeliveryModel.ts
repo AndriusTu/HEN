@@ -1,4 +1,4 @@
-import { UserInfo } from './UserInfo';
+import { User } from './UserModel';
 
 export interface DeliveryInfo {
   from: ShortAddress;
@@ -36,8 +36,8 @@ export interface DeliveryOption {
 export interface CreateParcelForm {
   deliveryInfo: DeliveryInfo;
   deliveryOption: DeliveryOption;
-  senderContacts: UserInfo;
+  senderContacts: User;
   senderFullAddress: FullAddress;
-  receiverContacts: UserInfo;
+  receiverContacts: User;
   receiverFullAddress: FullAddress;
 }

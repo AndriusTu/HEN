@@ -9,6 +9,7 @@ import authService from './services/api/authService';
 import SeePendingDeliveries from "./pages/seePendingDeliveries/SeePendingDeliveries";
 import ParcelStatusUpdate from "./pages/updateParcelStatus/updateParcelStatus";
 import UpdateParcelStatus from "./pages/updateParcelStatus/updateParcelStatus";
+import GetParcelByIdPage from './pages/getParcelById/GetParcelByIdPage';
 
 function App() {
   return (
@@ -24,6 +25,10 @@ function App() {
               <CreateParcelPage />
             </Protected>
           }
+        />
+        <Route
+          path={ROUTES.GET_PARCEL}
+          element={<GetParcelByIdPage />}
         />
         <Route
           path={ROUTES.PARCELS}

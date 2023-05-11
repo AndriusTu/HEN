@@ -48,9 +48,9 @@ function SearchField() {
         </label>
       </div>
       <div className="flex top-[20px] md:flex-1 my-[30px] w-[%]">
-        <text className="text-bluegray_400 justify-center">
+        <div className="text-bluegray_400 justify-center">
           Display only pending deliveries
-        </text>
+        </div>
       </div>
     </div>
   );

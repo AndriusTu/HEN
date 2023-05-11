@@ -1,4 +1,4 @@
-import { DeliveryOption } from '../models/DeliveryInfo';
+import { DeliveryOption } from '../models/DeliveryModel';
 
 const deliveryMethodsMock: DeliveryOption[] = [
   {

@@ -7,7 +7,7 @@ import SenderContactsTab from './tabs/SenderContactsTab';
 import ReceiverContactsTab from './tabs/ReceiverContactsTab';
 import FormProvider from './context/CreateParcelFormContext';
 import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
-import { DeliveryInfo } from '../../models/DeliveryInfo';
+import { DeliveryInfo } from '../../models/DeliveryModel';
 
 const tabs = [
   {

@@ -1,5 +1,5 @@
 import api from './api';
-import { DeliveryInfo } from '../../models/DeliveryInfo';
+import { DeliveryInfo } from '../../models/DeliveryModel';
 
 export const getDeliveryOptions = async (deliveryInfo: DeliveryInfo) => {
   const response = await api
