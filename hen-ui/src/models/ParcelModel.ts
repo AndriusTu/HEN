@@ -1,5 +1,5 @@
 import { User } from './UserModel';
-import {FullAddress} from "./DeliveryModel";
+import { FullAddress } from './DeliveryModel';
 
 export interface Parcel {
   id: number;
@@ -15,4 +15,6 @@ export interface ParcelStatus {
   id: number;
   status: string;
   address: FullAddress;
+  deliveryType: string;
+  eta: string;
 }
