@@ -5,7 +5,6 @@ namespace Hen.Api.Models
 {
     public class CreateParcelModel
     {
-        public Guid Id { get; set; }
         public UserModel Sender { get; set; } = null!;
         public UserModel Receiver { get; set; } = null!;
         public DimensionsModel Dimensions { get; set; } = null!;
