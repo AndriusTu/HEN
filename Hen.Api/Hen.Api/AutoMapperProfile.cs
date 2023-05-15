@@ -2,16 +2,25 @@ namespace Hen.Api;
 
 using AutoMapper;
 using Hen.Api.Models;
+using Hen.BLL.Services.SizeService;
 using Hen.DAL.Entities;
 
 public class AutoMapperProfile : Profile
 {
-    public AutoMapperProfile()
+    public AutoMapperProfile(ISizeService sizeService)
     {
         CreateMap<ParcelEntity, ParcelModel>().ReverseMap();
         CreateMap<UserEntity, UserModel>().ReverseMap();
         CreateMap<AccountEntity, AccountModel>().ReverseMap();
         CreateMap<DeliveryOptionEntity, DeliveryOptionModel>().ReverseMap();
+
+        CreateMap<CreateParcelModel, ParcelEntity>()
+            .ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.Sender.Id))
+            .ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.Receiver.Id))
+            .ForMember(dest => dest.CourierId, opt => opt.MapFrom(src => src.Courier.Id))
+            .ForMember(dest => dest.DeliveryStatuses, opt => opt.MapFrom(src => src.ParcelStatus))
+            .ForMember(dest => dest.Size, opt => opt.MapFrom(src => sizeService.CalculateParcelSize(
+                src.Dimensions.Length, src.Dimensions.Width, src.Dimensions.Height)));
 
         CreateMap<ParcelModel, ParcelEntity>()
             .ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.Sender.Id))
@@ -37,6 +46,5 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.LocationId, opt => opt.MapFrom(src => src.Location.Id));
 
         CreateMap<LocationModel, LocationEntity>().ReverseMap();
-
     }
 }
