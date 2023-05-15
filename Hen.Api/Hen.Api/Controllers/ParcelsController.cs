@@ -32,7 +32,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public ParcelModel Create(ParcelModel request)
+        public ParcelModel Create(CreateParcelModel request)
         {
             var parcel = _parcelService.Create(Mapper.Map<ParcelEntity>(request));
             return Mapper.Map<ParcelModel>(parcel);
