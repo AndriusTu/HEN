@@ -6,7 +6,7 @@ public interface IParcelService
 {
     IEnumerable<ParcelEntity> GetAll(Guid? courierId);
     ParcelEntity GetById(Guid id);
-    ParcelEntity Create(ParcelEntity request);
+    ParcelEntity Create(ParcelEntity request, ParcelSize size);
     ParcelEntity Update(Guid id, ParcelEntity request);
     ParcelEntity UpdateStatus(Guid id, DeliveryStatus status);
     void Delete(Guid id);

@@ -1,7 +1,7 @@
 ﻿using Hen.Api.Controllers;
 using Hen.Api.Models;
 using Hen.BLL.Services.ParcelService;
-using Hen.BLL.Services.MailService;
+using Hen.BLL.Services.SizeService;
 using Hen.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -14,14 +14,15 @@ namespace Api.Controllers
     public class ParcelsController : BaseController
     {
         private readonly IParcelService _parcelService;
+        private readonly ISizeService _sizeService;
 
-        public ParcelsController(IParcelService parcelService)
+        public ParcelsController(IParcelService parcelService, ISizeService sizeService)
         {
             _parcelService = parcelService;
+            _sizeService = sizeService;
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IEnumerable<ParcelModel> GetAll([FromQuery] Guid? courierId)
         {
             var parcels = _parcelService.GetAll(courierId);
@@ -38,7 +39,14 @@ namespace Api.Controllers
         [HttpPost]
         public ParcelModel Create(CreateParcelModel request)
         {
-            var parcel = _parcelService.Create(Mapper.Map<ParcelEntity>(request));
+            var parcel = _parcelService.Create(
+                Mapper.Map<ParcelEntity>(request), 
+                _sizeService.CalculateParcelSize
+                (
+                    request.Dimensions.Length,
+                    request.Dimensions.Width, 
+                    request.Dimensions.Height
+                ));
             return Mapper.Map<ParcelModel>(parcel);
         }
 

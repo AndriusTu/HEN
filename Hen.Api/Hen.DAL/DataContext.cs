@@ -13,7 +13,6 @@ public class DataContext : DbContext
     public DbSet<ParcelStatusGroupEntity> ParcelStatusGroups => Set<ParcelStatusGroupEntity>();
     public DbSet<LocationEntity> Locations => Set<LocationEntity>();
     public DbSet<UserEntity> Users => Set<UserEntity>();
-    public DbSet<DeliveryOptionEntity> DeliveryOptions => Set<DeliveryOptionEntity>();
 
     private readonly IConfiguration Configuration;
 
