@@ -8,5 +8,7 @@
         public string? Email { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public Guid? LocationId { get; set; }
+        public LocationEntity? Location { get; set; }
     }
 }

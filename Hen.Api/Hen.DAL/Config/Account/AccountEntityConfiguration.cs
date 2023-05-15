@@ -11,8 +11,7 @@ namespace Hen.DAL.Config.Account
             builder.ToTable("Account");
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.AccountInformation).WithOne().HasForeignKey<AccountEntity>(x => x.AccountInformationId);
-            builder.Property(x => x.AccountInformationId).HasColumnType("integer");
+            builder.HasOne(x => x.AccountInformation).WithMany().HasForeignKey(x => x.AccountInformationId);
 
             builder.Property(x => x.Username).HasColumnType("nvarchar(32)").IsRequired();
             builder.Property(x => x.PasswordHash).HasColumnType("varbinary(20)").IsRequired();
