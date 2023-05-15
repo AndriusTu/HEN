@@ -111,62 +111,10 @@ public class ParcelService : IParcelService
         return location;
     }
 
-    private void SetReceiver(ParcelEntity parcel)
-    {
-        var receiver = _context.Users.Include(x => x.Location).FirstOrDefault(x => x.Email == parcel.Receiver.Email || x.Phone == parcel.Receiver.Phone);
-        if (receiver == null)
-        {
-            parcel.ReceiverId = Guid.NewGuid();
-            parcel.Receiver.Id = parcel.ReceiverId;
-            parcel.Receiver.CreatedAt = DateTime.UtcNow;
-            parcel.Receiver.UpdatedAt = DateTime.UtcNow;
-
-            if(parcel.Receiver.Location != null)
-            {
-                parcel.Receiver.LocationId = Guid.NewGuid();
-                parcel.Receiver.Location.Id = parcel.Receiver.LocationId.Value;
-                parcel.Receiver.Location.CreatedAt = DateTime.UtcNow;
-                parcel.Receiver.Location.UpdatedAt = DateTime.UtcNow;
-            }
-
-
-            _context.Users.Add(parcel.Receiver);
-        }
-        else
-        {
-            parcel.Receiver = receiver;
-            parcel.ReceiverId = receiver.Id;
-
-            if(parcel.Receiver.Location != null && receiver.Location != null)
-            {
-                receiver.Location.Update(parcel.Receiver.Location);
-            }
-            
-            parcel.Receiver.Location = receiver.Location;
-            
-
-        }
-    }
-
-    public ParcelEntity UpdateStatus(Guid id, DeliveryStatus status)
+    public void Delete(Guid id)
     {
         var parcel = GetParcel(id);
-
-        var statusId = Guid.NewGuid();
-
-        parcel.DeliveryStatuses.Add(new ParcelStatusGroupEntity()
-        {
-            ParcelId = parcel.Id,
-            StatusId = statusId,
-            Status = new ParcelStatusEntity()
-            {
-                Id = statusId,
-                Status = status,
-                CreatedAt = DateTime.UtcNow
-            }
-        });
-
-        _context.Parcels.Update(parcel);
+        _context.Parcels.Remove(parcel);
         _context.SaveChanges();
 
         _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
