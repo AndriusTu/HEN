@@ -33,7 +33,7 @@ public class ParcelService : IParcelService
         SetSender(parcel);
         SetReceiver(parcel);
 
-        SophisticatedAlgorithmForCourierSelection(parcel);
+
 
         _context.Parcels.Add(parcel);
         _context.SaveChanges();
@@ -41,15 +41,7 @@ public class ParcelService : IParcelService
         return parcel;
     }
 
-    private void SophisticatedAlgorithmForCourierSelection(ParcelEntity parcel)
-    {
-        var couriers = _context.Accounts.Where(x => x.Role == AccountRole.COURIER).ToList();
-        var parcels = _context.Parcels.ToList();
 
-        var courier = couriers.OrderBy(x => parcels.Where(p => p.CourierId == x.Id)).FirstOrDefault();
-
-        parcel.CourierId = courier.Id;
-    }
 
     private void SetReceiver(ParcelEntity parcel)
     {
