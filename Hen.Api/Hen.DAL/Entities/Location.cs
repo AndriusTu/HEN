@@ -6,8 +6,6 @@ namespace Hen.DAL.Entities
     {
         public Guid Id { get; set; }
         public LocationType Type { get; set; }
-        public Guid UserId { get; set; }
-        public UserEntity? User { get; set; }
         public string? Country { get; set; }
         public string? City { get; set; }
         public string? Street { get; set; }
@@ -17,5 +15,19 @@ namespace Hen.DAL.Entities
         public string? Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+
+
+        public void Update(LocationEntity location)
+        {
+            Type = location.Type;
+            Country = location.Country;
+            City = location.City;
+            Street = location.Street;
+            HouseNumber = location.HouseNumber;
+            FlatNumber = location.FlatNumber;
+            PostalCode = location.PostalCode;
+            Description = location.Description;
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 }

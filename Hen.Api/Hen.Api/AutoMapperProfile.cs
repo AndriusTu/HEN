@@ -16,8 +16,6 @@ public class AutoMapperProfile : Profile
         CreateMap<DeliveryOptionEntity, DeliveryOptionModel>().ReverseMap();
 
         CreateMap<CreateParcelModel, ParcelEntity>()
-            .ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.Sender.Id))
-            .ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.Receiver.Id))
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
             .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
 
