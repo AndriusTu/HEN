@@ -12,5 +12,7 @@ public class AutoMapperProfile : Profile
         CreateMap<UserEntity, UserModel>().ReverseMap();
         CreateMap<AccountEntity, AccountModel>().ReverseMap();
         CreateMap<DeliveryOptionEntity, DeliveryOptionModel>().ReverseMap();
+
+        CreateMap<LocationModel, LocationEntity>().ReverseMap();
     }
 }
