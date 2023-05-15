@@ -1,4 +1,5 @@
-﻿using Hen.DAL;
+﻿using Hen.BLL.Services.SizeService;
+using Hen.DAL;
 using Hen.DAL.Entities;
 using Hen.DAL.Enums;
 
@@ -7,16 +8,19 @@ namespace Hen.BLL.Services.ParcelService;
 public class ParcelService : IParcelService
 {
     private readonly DataContext _context;
+    private readonly ISizeService _sizeService;
 
-    public ParcelService(DataContext context)
+    public ParcelService(DataContext context, ISizeService sizeService)
     {
         _context = context;
+        _sizeService = sizeService;
     }
 
-    public ParcelEntity Create(ParcelEntity parcel)
+    public ParcelEntity Create(ParcelEntity parcel, ParcelSize size)
     {
         parcel.Id = Guid.NewGuid();
         var statusId = Guid.NewGuid();
+        parcel.Size = size;
 
         parcel.DeliveryStatuses.Add(new ParcelStatusGroupEntity()
         {
