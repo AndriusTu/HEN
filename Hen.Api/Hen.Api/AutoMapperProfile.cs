@@ -17,12 +17,10 @@ public class AutoMapperProfile : Profile
         CreateMap<CreateParcelModel, ParcelEntity>()
             .ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.Sender.Id))
             .ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.Receiver.Id))
-            .ForMember(dest => dest.CourierId, opt => opt.MapFrom(src => src.Courier.Id))
-            .ForMember(dest => dest.DeliveryStatuses, opt => opt.MapFrom(src => src.ParcelStatus))
             .ForMember(dest => dest.Size, opt => opt.MapFrom(src => sizeService.CalculateParcelSize(
                 src.Dimensions.Length, src.Dimensions.Width, src.Dimensions.Height)))
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
-            .ForMember(dest => dest.UpdateAt, opt => opt.MapFrom(src => DateTime.UtcNow));
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
 
         CreateMap<ParcelModel, ParcelEntity>()
             .ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.Sender.Id))

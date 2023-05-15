@@ -18,9 +18,8 @@ namespace Hen.DAL.Entities
         public DateTime ETA { get; set; }
         public IList<ParcelStatusGroupEntity> DeliveryStatuses { get; set; } = new List<ParcelStatusGroupEntity>();
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdateAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
-        // Method to update entity with a request
         public void Update(ParcelEntity request)
         {
             SenderId = request.SenderId;
@@ -29,7 +28,7 @@ namespace Hen.DAL.Entities
             Type = request.Type;
             Description = request.Description;
             ETA = request.ETA;
-            UpdateAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             UpdateDeliveryStatuses(request.DeliveryStatuses);
             
         }

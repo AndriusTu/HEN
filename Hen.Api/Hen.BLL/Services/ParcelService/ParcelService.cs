@@ -1,5 +1,6 @@
 ﻿using Hen.DAL;
 using Hen.DAL.Entities;
+using Hen.DAL.Enums;
 
 namespace Hen.BLL.Services.ParcelService;
 
@@ -15,16 +16,67 @@ public class ParcelService : IParcelService
     public ParcelEntity Create(ParcelEntity parcel)
     {
         parcel.Id = Guid.NewGuid();
+        var statusId = Guid.NewGuid();
 
-        foreach (var status in parcel.DeliveryStatuses)
+        parcel.DeliveryStatuses.Add(new ParcelStatusGroupEntity()
         {
-            status.ParcelId = parcel.Id;
-        }
+            ParcelId = parcel.Id,
+            StatusId = statusId,
+            Status = new ParcelStatusEntity()
+            {
+                Id = statusId,
+                Status = DeliveryStatus.SUBMITTED,
+                CreatedAt = DateTime.UtcNow
+            }
+        });
+
+        SetSender(parcel);
+        SetReceiver(parcel);
+
+        SophisticatedAlgorithmForCourierSelection(parcel);
 
         _context.Parcels.Add(parcel);
         _context.SaveChanges();
 
         return parcel;
+    }
+
+    private void SophisticatedAlgorithmForCourierSelection(ParcelEntity parcel)
+    {
+        var couriers = _context.Accounts.Where(x => x.Role == AccountRole.COURIER).ToList();
+        var parcels = _context.Parcels.ToList();
+
+        var courier = couriers.OrderBy(x => parcels.Where(p => p.CourierId == x.Id)).FirstOrDefault();
+
+        parcel.CourierId = courier.Id;
+    }
+
+    private void SetReceiver(ParcelEntity parcel)
+    {
+        var receiver = _context.Users.FirstOrDefault(x => x.Email == parcel.Receiver.Email || x.Phone == parcel.Receiver.Phone);
+        if (receiver == null)
+        {
+            parcel.Receiver.Id = Guid.NewGuid();
+            _context.Users.Add(parcel.Receiver);
+        }
+        else
+        {
+            parcel.Receiver = receiver;
+        }
+    }
+
+    private void SetSender(ParcelEntity parcel)
+    {
+        var sender = _context.Users.FirstOrDefault(x => x.Email == parcel.Sender.Email || x.Phone == parcel.Sender.Phone);
+        if (sender == null)
+        {
+            parcel.Sender.Id = Guid.NewGuid();
+            _context.Users.Add(parcel.Sender);
+        }
+        else
+        {
+            parcel.Sender = sender;
+        }
     }
 
     public void Delete(Guid id)

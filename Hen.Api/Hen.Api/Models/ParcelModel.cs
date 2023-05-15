@@ -15,6 +15,6 @@ namespace Hen.Api.Models
         public DateTime ETA { get; set; }
         public IList<ParcelStatusModel>? ParcelStatus { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdateAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }
