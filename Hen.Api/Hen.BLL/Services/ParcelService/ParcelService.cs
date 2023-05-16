@@ -22,20 +22,15 @@ public class ParcelService : IParcelService
     public ParcelEntity Create(ParcelEntity parcel, ParcelSize size)
     {
         parcel.Id = Guid.NewGuid();
-        var statusId = Guid.NewGuid();
 
         parcel.Size = size;
 
-        
-
         var parcelStatusGroup = new ParcelStatusGroupEntity()
         {
-            Parcel = parcel,
             ParcelId = parcel.Id,
-            StatusId = statusId,
             Status = new ParcelStatusEntity()
             {
-                Id = statusId,
+                Id = Guid.NewGuid(),
                 Status = DeliveryStatus.SUBMITTED,
                 CreatedAt = DateTime.UtcNow,
                 Location = GetDistributionLocation(),
