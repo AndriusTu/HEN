@@ -9,6 +9,11 @@ public class DataContext : DbContext
 
     public DbSet<ParcelEntity> Parcels => Set<ParcelEntity>();
     public DbSet<AccountEntity> Accounts => Set<AccountEntity>();
+    public DbSet<ParcelStatusEntity> ParcelStatuses => Set<ParcelStatusEntity>();
+    public DbSet<ParcelStatusGroupEntity> ParcelStatusGroups => Set<ParcelStatusGroupEntity>();
+    public DbSet<LocationEntity> Locations => Set<LocationEntity>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
+    public DbSet<DeliveryOptionEntity> DeliveryOptions => Set<DeliveryOptionEntity>();
 
     private readonly IConfiguration Configuration;
 

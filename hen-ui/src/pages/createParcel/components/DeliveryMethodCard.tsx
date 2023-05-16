@@ -5,13 +5,13 @@ import clsx from 'clsx';
 export interface DeliveryMethodCardProps {
   eta: string;
   deliveryType: string;
-  price: string;
+  cost: string;
   isActive?: boolean;
   onClick?: () => void;
 }
 
 function DeliveryMethodCard(props: DeliveryMethodCardProps) {
-  const { eta, deliveryType, price, onClick, isActive } = props;
+  const { eta, deliveryType, cost, onClick, isActive } = props;
 
   return (
     <div
@@ -69,7 +69,7 @@ function DeliveryMethodCard(props: DeliveryMethodCardProps) {
           as="h4"
           variant="h4"
         >
-          {price} €
+          {cost} €
         </Text>
       </div>
     </div>

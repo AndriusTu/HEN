@@ -29,8 +29,8 @@ const tabs: TabInformation[] = [
     imageSrc: 'images/img_mail.svg',
   },
   {
-    title: 'Accounts',
-    link: ROUTES.ACCOUNTS,
+    title: 'Add courier',
+    link: ROUTES.CREATE_COURIER,
     imageSrc: 'images/img_user31.svg',
   },
 ];
@@ -44,6 +44,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       <div className="flex flex-col items-start justify-start absolute">
         {tabs.map((tab) => (
           <Tab
+            key={tab.link}
             title={tab.title}
             link={tab.link}
             isActive={activeTab === tab.link}

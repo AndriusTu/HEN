@@ -1,8 +1,11 @@
 import api from './api';
 
-const getParcels = async () => {
+export const getParcels = async () => {
   const response = await api.get('/parcels');
   return response.data;
 };
 
-export default { getParcels };
+export const getParcelById = async (id: number) => {
+  const response = await api.get(`/parcels/${id}`);
+  return response.data;
+};

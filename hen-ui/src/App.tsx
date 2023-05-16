@@ -6,7 +6,10 @@ import CreateParcelPage from './pages/createParcel/CreateParcelPage';
 import { LoginPage } from './pages/login/LoginPage';
 import ROUTES from './routes';
 import authService from './services/api/authService';
-import SeePendingDeliveries from "./pages/seePendingDeliveries/SeePendingDeliveries";
+import SeePendingDeliveries from './pages/seePendingDeliveries/SeePendingDeliveries';
+import UpdateParcelStatus from './pages/updateParcelStatus/updateParcelStatus';
+import GetParcelByIdPage from './pages/getParcelById/GetParcelByIdPage';
+import CreateCourierPage from './pages/createCourier/CreateCourierPage';
 
 function App() {
   return (
@@ -24,20 +27,28 @@ function App() {
           }
         />
         <Route
+          path={ROUTES.GET_PARCEL}
+          element={<GetParcelByIdPage />}
+        />
+        <Route
           path={ROUTES.PARCELS}
           element={
             <Protected isLoggedIn={authService.isLoggedIn()}>
-             <SeePendingDeliveries/>
+              <SeePendingDeliveries />
             </Protected>
           }
         />
         <Route
-          path={ROUTES.ACCOUNTS}
+          path={ROUTES.CREATE_COURIER}
           element={
             <Protected isLoggedIn={authService.isLoggedIn()}>
-              <div>accounts</div>
+              <CreateCourierPage />
             </Protected>
           }
+        />
+        <Route
+          path={ROUTES.PARCEL_STATUS_UPDATE}
+          element={<UpdateParcelStatus />}
         />
         <Route
           path={ROUTES.LOGIN}

@@ -9,10 +9,10 @@ body {
 }
 .row {
   display: table;
-  width:90%;
+  width: 90%;
   margin-bottom: 10px;
 }
-.parcelIcon{
+.parcelIcon {
   justify-content: center;
   padding: 30%;
   border-radius: 40%;
@@ -33,7 +33,7 @@ body {
   font-size: medium;
   width: 70%;
   text-align: center;
-  color:#425ebd;
+  color: #425ebd;
   margin-left: 10%;
 }
 .toTheLeft {
@@ -221,20 +221,20 @@ ul li a {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: 26px;
   width: 27px;
   left: 2px;
   bottom: 3px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -242,7 +242,7 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px  #54af18;
+  box-shadow: 0 0 1px #54af18;
 }
 
 input:checked + .slider:before {

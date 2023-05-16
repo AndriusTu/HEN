@@ -1,3 +1,5 @@
+using Hen.DAL.Enums;
+
 namespace Hen.Api.Models
 {
     public class DeliveryOptionModel

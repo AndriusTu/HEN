@@ -1,24 +1,21 @@
 import React from 'react';
-import ParcelCard from "./componenets/ParcelCard";
-import SearchField from "./componenets/SearhField";
-import pendingParcelMock from "../../mocks/pendingParcelMock";
-function SeePendingDeliveries() {
+import ParcelCard from './componenets/ParcelCard';
+import SearchField from './componenets/SearhField';
+import pendingParcelMock from '../../mocks/pendingParcelMock';
 
-    return (
-        <div className="w-full">
-            <div className="toTheLeft">
-                <SearchField/>
-            </div>
-            <div className="display-block">
-                {pendingParcelMock.map((parcelInformation, index) => (
-                    <ParcelCard
-                        key={index}
-                        {...parcelInformation}
-                        // onClick={}//kol kas nera onClick
-                    />
-                ))}
-            </div>
-        </div>
-    )
+function SeePendingDeliveries() {
+  return (
+    <div className="w-full">
+      <div className="display-block">
+        {pendingParcelMock.map((parcelInformation, index) => (
+          <ParcelCard
+            key={index}
+            {...parcelInformation}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
-export default SeePendingDeliveries
+
+export default SeePendingDeliveries;

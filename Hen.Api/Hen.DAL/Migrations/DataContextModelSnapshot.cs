@@ -145,7 +145,7 @@ namespace Hen.DAL.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("nvarchar(16)");
 
-                    b.Property<DateTime>("UpdateAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
