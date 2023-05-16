@@ -4,10 +4,11 @@ using AutoMapper;
 using Hen.Api.Models;
 using Hen.BLL.Services.SizeService;
 using Hen.DAL.Entities;
+using Hen.DAL.Enums;
 
 public class AutoMapperProfile : Profile
 {
-    public AutoMapperProfile(ISizeService sizeService)
+    public AutoMapperProfile()
     {
         CreateMap<ParcelEntity, ParcelModel>().ReverseMap();
         CreateMap<UserEntity, UserModel>().ReverseMap();
@@ -15,10 +16,6 @@ public class AutoMapperProfile : Profile
         CreateMap<DeliveryOptionEntity, DeliveryOptionModel>().ReverseMap();
 
         CreateMap<CreateParcelModel, ParcelEntity>()
-            .ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.Sender.Id))
-            .ForMember(dest => dest.ReceiverId, opt => opt.MapFrom(src => src.Receiver.Id))
-            .ForMember(dest => dest.Size, opt => opt.MapFrom(src => sizeService.CalculateParcelSize(
-                src.Dimensions.Length, src.Dimensions.Width, src.Dimensions.Height)))
             .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
             .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
 
@@ -46,5 +43,24 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.LocationId, opt => opt.MapFrom(src => src.Location.Id));
 
         CreateMap<LocationModel, LocationEntity>().ReverseMap();
+
+        CreateMap<CreateCourierModel, AccountEntity>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.NewGuid()))
+            .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => AccountRole.COURIER))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => AccountStatus.ACTIVE))
+            .ForMember(dest => dest.AccountInformation, opt => opt.MapFrom(src => src));
+
+        CreateMap<CreateCourierModel, UserEntity>()
+            .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => DateTime.UtcNow))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.FirstName + ' ' + src.LastName))
+            .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Phone))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+
+
+
     }
 }

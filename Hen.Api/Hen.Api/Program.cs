@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using Hen.BLL.Services.AccountService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +86,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IDeliveryOptionsService, DeliveryOptionsService>();
     services.AddScoped<IAuthService, AuthService>();
     services.AddSingleton<IMailService, MailService>();
+    services.AddScoped<IAccountService, AccountService>();
 
 }
 

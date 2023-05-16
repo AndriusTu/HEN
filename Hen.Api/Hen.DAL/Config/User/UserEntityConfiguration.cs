@@ -15,6 +15,7 @@ namespace Hen.DAL.Config.User
             builder.Property(x => x.Email).HasColumnType("nvarchar(32)").IsRequired();
             builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasDefaultValueSql("CURRENT_TIMESTAMP");
             builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            builder.HasOne(x => x.Location).WithMany().HasForeignKey(x => x.LocationId);
         }
     }
 }

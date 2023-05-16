@@ -3,6 +3,7 @@ using System;
 using Hen.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hen.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230515214529_ParcelCourierNotRequired")]
+    partial class ParcelCourierNotRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -24,7 +27,7 @@ namespace Hen.DAL.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("AccountInformationId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -56,7 +59,8 @@ namespace Hen.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountInformationId");
+                    b.HasIndex("AccountInformationId")
+                        .IsUnique();
 
                     b.ToTable("Account", (string)null);
                 });
@@ -101,7 +105,13 @@ namespace Hen.DAL.Migrations
                         .HasColumnType("timestamp")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Location", (string)null);
                 });
@@ -169,14 +179,15 @@ namespace Hen.DAL.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<Guid>("LocationId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
                         .HasColumnType("nvarchar(32)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("LocationId")
+                        .IsUnique();
 
                     b.ToTable("ParcelStatus", (string)null);
                 });
@@ -184,10 +195,10 @@ namespace Hen.DAL.Migrations
             modelBuilder.Entity("Hen.DAL.Entities.ParcelStatusGroupEntity", b =>
                 {
                     b.Property<Guid>("ParcelId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("StatusId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("integer");
 
                     b.HasKey("ParcelId", "StatusId");
 
@@ -211,9 +222,6 @@ namespace Hen.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(32)");
@@ -229,20 +237,29 @@ namespace Hen.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
-
                     b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Hen.DAL.Entities.AccountEntity", b =>
                 {
                     b.HasOne("Hen.DAL.Entities.UserEntity", "AccountInformation")
-                        .WithMany()
-                        .HasForeignKey("AccountInformationId")
+                        .WithOne()
+                        .HasForeignKey("Hen.DAL.Entities.AccountEntity", "AccountInformationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AccountInformation");
+                });
+
+            modelBuilder.Entity("Hen.DAL.Entities.LocationEntity", b =>
+                {
+                    b.HasOne("Hen.DAL.Entities.UserEntity", "User")
+                        .WithOne()
+                        .HasForeignKey("Hen.DAL.Entities.LocationEntity", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Hen.DAL.Entities.ParcelEntity", b =>
@@ -273,8 +290,8 @@ namespace Hen.DAL.Migrations
             modelBuilder.Entity("Hen.DAL.Entities.ParcelStatusEntity", b =>
                 {
                     b.HasOne("Hen.DAL.Entities.LocationEntity", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
+                        .WithOne()
+                        .HasForeignKey("Hen.DAL.Entities.ParcelStatusEntity", "LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -298,15 +315,6 @@ namespace Hen.DAL.Migrations
                     b.Navigation("Parcel");
 
                     b.Navigation("Status");
-                });
-
-            modelBuilder.Entity("Hen.DAL.Entities.UserEntity", b =>
-                {
-                    b.HasOne("Hen.DAL.Entities.LocationEntity", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId");
-
-                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("Hen.DAL.Entities.ParcelEntity", b =>

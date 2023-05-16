@@ -10,8 +10,8 @@ namespace Hen.DAL.Entities
         public UserEntity Sender { get; set; }
         public Guid ReceiverId { get; set; }
         public UserEntity Receiver { get; set; }
-        public Guid CourierId { get; set; }
-        public AccountEntity Courier { get; set; }
+        public Guid? CourierId { get; set; }
+        public AccountEntity? Courier { get; set; }
         public DeliveryType Type { get; set; }
         public ParcelSize Size { get; set; }
         public string? Description { get; set; }
