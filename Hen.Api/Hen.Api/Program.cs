@@ -86,6 +86,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IDeliveryOptionsService, DeliveryOptionsService>();
     services.AddScoped<IAuthService, AuthService>();
     services.AddSingleton<IMailService, MailService>();
+    services.AddScoped<IAccountService, AccountService>();
 
 }
 
