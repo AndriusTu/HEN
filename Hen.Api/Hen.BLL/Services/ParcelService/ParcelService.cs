@@ -112,22 +112,20 @@ public class ParcelService : IParcelService
     {
         var parcel = GetParcel(id);
 
-        var statusId = Guid.NewGuid();
-
-        parcel.DeliveryStatuses.Add(new ParcelStatusGroupEntity()
+        var parcelStatusGroup = new ParcelStatusGroupEntity()
         {
             ParcelId = parcel.Id,
-            StatusId = statusId,
             Status = new ParcelStatusEntity()
             {
-                Id = statusId,
+                Id = Guid.NewGuid(),
                 Status = status,
                 CreatedAt = DateTime.UtcNow,
                 Location = GetDistributionLocation(),
             }
-        });
+        };
 
-        _context.Parcels.Update(parcel);
+        _context.ParcelStatusGroups.Add(parcelStatusGroup);
+
         _context.SaveChanges();
 
         _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
