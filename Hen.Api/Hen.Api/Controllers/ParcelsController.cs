@@ -50,13 +50,6 @@ namespace Api.Controllers
             return Mapper.Map<ParcelModel>(parcel);
         }
 
-        [HttpPut("{id:Guid}")]
-        public ParcelModel Update(Guid id, ParcelModel request)
-        {
-            var parcel = _parcelService.Update(id, Mapper.Map<ParcelEntity>(request));
-            return Mapper.Map<ParcelModel>(parcel);
-        }
-
         [HttpPut("{id:Guid}/status")]
         public ParcelModel UpdateStatus(Guid id, DeliveryStatus status)
         {

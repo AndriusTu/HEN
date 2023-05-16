@@ -106,25 +106,29 @@ public class ParcelService : IParcelService
         return location;
     }
 
-    public void Delete(Guid id)
-    {
-        var parcel = GetParcel(id);
-        _context.Parcels.Remove(parcel);
-        _context.SaveChanges();
-
-        _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
-
-        return parcel;
-    }
-
-    public ParcelEntity Update(Guid id, ParcelEntity request)
+    public ParcelEntity UpdateStatus(Guid id, DeliveryStatus status)
     {
         var parcel = GetParcel(id);
 
-        parcel.Update(request);
+        var statusId = Guid.NewGuid();
+
+        parcel.DeliveryStatuses.Add(new ParcelStatusGroupEntity()
+        {
+            ParcelId = parcel.Id,
+            StatusId = statusId,
+            Status = new ParcelStatusEntity()
+            {
+                Id = statusId,
+                Status = status,
+                CreatedAt = DateTime.UtcNow,
+                Location = GetDistributionLocation(),
+            }
+        });
 
         _context.Parcels.Update(parcel);
         _context.SaveChanges();
+
+        _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
 
         return parcel;
     }
@@ -156,6 +160,25 @@ public class ParcelService : IParcelService
         }
 
         return parcel;
+    }
+
+    public IEnumerable<ParcelEntity> GetAll(Guid? courierId)
+    {
+        var parcels = _context.Parcels.AsQueryable();
+        if (courierId.HasValue)
+        {
+            parcels = parcels.Where(x => x.CourierId == courierId);
+        }
+        return parcels
+            .Include(x => x.DeliveryStatuses)
+            .ThenInclude(x => x.Status)
+            .ThenInclude(x => x.Location)
+            .ToList();
+    }
+
+    public ParcelEntity GetById(Guid id)
+    {
+        return GetParcel(id);
     }
 }
 
