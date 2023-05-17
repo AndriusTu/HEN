@@ -6,9 +6,9 @@ import { useForm } from 'react-hook-form';
 import { useFormData } from '../context/CreateParcelFormContext';
 import { createParcel } from '../../../services/api/parcelService';
 import { CreateParcelModel } from '../../../models/ParcelModel';
-import {convertCmToM} from "../../../utils/measureUnitUtils";
-import {DeliveryInfo, Dimensions} from "../../../models/DeliveryModel";
-import {LocationType} from "../../../models/AddressModel";
+import { convertCmToM } from '../../../utils/measureUnitUtils';
+import { DeliveryInfo, Dimensions } from '../../../models/DeliveryModel';
+import { LocationType } from '../../../models/AddressModel';
 
 interface ReceiverContactsTabProps {
   previousFormStep: () => void;
@@ -31,9 +31,11 @@ function ReceiverContactsTab(props: ReceiverContactsTabProps) {
   });
 
   const onSubmit = (formData) => {
-    let dimensionsInCm = structuredClone(data.deliveryInfo.dimensions) as Dimensions;
+    let dimensionsInCm = structuredClone(
+      data.deliveryInfo.dimensions,
+    ) as Dimensions;
     for (let key in dimensionsInCm) {
-      dimensionsInCm[key] = convertCmToM(dimensionsInCm[key])
+      dimensionsInCm[key] = convertCmToM(dimensionsInCm[key]);
     }
 
     const createParcelModel: CreateParcelModel = {

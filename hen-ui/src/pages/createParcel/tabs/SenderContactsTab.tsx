@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button, Input, Text} from '../../../components';
+import { Button, Input, Text } from '../../../components';
 import ContactInformationForm from '../components/ContactInformationForm';
 import { ArrowSVG } from '../../../assets/images/arrow';
 import { useForm } from 'react-hook-form';
 import { useFormData } from '../context/CreateParcelFormContext';
-import {LocationType} from "../../../models/AddressModel";
+import { LocationType } from '../../../models/AddressModel';
 
 interface SenderContactsTabProps {
   previousFormStep: () => void;
