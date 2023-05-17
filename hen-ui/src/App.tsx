@@ -20,11 +20,7 @@ function App() {
       >
         <Route
           path={ROUTES.CREATE_PARCEL}
-          element={
-            <Protected isLoggedIn={authService.isLoggedIn()}>
-              <CreateParcelPage />
-            </Protected>
-          }
+          element={<CreateParcelPage />}
         />
         <Route
           path={ROUTES.GET_PARCEL}

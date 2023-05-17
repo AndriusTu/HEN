@@ -1,23 +1,10 @@
-import { User } from './UserModel';
+import { CreateUser } from './UserModel';
+import {FullAddress, ShortAddress} from "./AddressModel";
 
 export interface DeliveryInfo {
   from: ShortAddress;
   to: ShortAddress;
   dimensions: Dimensions;
-}
-
-export interface ShortAddress {
-  country: string;
-  postalCode: string;
-}
-
-export interface FullAddress {
-  country: string;
-  postalCode: string;
-  city: string;
-  street: string;
-  houseNumber: string;
-  apartmentNumber: string;
 }
 
 export interface Dimensions {
@@ -36,8 +23,8 @@ export interface DeliveryOption {
 export interface CreateParcelForm {
   deliveryInfo: DeliveryInfo;
   deliveryOption: DeliveryOption;
-  senderContacts: User;
+  senderContacts: CreateUser;
   senderFullAddress: FullAddress;
-  receiverContacts: User;
+  receiverContacts: CreateUser;
   receiverFullAddress: FullAddress;
 }
