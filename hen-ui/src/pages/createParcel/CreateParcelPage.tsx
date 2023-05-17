@@ -8,6 +8,7 @@ import ReceiverContactsTab from './tabs/ReceiverContactsTab';
 import FormProvider from './context/CreateParcelFormContext';
 import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
 import { DeliveryInfo } from '../../models/DeliveryModel';
+import {convertCmToM} from "../../utils/measureUnitUtils";
 
 const tabs = [
   {
@@ -36,16 +37,12 @@ function CreateParcelPage() {
 
   const fetchDeliveryOptions = async (requestData) => {
     requestData = structuredClone(requestData) as DeliveryInfo;
-    requestData.dimensions.length = convertCmToM(requestData.dimensions.length);
-    requestData.dimensions.width = convertCmToM(requestData.dimensions.width);
-    requestData.dimensions.height = convertCmToM(requestData.dimensions.height);
+    for (let key in requestData.dimensions) {
+      requestData.dimensions[key] = convertCmToM(requestData.dimensions[key]);
+    }
     let responseData = await getDeliveryOptions(requestData);
     console.log(responseData);
     return responseData;
-  };
-
-  const convertCmToM = (cm: number) => {
-    return cm / 100;
   };
 
   return (
