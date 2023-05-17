@@ -19,6 +19,40 @@ public class ParcelService : IParcelService
         _mailService = mailService;
     }
 
+    public IEnumerable<ParcelEntity> GetAll(Guid? courierId)
+    {
+        var parcels = _context.Parcels.AsQueryable();
+        if (courierId.HasValue)
+        {
+            parcels = parcels.Where(x => x.CourierId == courierId);
+        }
+        return parcels
+            .Include(x => x.DeliveryStatuses)
+            .ThenInclude(x => x.Status)
+            .ThenInclude(x => x.Location)
+            .ToList();
+    }
+
+    public ParcelEntity GetById(Guid id)
+    {
+        return GetParcel(id);
+    }
+
+    public IEnumerable<LocationEntity> GetPossibleLocations(Guid parcelId)
+    {
+        var parcel = GetParcel(parcelId);
+
+        var locations = new List<LocationEntity>();
+
+        if (parcel.Sender.Location != null)
+            locations.Add(parcel.Sender.Location);
+        if (parcel.Receiver.Location != null)
+            locations.Add(parcel.Receiver.Location);
+        
+        locations.Add(GetDistributionLocation());
+        return locations;
+    }
+
     public ParcelEntity Create(ParcelEntity parcel, ParcelSize size)
     {
         parcel.Id = Guid.NewGuid();
@@ -40,16 +74,71 @@ public class ParcelService : IParcelService
 
         _context.ParcelStatusGroups.Add(parcelStatusGroup);
 
-
         parcel.Receiver = SetUser(parcel.Receiver);
         parcel.Sender = SetUser(parcel.Sender);
-
-
 
         _context.Parcels.Add(parcel);
         _context.SaveChanges();
 
         return GetParcel(parcel.Id);
+    }
+
+    public ParcelEntity UpdateStatus(Guid id, DeliveryStatus status, Guid locationId)
+    {
+        var parcel = GetParcel(id);
+        var location = _context.Locations.FirstOrDefault(x => x.Id == locationId);
+
+        if (location == null)
+            location = GetDistributionLocation();
+
+        var parcelStatusGroup = new ParcelStatusGroupEntity()
+        {
+            ParcelId = parcel.Id,
+            Status = new ParcelStatusEntity()
+            {
+                Id = Guid.NewGuid(),
+                Status = status,
+                CreatedAt = DateTime.UtcNow,
+                Location = location,
+            }
+        };
+
+        _context.ParcelStatusGroups.Add(parcelStatusGroup);
+
+        _context.SaveChanges();
+
+        _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
+
+        return parcel;
+    }
+
+    public void Delete(Guid id)
+    {
+        var parcel = GetParcel(id);
+        _context.Parcels.Remove(parcel);
+        _context.SaveChanges();
+    }
+
+    private ParcelEntity GetParcel(Guid id)
+    {
+        var parcel = _context.Parcels
+            .Include(x => x.Sender)
+            .ThenInclude(x => x.Location)
+            .Include(x => x.Receiver)
+            .ThenInclude(x => x.Location)
+            .Include(x => x.Courier)
+            .ThenInclude(x => x.AccountInformation)
+            .Include(x => x.DeliveryStatuses)
+            .ThenInclude(x => x.Status)
+            .ThenInclude(x => x.Location)
+            .FirstOrDefault(x => x.Id == id);
+
+        if (parcel == null)
+        {
+            throw new KeyNotFoundException("Parcel not found");
+        }
+
+        return parcel;
     }
 
     private UserEntity SetUser(UserEntity user)
@@ -106,79 +195,6 @@ public class ParcelService : IParcelService
             };
         }
         return location;
-    }
-
-    public ParcelEntity UpdateStatus(Guid id, DeliveryStatus status)
-    {
-        var parcel = GetParcel(id);
-
-        var parcelStatusGroup = new ParcelStatusGroupEntity()
-        {
-            ParcelId = parcel.Id,
-            Status = new ParcelStatusEntity()
-            {
-                Id = Guid.NewGuid(),
-                Status = status,
-                CreatedAt = DateTime.UtcNow,
-                Location = GetDistributionLocation(),
-            }
-        };
-
-        _context.ParcelStatusGroups.Add(parcelStatusGroup);
-
-        _context.SaveChanges();
-
-        _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
-
-        return parcel;
-    }
-
-    public void Delete(Guid id)
-    {
-        var parcel = GetParcel(id);
-        _context.Parcels.Remove(parcel);
-        _context.SaveChanges();
-    }
-
-    private ParcelEntity GetParcel(Guid id)
-    {
-        var parcel = _context.Parcels
-            .Include(x => x.Sender)
-            .ThenInclude(x => x.Location)
-            .Include(x => x.Receiver)
-            .ThenInclude(x => x.Location)
-            .Include(x => x.Courier)
-            .ThenInclude(x => x.AccountInformation)
-            .Include(x => x.DeliveryStatuses)
-            .ThenInclude(x => x.Status)
-            .ThenInclude(x => x.Location)
-            .FirstOrDefault(x => x.Id == id);
-
-        if (parcel == null)
-        {
-            throw new KeyNotFoundException("Parcel not found");
-        }
-
-        return parcel;
-    }
-
-    public IEnumerable<ParcelEntity> GetAll(Guid? courierId)
-    {
-        var parcels = _context.Parcels.AsQueryable();
-        if (courierId.HasValue)
-        {
-            parcels = parcels.Where(x => x.CourierId == courierId);
-        }
-        return parcels
-            .Include(x => x.DeliveryStatuses)
-            .ThenInclude(x => x.Status)
-            .ThenInclude(x => x.Location)
-            .ToList();
-    }
-
-    public ParcelEntity GetById(Guid id)
-    {
-        return GetParcel(id);
     }
 }
 
