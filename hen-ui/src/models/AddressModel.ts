@@ -14,7 +14,7 @@ export interface FullAddress {
   city: string;
   street: string;
   postalCode: string;
-  description: string;
+  description?: string;
   houseNumber: string;
   flatNumber: string;
 }

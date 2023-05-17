@@ -31,23 +31,6 @@ function ReceiverContactsTab(props: ReceiverContactsTabProps) {
   });
 
   const onSubmit = (formData) => {
-    setFormValues({
-      receiverContacts: {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-      },
-      receiverFullAddress: {
-        type: LocationType.ADDRESS,
-        country: formData.country,
-        postalCode: formData.postalCode,
-        city: formData.city,
-        street: formData.street,
-        houseNumber: formData.houseNumber,
-        flatNumber: formData.apartmentNumber,
-      },
-    });
-
     let dimensionsInCm = structuredClone(data.deliveryInfo.dimensions) as Dimensions;
     for (let key in dimensionsInCm) {
       dimensionsInCm[key] = convertCmToM(dimensionsInCm[key])
@@ -55,7 +38,20 @@ function ReceiverContactsTab(props: ReceiverContactsTabProps) {
 
     const createParcelModel: CreateParcelModel = {
       sender: { ...data.senderContacts, location: data.senderFullAddress },
-      receiver: { ...data.receiverContacts, location: data.receiverFullAddress },
+      receiver: {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        location: {
+          type: LocationType.ADDRESS,
+          country: formData.country,
+          postalCode: formData.postalCode,
+          city: formData.city,
+          street: formData.street,
+          houseNumber: formData.houseNumber,
+          flatNumber: formData.apartmentNumber,
+        },
+      },
       dimensions: dimensionsInCm,
       type: data.deliveryOption.deliveryType,
       eta: data.deliveryOption.eta,

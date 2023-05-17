@@ -10,5 +10,6 @@ export interface User {
 export interface CreateUser {
   name: string;
   email: string;
+  phone: string;
   location: FullAddress;
 }
