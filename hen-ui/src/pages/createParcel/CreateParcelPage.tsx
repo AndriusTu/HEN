@@ -8,7 +8,7 @@ import ReceiverContactsTab from './tabs/ReceiverContactsTab';
 import FormProvider from './context/CreateParcelFormContext';
 import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
 import { DeliveryInfo } from '../../models/DeliveryModel';
-import {convertCmToM} from "../../utils/measureUnitUtils";
+import { convertCmToM } from '../../utils/measureUnitUtils';
 
 const tabs = [
   {
