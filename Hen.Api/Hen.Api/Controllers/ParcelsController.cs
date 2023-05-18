@@ -4,7 +4,6 @@ using Hen.BLL.Services.ParcelService;
 using Hen.BLL.Services.SizeService;
 using Hen.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Hen.DAL.Enums;
 
 namespace Api.Controllers
@@ -36,6 +35,13 @@ namespace Api.Controllers
             return Mapper.Map<ParcelModel>(parcel);
         }
 
+        [HttpGet("{id:Guid}/locations")]
+        public IEnumerable<LocationModel> GetLocations(Guid id)
+        {
+            var locations = _parcelService.GetPossibleLocations(id);
+            return Mapper.Map<IEnumerable<LocationModel>>(locations);
+        }
+
         [HttpPost]
         public ParcelModel Create(CreateParcelModel request)
         {
@@ -51,9 +57,9 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id:Guid}/status")]
-        public ParcelModel UpdateStatus(Guid id, DeliveryStatus status)
+        public ParcelModel UpdateStatus(Guid id, StatusUpdateModel statusModel)
         {
-            var parcel = _parcelService.UpdateStatus(id, status);
+            var parcel = _parcelService.UpdateStatus(id, statusModel.Status, statusModel.LocationId);
 
             return Mapper.Map<ParcelModel>(parcel);
         }
