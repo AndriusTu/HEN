@@ -15,15 +15,16 @@ function CreateCourierPage() {
 
   const onSubmit = (data: any) => {
     console.log(data);
-    createCourier(data).then((res) => {
-      if (res.status === 204) {
+    createCourier(data)
+      .then((res) => {
         alert('Courier creation succeeded');
+        // TODO: make a popup for success message
         // setShowSuccessModal(true);
-        reset()
-      } else {
-        alert('Courier creation failed!');
-      }
-    });
+        reset();
+      })
+      .catch((err) => {
+        alert('Courier creation failed');
+      });
   };
 
   return (
@@ -132,6 +133,9 @@ function CreateCourierPage() {
           </form>
         </div>
       </div>
+      {
+        // TODO: make a popup for success message
+      }
       <Modal
         type="success"
         isShow={showSuccessModal}
