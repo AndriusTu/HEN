@@ -1,21 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ParcelCard from './componenets/ParcelCard';
-import SearchField from './componenets/SearhField';
-import pendingParcelMock from '../../mocks/pendingParcelMock';
+import {Parcel} from "../../models/GetParcelModel";
+import {getParcels} from "../../services/api/parcelService";
+
+
+
 
 function SeePendingDeliveries() {
-  return (
-    <div className="w-full">
-      <div className="display-block">
-        {pendingParcelMock.map((parcelInformation, index) => (
-          <ParcelCard
-            key={index}
-            {...parcelInformation}
-          />
-        ))}
-      </div>
-    </div>
-  );
+    const [ParcelList, setParcelList] = useState([] as Parcel[]);
+    useEffect(() => {
+        getParcels().then((responseData) => {
+            setParcelList(responseData);
+        });
+    });
+
+    return (
+        <div className="w-full">
+            <div className="display-block">
+                {ParcelList.map((parcelInformation, index) => (
+                    // <div>
+                    //     <p>{parcelInformation.id}</p>
+                    // </div>
+                    <div>
+                        <ParcelCard
+                            key={index}
+                            {...parcelInformation}
+                        />
+                        {index}
+                    </div>
+                ))}
+             </div>
+        </div>
+    );
 }
 
 export default SeePendingDeliveries;
