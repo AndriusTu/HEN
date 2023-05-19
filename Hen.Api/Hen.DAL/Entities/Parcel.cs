@@ -1,5 +1,6 @@
 ﻿using Hen.DAL.Enums;
 using Hen.DAL.Extensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hen.DAL.Entities
 {
@@ -19,6 +20,8 @@ namespace Hen.DAL.Entities
         public IList<ParcelStatusGroupEntity> DeliveryStatuses { get; set; } = new List<ParcelStatusGroupEntity>();
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        [ConcurrencyCheck]
+        public Guid Version { get; set; }
 
         public void Update(ParcelEntity request)
         {
