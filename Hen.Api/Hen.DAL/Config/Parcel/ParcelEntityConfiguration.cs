@@ -29,5 +29,7 @@ public class ParcelEntityConfiguration : IEntityTypeConfiguration<ParcelEntity>
 
         builder.Property(x => x.CreatedAt).HasColumnType("timestamp").HasDefaultValueSql("CURRENT_TIMESTAMP");
         builder.Property(x => x.UpdatedAt).HasColumnType("timestamp").HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+        builder.Property(x => x.Version).IsConcurrencyToken();
     }
 }

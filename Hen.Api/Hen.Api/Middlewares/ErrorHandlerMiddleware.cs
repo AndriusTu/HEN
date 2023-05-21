@@ -1,6 +1,7 @@
 
 using Hen.BLL.Exceptions;
 using Hen.DAL;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text.Json;
 
@@ -40,6 +41,9 @@ public class ErrorHandlerMiddleware
                 case KeyNotFoundException:
                     // not found error
                     response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+                case DbUpdateConcurrencyException:
+                    response.StatusCode = (int)HttpStatusCode.Conflict;
                     break;
                 default:
                     // unhandled error
