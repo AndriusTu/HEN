@@ -1,4 +1,4 @@
-import {FullAddress} from "./AddressModel";
+import { FullAddress } from './AddressModel';
 
 export interface User {
   id: number;
@@ -12,4 +12,11 @@ export interface CreateUser {
   email: string;
   phone: string;
   location: FullAddress;
+}
+
+export interface CreateCourier {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
 }

@@ -56,6 +56,7 @@ public class ParcelService : IParcelService
     public ParcelEntity Create(ParcelEntity parcel, ParcelSize size)
     {
         parcel.Id = Guid.NewGuid();
+        parcel.Version = Guid.NewGuid();
 
         parcel.Size = size;
 
@@ -86,6 +87,8 @@ public class ParcelService : IParcelService
     public ParcelEntity UpdateStatus(Guid id, DeliveryStatus status, Guid locationId)
     {
         var parcel = GetParcel(id);
+        parcel.Version = Guid.NewGuid();
+
         var location = _context.Locations.FirstOrDefault(x => x.Id == locationId);
 
         if (location == null)
@@ -105,9 +108,16 @@ public class ParcelService : IParcelService
 
         _context.ParcelStatusGroups.Add(parcelStatusGroup);
 
-        _context.SaveChanges();
-
-        _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
+        try
+        {
+            // Thread.Sleep(10000);
+            _context.SaveChanges();
+            _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
+        } 
+        catch (DbUpdateConcurrencyException e)
+        {
+            throw new DbUpdateConcurrencyException("Parcel status update failed", e);
+        }
 
         return parcel;
     }

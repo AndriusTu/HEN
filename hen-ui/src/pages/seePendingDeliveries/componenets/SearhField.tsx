@@ -6,7 +6,6 @@ function SearchField() {
 
   return (
     <div className="inline-flex gap-[9px]">
-      {/*//ne parcel row element, bet lygiavimui uždėjau*/}
       <Input
         value={inputvalue}
         onChange={(e) => setInputvalue(e)}
@@ -38,7 +37,6 @@ function SearchField() {
         size="smSrc"
         variant="srcFillGray101"
       ></Input>
-      {/*<Switch value={true} className="w-[18%]" />*/}
       <div> </div>
       <div> </div>
       <div className="flex md:flex-1 my-[19px] w-[%] ml">

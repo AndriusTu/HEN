@@ -1,5 +1,5 @@
 import { CreateUser } from './UserModel';
-import {FullAddress, ShortAddress} from "./AddressModel";
+import { FullAddress, ShortAddress } from './AddressModel';
 
 export interface DeliveryInfo {
   from: ShortAddress;
