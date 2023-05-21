@@ -26,7 +26,6 @@ function SeePendingDeliveries() {
                             key={index}
                             {...parcelInformation}
                         />
-                        {index}
                     </div>
                 ))}
              </div>
