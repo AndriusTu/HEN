@@ -18,7 +18,7 @@ export interface ParcelStatus {
     status: string;
     location: ParcelLocation;
     deliveryType: string;
-    eta: string;
+    createdAt: string;
 }
 
 export interface ParcelLocation {

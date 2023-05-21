@@ -15,3 +15,12 @@ export const createParcel = async (data: CreateParcelModel) => {
   const response = await api.post('/parcels', data);
   return response.data;
 };
+export const getParcelLocations = async (id: number) => {
+  const response = await api.get(`/parcels/${id}/locations`);
+  return response.data;
+};
+
+export const updateParcelStatus = async (id: number, data: any) => {
+  const response = await api.put(`/parcels/${id}/status`, data);
+  return response.data;
+}
