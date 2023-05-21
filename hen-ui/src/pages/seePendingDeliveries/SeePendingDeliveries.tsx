@@ -12,7 +12,7 @@ function SeePendingDeliveries() {
         getParcels().then((responseData) => {
             setParcelList(responseData);
         });
-    });
+    }, []);
 
     return (
         <div className="w-full">
