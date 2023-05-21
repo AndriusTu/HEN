@@ -9,7 +9,6 @@ function ParcelCard(this: any, props: Parcel) {
   const parcel = props;
   const navigate = useNavigate();
   const navigateToParcelStatusUpdate = () => {
-    //nors funkcja vadinasi Status update, ten taip pat yra detalių puslapis
     navigate(ROUTES.PARCEL_STATUS_UPDATE, { state: { id: parcel.id } }); //
   };
   const parcelStatus = parcel.parcelStatus.pop();
@@ -73,7 +72,7 @@ function ParcelCard(this: any, props: Parcel) {
             shape="RoundedBorder25"
             size="sm"
             variant="OutlineIndigo500"
-            onClick={navigateToParcelStatusUpdate} //kol kas nera onClick>
+            onClick={navigateToParcelStatusUpdate}
           >
             View Details
           </Button>

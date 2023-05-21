@@ -18,9 +18,6 @@ function SeePendingDeliveries() {
         <div className="w-full">
             <div className="display-block">
                 {ParcelList.map((parcelInformation, index) => (
-                    // <div>
-                    //     <p>{parcelInformation.id}</p>
-                    // </div>
                     <div>
                         <ParcelCard
                             key={index}
