@@ -3,12 +3,13 @@ import { Button, Img, Text } from '../../../components';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../../routes';
 import { Parcel } from '../../../models/GetParcelModel';
+import statusOptions from '../../updateParcelStatus/data/statusOptions';
 
 function ParcelCard(this: any, props: Parcel) {
   const parcel = props;
   const navigate = useNavigate();
   const navigateToParcelStatusUpdate = () => {
-    navigate(ROUTES.PARCEL_STATUS_UPDATE, { state: { id: parcel.id } }); //
+    navigate(ROUTES.PARCEL_STATUS_UPDATE, { state: { id: parcel.id } });
   };
   const parcelStatus = parcel.parcelStatus.pop();
 
@@ -42,7 +43,11 @@ function ParcelCard(this: any, props: Parcel) {
             as="h5"
             variant="h5"
           >
-            {parcelStatus?.status}
+            {
+              statusOptions.filter(
+                (option) => option.value === parcelStatus?.status,
+              )[0]?.label
+            }
           </Text>
         </div>
         <div className="parcelRowElement ">

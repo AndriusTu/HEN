@@ -12,8 +12,10 @@ import {
 } from '../../services/api/parcelService';
 import { Parcel, ParcelLocation } from '../../models/GetParcelModel';
 import { StatusUpdateModel } from '../../models/StatusUpdateModel';
-import ParcelStatusTable from "./components/parcelStatusTable";
-import ParcelInformation from "./components/parcelInformation";
+import ParcelStatusTable from './components/ParcelStatusTable';
+import ParcelInformation from './components/ParcelInformation';
+import ReceiverInformation from './components/ReceiverInformation';
+
 function UpdateParcelStatus() {
   const { state } = useLocation();
   const [ParcelLocationList, setParcelLocationList] = useState(
@@ -28,21 +30,15 @@ function UpdateParcelStatus() {
       setParcelInformation(responseData);
     });
   }, [state.id]);
+
   const {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const [parcelStatus, setParcelStatus] = useState('');
   const [parcelLocation, setParcelLocation] = useState('');
   const [parcelInformation, setParcelInformation] = useState({} as Parcel);
-  function getPhone() {
-    if (
-      parcelInformation.receiver?.phone == null ||
-      parcelInformation.receiver?.phone === ''
-    )
-      return 'Not provided';
-    else return parcelInformation.receiver?.phone;
-  }
 
   const onSubmit = (data) => {
     console.log(data);
@@ -66,36 +62,34 @@ function UpdateParcelStatus() {
         </Text>
       </div>
       <div className="row bg-gray_100 p-3.5 rounded-[20px] w-full parcel">
-        <ParcelInformation parcelInformation={parcelInformation} />
-        <ParcelStatusTable parcelInformation={parcelInformation} />
-        <div className="inline-block h-80 w-0.5 self-stretch bg-indigo_600 mr-5"></div>
+        <div
+          className="parcelRowElement"
+          style={{ verticalAlign: 'top' }}
+        >
+          <div className="parcelIcon parcelRowElement">
+            <Img
+              src="images/img_mail_indigo_600.svg "
+              className="w-[30px] bg-clip-padding p-1"
+              alt="mail"
+            />
+          </div>
+        </div>
+        <div
+          className="parcelRowElement w-1/6"
+          style={{ verticalAlign: 'top' }}
+        >
+          <ParcelInformation parcelInformation={parcelInformation} />
+        </div>
+        <div
+          className="parcelRowElement w-2/6"
+          style={{ verticalAlign: 'top' }}
+        >
+          <ParcelStatusTable parcelInformation={parcelInformation} />
+        </div>
+        <div className="inline-block h-80 w-0.5 self-stretch bg-indigo_600 mr-5 ml-3"></div>
         <div className="parcelRowElement w-1/5">
-          <div className="">
-            <Text style={{ whiteSpace: 'nowrap' }}>Receiver</Text>
-            <Text
-              className="font-normal not-italic text-bluegray_400 text-left w-auto row mt-4"
-              as="h5"
-              variant="h5"
-            >
-              {parcelInformation.receiver?.name}
-            </Text>
-            <div className="mt-4">
-              <Text style={{ whiteSpace: 'nowrap' }}>Receiver Information</Text>
-              <Text
-                className="font-normal not-italic text-bluegray_400 text-left w-auto row mt-4"
-                as="h5"
-                variant="h5"
-              >
-                Phone number: {getPhone()}
-              </Text>
-              <Text
-                className="font-normal not-italic text-bluegray_400 text-left w-auto row mt-4"
-                as="h5"
-                variant="h5"
-              >
-                Email: {parcelInformation.receiver?.email}
-              </Text>
-            </div>
+          <div>
+            <ReceiverInformation parcelInformation={parcelInformation} />
             <div
               style={{ marginTop: '1%' }}
               className="w-[100%]"
