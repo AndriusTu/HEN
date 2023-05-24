@@ -2,7 +2,7 @@ using Hen.DAL.Enums;
 
 namespace Hen.BLL.Services.SizeService
 {
-    public class SizeServiceDecorator
+    public class SizeServiceDecorator : ISizeService
     {
         private readonly ISizeService _sizeService;
 
