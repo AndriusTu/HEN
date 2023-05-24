@@ -1,4 +1,4 @@
 export interface StatusUpdateModel {
-    locationId: string;
-    status: string;
+  locationId: string;
+  status: string;
 }

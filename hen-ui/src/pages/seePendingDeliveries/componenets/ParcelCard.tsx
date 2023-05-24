@@ -2,8 +2,7 @@ import React from 'react';
 import { Button, Img, Text } from '../../../components';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../../routes';
-import {Parcel} from "../../../models/GetParcelModel";
-
+import { Parcel } from '../../../models/GetParcelModel';
 
 function ParcelCard(this: any, props: Parcel) {
   const parcel = props;
