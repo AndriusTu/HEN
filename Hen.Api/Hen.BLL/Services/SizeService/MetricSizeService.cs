@@ -3,7 +3,7 @@ using Hen.DAL.Enums;
 
 namespace Hen.BLL.Services.SizeService
 {
-    public class SizeService : ISizeService
+    public class MetricSizeService : ISizeService
     {
         public ParcelSize CalculateParcelSize(float length, float width, float height)
         {

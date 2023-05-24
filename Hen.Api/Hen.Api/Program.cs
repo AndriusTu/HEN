@@ -81,7 +81,7 @@ var builder = WebApplication.CreateBuilder(args);
         return new CallerAccessor(principal.Claims.ToList());
     });
 
-    services.AddScoped<ISizeService, SizeService>();
+    services.AddScoped<ISizeService, MetricSizeService>();
     services.AddScoped<IParcelService, ParcelService>();
     services.AddScoped<IDeliveryOptionsService, DeliveryOptionsService>();
     services.AddScoped<IAuthService, AuthService>();
