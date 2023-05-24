@@ -1,9 +1,11 @@
 import React from 'react';
 import { Img, Text, Input, Button } from '../../components';
 import { useForm } from 'react-hook-form';
-import { Parcel } from '../../models/ParcelModel';
+import { Parcel } from '../../models/GetParcelModel';
 import { getParcelById } from '../../services/api/parcelService';
-import UpdateParcelStatus from '../updateParcelStatus/updateParcelStatus';
+import ParcelInformation from '../updateParcelStatus/components/ParcelInformation';
+import ParcelStatusTable from '../updateParcelStatus/components/ParcelStatusTable';
+import ReceiverInformation from '../updateParcelStatus/components/ReceiverInformation';
 
 function GetParcelByIdPage() {
   const [parcel, setParcel] = React.useState<Parcel | null>(null);
@@ -48,7 +50,7 @@ function GetParcelByIdPage() {
               prefix={
                 <Img
                   src="images/img_search.svg"
-                  className="mt-auto mb-px cursor-pointer mr-[15px]"
+                  className="mt-auto mb-px mr-[15px]"
                   alt="search"
                 />
               }
@@ -71,7 +73,32 @@ function GetParcelByIdPage() {
         </form>
       </div>
       {parcel ? (
-        <UpdateParcelStatus />
+        <div className="row bg-gray_100 p-3.5 rounded-[20px] w-full parcel">
+          <div className="flex flex-row w-full mt-3">
+            <div
+              className="parcelRowElement w-1/12"
+              style={{ verticalAlign: 'top' }}
+            >
+              <div className="parcelIcon parcelRowElement">
+                <Img
+                  src="images/img_mail_indigo_600.svg "
+                  className="w-[30px] bg-clip-padding p-1"
+                  alt="mail"
+                />
+              </div>
+            </div>
+            <div className="w-2/12">
+              <ParcelInformation parcelInformation={parcel} />
+            </div>
+            <div className="w-6/12">
+              <ParcelStatusTable parcelInformation={parcel} />
+            </div>
+            <div className="inline-block h-80 w-0.5 self-stretch bg-indigo_600 mr-5 ml-3"></div>
+            <div className="w-4/12">
+              <ReceiverInformation parcelInformation={parcel} />
+            </div>
+          </div>
+        </div>
       ) : isNotFound ? (
         <div className="flex flex-col items-center mt-20">
           <Img

@@ -27,6 +27,10 @@ function App() {
           element={<GetParcelByIdPage />}
         />
         <Route
+          path={ROUTES.GET_PARCEL}
+          element={<GetParcelByIdPage />}
+        />
+        <Route
           path={ROUTES.PARCELS}
           element={
             <Protected isLoggedIn={authService.isLoggedIn()}>

@@ -23,4 +23,4 @@ export const getParcelLocations = async (id: number) => {
 export const updateParcelStatus = async (id: number, data: any) => {
   const response = await api.put(`/parcels/${id}/status`, data);
   return response.data;
-}
+};
