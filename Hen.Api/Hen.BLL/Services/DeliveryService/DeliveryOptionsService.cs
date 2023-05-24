@@ -12,6 +12,7 @@ public class DeliveryOptionsService : IDeliveryOptionsService
         {
             deliveryOptions.Add(new DeliveryOptionEntity
             {
+                Id = Guid.NewGuid(),
                 DeliveryType = deliveryType,
                 Cost = GetCost(size, distance, deliveryType),
                 ETA = DateOnly.FromDateTime(DateTime.Now.AddDays(1))

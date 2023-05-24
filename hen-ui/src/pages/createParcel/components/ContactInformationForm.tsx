@@ -22,10 +22,10 @@ function ContactInformationForm(props: ContactInformationFormProps) {
         <Input
           wrapClassName="w-full"
           className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
-          name="group195"
           shape="RoundedBorder15"
           size="sm"
           variant="OutlineGray300"
+          type="text"
           errors={errors}
           {...register('name', { required: 'Required' })}
         ></Input>
@@ -42,10 +42,10 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           <Input
             wrapClassName="w-full"
             className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
-            name="group195"
             shape="RoundedBorder15"
             size="sm"
             variant="OutlineGray300"
+            type="text"
             disabled
             {...register('country')}
           ></Input>
@@ -61,10 +61,10 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           <Input
             wrapClassName="w-full"
             className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
-            name="zipcode"
             shape="RoundedBorder15"
             size="sm"
             variant="OutlineGray300"
+            type="text"
             disabled
             {...register('postalCode')}
           ></Input>
@@ -82,7 +82,6 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           wrapClassName="w-full"
           className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
           type="tel"
-          name="group195_Three"
           shape="RoundedBorder15"
           size="sm"
           variant="OutlineGray300"
@@ -102,10 +101,10 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           <Input
             wrapClassName="w-full"
             className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
-            name="group195_One"
             shape="RoundedBorder15"
             size="sm"
             variant="OutlineGray300"
+            type="text"
             errors={errors}
             {...register('city', { required: 'Required' })}
           ></Input>
@@ -121,10 +120,10 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           <Input
             wrapClassName="w-full"
             className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
-            name="group195_One"
             shape="RoundedBorder15"
             size="sm"
             variant="OutlineGray300"
+            type="text"
             errors={errors}
             {...register('street', { required: 'Required' })}
           ></Input>
@@ -142,7 +141,6 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           wrapClassName="w-full"
           className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
           type="email"
-          name="group195_Three"
           shape="RoundedBorder15"
           size="sm"
           variant="OutlineGray300"
@@ -161,10 +159,10 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           </Text>
           <Input
             className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
-            name="group195_Two"
             shape="RoundedBorder15"
             size="sm"
             variant="OutlineGray300"
+            type="number"
             errors={errors}
             {...register('houseNumber', { required: 'Required' })}
           ></Input>
@@ -179,12 +177,12 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           </Text>
           <Input
             className="font-normal leading-[normal] not-italic p-0 placeholder:text-bluegray_900 text-[15px] text-bluegray_900 text-left w-full"
-            name="group195_Two"
             shape="RoundedBorder15"
             size="sm"
             variant="OutlineGray300"
+            type="number"
             errors={errors}
-            {...register('apartmentNumber')}
+            {...register('flatNumber')}
           ></Input>
         </div>
       </div>

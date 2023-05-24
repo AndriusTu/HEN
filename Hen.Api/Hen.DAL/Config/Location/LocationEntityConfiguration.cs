@@ -12,9 +12,6 @@ namespace Hen.DAL.Config.Location
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Type).HasColumnType("nvarchar(32)").IsRequired();
 
-            builder.HasOne(x => x.User).WithOne().HasForeignKey<LocationEntity>(x => x.UserId);
-            builder.Property(x => x.UserId).HasColumnType("integer");
-
             builder.Property(x => x.Country).HasColumnType("nvarchar(32)");
             builder.Property(x => x.City).HasColumnType("nvarchar(32)");
             builder.Property(x => x.Street).HasColumnType("nvarchar(32)");

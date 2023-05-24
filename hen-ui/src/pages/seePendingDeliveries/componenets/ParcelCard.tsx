@@ -1,26 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Img, Text } from '../../../components';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../../../routes';
-import UpdateParcelStatus from '../../updateParcelStatus/updateParcelStatus';
+import {Parcel} from "../../../models/GetParcelModel";
 
-export interface PendingParcelProps {
-  id: number;
-  status: string;
-  location: string;
-  eta: string;
-  onClick?: () => void;
-}
 
-function ParcelCard(this: any, props: PendingParcelProps) {
-  const [value, setValue] = useState(0);
-  const { id, status, location, eta } = props;
-
+function ParcelCard(this: any, props: Parcel) {
+  const parcel = props;
   const navigate = useNavigate();
   const navigateToParcelStatusUpdate = () => {
-    //nors funkcja vadinasi Status update, ten taip pat yra detalių puslapis
-    navigate(ROUTES.PARCEL_STATUS_UPDATE, { state: { id: id } }); //
+    navigate(ROUTES.PARCEL_STATUS_UPDATE, { state: { id: parcel.id } }); //
   };
+  const parcelStatus = parcel.parcelStatus.pop();
 
   return (
     <div className="">
@@ -41,7 +32,7 @@ function ParcelCard(this: any, props: PendingParcelProps) {
             as="h5"
             variant="h5"
           >
-            {id}
+            {parcel.id}
           </Text>
         </div>
 
@@ -52,7 +43,7 @@ function ParcelCard(this: any, props: PendingParcelProps) {
             as="h5"
             variant="h5"
           >
-            {status}
+            {parcelStatus?.status}
           </Text>
         </div>
         <div className="parcelRowElement ">
@@ -62,7 +53,7 @@ function ParcelCard(this: any, props: PendingParcelProps) {
             as="h5"
             variant="h5"
           >
-            {location}
+            {parcelStatus?.location.type}
           </Text>
         </div>
         <div className="parcelRowElement ">
@@ -72,7 +63,7 @@ function ParcelCard(this: any, props: PendingParcelProps) {
             as="h5"
             variant="h5"
           >
-            {eta}
+            {parcel.eta.toString().slice(0, 10)}
           </Text>
         </div>
         <div className="parcelRowElement">
@@ -81,8 +72,7 @@ function ParcelCard(this: any, props: PendingParcelProps) {
             shape="RoundedBorder25"
             size="sm"
             variant="OutlineIndigo500"
-            value={props.id}
-            onClick={navigateToParcelStatusUpdate} //kol kas nera onClick>
+            onClick={navigateToParcelStatusUpdate}
           >
             View Details
           </Button>

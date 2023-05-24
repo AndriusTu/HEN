@@ -1,5 +1,6 @@
-import { User } from './UserModel';
-import {FullAddress} from "./DeliveryModel";
+import { CreateUser, User } from './UserModel';
+import { Dimensions } from './DeliveryModel';
+import { FullAddress } from './AddressModel';
 
 export interface Parcel {
   id: number;
@@ -15,4 +16,15 @@ export interface ParcelStatus {
   id: number;
   status: string;
   address: FullAddress;
+  deliveryType: string;
+  eta: string;
+}
+
+export interface CreateParcelModel {
+  sender: CreateUser;
+  receiver: CreateUser;
+  dimensions: Dimensions;
+  type: string;
+  description?: string;
+  eta: string;
 }

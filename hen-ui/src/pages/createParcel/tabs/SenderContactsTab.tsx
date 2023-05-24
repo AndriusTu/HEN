@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Text } from '../../../components';
+import { Button, Input, Text } from '../../../components';
 import ContactInformationForm from '../components/ContactInformationForm';
 import { ArrowSVG } from '../../../assets/images/arrow';
 import { useForm } from 'react-hook-form';
 import { useFormData } from '../context/CreateParcelFormContext';
+import { LocationType } from '../../../models/AddressModel';
 
 interface SenderContactsTabProps {
   previousFormStep: () => void;
@@ -33,12 +34,13 @@ function SenderContactsTab(props: SenderContactsTabProps) {
         phone: data.phone,
       },
       senderFullAddress: {
+        type: LocationType.ADDRESS,
         country: data.country,
         postalCode: data.postalCode,
         city: data.city,
         street: data.street,
         houseNumber: data.houseNumber,
-        apartmentNumber: data.apartmentNumber,
+        flatNumber: data.apartmentNumber,
       },
     });
     nextFormStep();

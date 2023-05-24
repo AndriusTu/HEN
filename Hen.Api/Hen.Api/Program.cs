@@ -4,6 +4,8 @@ using Hen.BLL.Interfaces;
 using Hen.BLL.Services.AuthService;
 using Hen.BLL.Services.ParcelService;
 using Hen.BLL.Services.DeliveryService;
+using Hen.BLL.Services.SizeService;
+using Hen.BLL.Services.MailService;
 using Hen.DAL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
-
+using Hen.BLL.Services.AccountService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,9 +81,12 @@ var builder = WebApplication.CreateBuilder(args);
         return new CallerAccessor(principal.Claims.ToList());
     });
 
+    services.AddScoped<ISizeService, SizeService>();
     services.AddScoped<IParcelService, ParcelService>();
     services.AddScoped<IDeliveryOptionsService, DeliveryOptionsService>();
     services.AddScoped<IAuthService, AuthService>();
+    services.AddSingleton<IMailService, MailService>();
+    services.AddScoped<IAccountService, AccountService>();
 
 }
 

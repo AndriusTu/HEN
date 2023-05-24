@@ -3,7 +3,7 @@ import { Img, Text, Input, Button } from '../../components';
 import { useForm } from 'react-hook-form';
 import { Parcel } from '../../models/ParcelModel';
 import { getParcelById } from '../../services/api/parcelService';
-import UpdateParcelStatus from "../updateParcelStatus/updateParcelStatus";
+import UpdateParcelStatus from '../updateParcelStatus/updateParcelStatus';
 
 function GetParcelByIdPage() {
   const [parcel, setParcel] = React.useState<Parcel | null>(null);
@@ -71,7 +71,7 @@ function GetParcelByIdPage() {
         </form>
       </div>
       {parcel ? (
-        <UpdateParcelStatus/>
+        <UpdateParcelStatus />
       ) : isNotFound ? (
         <div className="flex flex-col items-center mt-20">
           <Img
