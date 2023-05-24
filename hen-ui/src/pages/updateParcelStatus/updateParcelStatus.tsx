@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Button, Img, Text } from '../../components';
+import {Button, Img, Text} from '../../components';
 import { useLocation } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import statusOptions from "./data/statusOptions";
@@ -43,9 +43,7 @@ function UpdateParcelStatus() {
   }
   return (
     <div className="w-full">
-      <div>
-        <div
-          style={{ marginTop: '1%' }}
+        <div className="mt-5 mb-5 ml-5"
         >
           <Text
             className="text-indigo_600 w-auto text-left "
@@ -55,7 +53,6 @@ function UpdateParcelStatus() {
             Update Parcel Status
           </Text>
         </div>
-      </div>
       <div className="row bg-gray_100 p-3.5 rounded-[20px] w-full parcel">
         <div
           className="parcelRowElement"
@@ -71,7 +68,7 @@ function UpdateParcelStatus() {
         </div>
 
         <div
-          className="parcelRowElement w-[20%]"
+          className="parcelRowElement w-1/6"
           style={{ verticalAlign: 'top' }}
         >
           <div style={{ verticalAlign: 'top' }}>
@@ -98,28 +95,26 @@ function UpdateParcelStatus() {
           className="parcelRowElement mb-3"
           style={{ verticalAlign: 'top' }}
         >
-          <div className="flex flex-row ">
-            <div className="basis-1/3 md:basis-1/3">
-              <Text style={{ whiteSpace: 'nowrap' }}>Status</Text>
+          <div className="flex flex-row gap-5">
+            <div className="w-1/3">
+              <Text>Status</Text>
             </div>
-            <div className="basis-1/3 md:basis-1/3">
-              <Text style={{ whiteSpace: 'nowrap' }}>Parcel location</Text>
+            <div className="w-1/3">
+              <Text>Location</Text>
             </div>
-            <div className="basis-1/3 md:basis-1/3 pl-5">
-              <Text style={{ whiteSpace: 'nowrap' }}>Date</Text>
+            <div className="w-1/3">
+              <Text>Date</Text>
             </div>
           </div>
           {parcelInformation.parcelStatus?.map((status_info, index) => (
             <div
               key={index}
-              className="flex flex-row mt-4"
-              style={{ paddingTop: '0' }}
+              className="flex flex-row mt-4 gap-5"
             >
 
-              <div className="basis-1/3 md:basis-1/3">
+              <div className="w-1/3">
                 <Text
-                  style={{ whiteSpace: 'nowrap' }}
-                  className="font-normal not-italic text-bluegray_400 text-left w-auto mr-2"
+                  className="font-normal not-italic text-bluegray_400 text-left w-auto"
                   as="h5"
                   variant="h5"
                 >
@@ -127,12 +122,10 @@ function UpdateParcelStatus() {
                 </Text>
               </div>
               <div
-                className="basis-1/3 md:basis-1/3"
-                style={{ paddingTop: '0' }}
+                className="w-1/3"
               >
                 <Text
-                  style={{ whiteSpace: 'nowrap' }}
-                  className="font-normal not-italic text-bluegray_400 text-left w-auto mr-2"
+                  className="font-normal not-italic text-bluegray_400 text-left w-auto"
                   as="h5"
                   variant="h5"
                 >
@@ -140,8 +133,7 @@ function UpdateParcelStatus() {
                 </Text>
               </div>
               <div
-                className="basis-1/3 md:basis-1/3 pl-5"
-                style={{ paddingTop: '0' }}
+                className="w-1/3"
               >
                 <Text
                   style={{ whiteSpace: 'nowrap' }}
@@ -156,7 +148,8 @@ function UpdateParcelStatus() {
 
           ))}
         </div>
-        <div className="parcelRowElement w-[12%] mr-[5%]">
+        <div className="inline-block h-80 w-0.5 self-stretch bg-indigo_600 mr-5"></div>
+        <div className="parcelRowElement w-1/5">
           <div className="">
             <Text style={{ whiteSpace: 'nowrap' }}>Receiver</Text>
             <Text
