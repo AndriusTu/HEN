@@ -1,6 +1,6 @@
 import React from 'react';
-import { Img, Text, Input, Button } from '../../components';
 import { useForm } from 'react-hook-form';
+import { Button, Img, Input, Text } from '../../components';
 import { Parcel } from '../../models/GetParcelModel';
 import { getParcelById } from '../../services/api/parcelService';
 import ParcelInformation from '../updateParcelStatus/components/ParcelInformation';
@@ -17,13 +17,12 @@ function GetParcelByIdPage() {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log(data);
     getParcelById(data.id)
       .then((parcel) => {
+        console.log(parcel);
         setParcel(parcel);
       })
       .catch((error) => {
-        console.log(error);
         setIsNotFound(true);
         setParcel(null);
       });

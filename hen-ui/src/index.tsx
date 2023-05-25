@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
-import './styles/tailwind.css';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 import './styles/color.css';
 import './styles/font.css';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import './styles/index.css';
+import './styles/tailwind.css';
 
 ReactDOM.render(
   <BrowserRouter>

@@ -1,14 +1,14 @@
 import { Line } from 'components';
 import React, { useState } from 'react';
+import { DeliveryInfo } from '../../models/DeliveryModel';
+import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
+import { convertCmToM } from '../../utils/measureUnitUtils';
 import Tab from './components/Tab';
+import FormProvider from './context/CreateParcelFormContext';
 import DeliveryInformationTab from './tabs/DeliveryInformationTab';
 import DeliveryMethodsTab from './tabs/DeliveryMethodsTab';
-import SenderContactsTab from './tabs/SenderContactsTab';
 import ReceiverContactsTab from './tabs/ReceiverContactsTab';
-import FormProvider from './context/CreateParcelFormContext';
-import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
-import { DeliveryInfo } from '../../models/DeliveryModel';
-import { convertCmToM } from '../../utils/measureUnitUtils';
+import SenderContactsTab from './tabs/SenderContactsTab';
 
 const tabs = [
   {
@@ -41,7 +41,7 @@ function CreateParcelPage() {
       requestData.dimensions[key] = convertCmToM(requestData.dimensions[key]);
     }
     let responseData = await getDeliveryOptions(requestData);
-    console.log(responseData);
+
     return responseData;
   };
 

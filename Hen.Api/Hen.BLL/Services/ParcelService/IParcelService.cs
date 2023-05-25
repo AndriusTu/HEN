@@ -4,7 +4,7 @@ using Hen.DAL.Enums;
 namespace Hen.BLL.Services.ParcelService;
 public interface IParcelService
 {
-    IEnumerable<ParcelEntity> GetAll(Guid? courierId);
+    IEnumerable<ParcelEntity> GetAll(Guid courierId);
     ParcelEntity GetById(Guid id);
     IEnumerable<LocationEntity> GetPossibleLocations(Guid parcelId);
     ParcelEntity Create(ParcelEntity request, ParcelSize size);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import ParcelCard from './componenets/ParcelCard';
 import { Parcel } from '../../models/GetParcelModel';
 import { getParcels } from '../../services/api/parcelService';
+import ParcelCard from './componenets/ParcelCard';
 
 function SeePendingDeliveries() {
   const [ParcelList, setParcelList] = useState([] as Parcel[]);
@@ -14,14 +14,16 @@ function SeePendingDeliveries() {
   return (
     <div className="w-full">
       <div className="display-block">
-        {ParcelList.map((parcelInformation, index) => (
-          <div>
-            <ParcelCard
-              key={index}
-              {...parcelInformation}
-            />
-          </div>
-        ))}
+        {ParcelList.length > 0 &&
+          ParcelList.map((parcelInformation, index) => (
+            <div>
+              <ParcelCard
+                key={index}
+                {...parcelInformation}
+              />
+            </div>
+          ))}
+        {ParcelList.length === 0 && <div>No parcels found</div>}
       </div>
     </div>
   );
