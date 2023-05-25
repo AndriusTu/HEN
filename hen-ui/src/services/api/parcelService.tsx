@@ -1,5 +1,5 @@
-import api from './api';
 import { CreateParcelModel } from '../../models/ParcelModel';
+import api from './api';
 
 export const getParcels = async () => {
   const response = await api.get('/parcels');
@@ -24,30 +24,3 @@ export const updateParcelStatus = async (id: number, data: any) => {
   const response = await api.put(`/parcels/${id}/status`, data);
   return response;
 };
-
-export function updateParcelStatusModal(id, transferObject, setHasError, setTransferObject, parcelLocation, parcelStatus) {
-  updateParcelStatus(id, transferObject).then((responseData) => {
-    setTransferObject({
-      locationId: parcelLocation,
-      status: parcelStatus,
-    })
-    switch (responseData.status){
-      case 200:
-        setHasError(false);
-        break;
-      case 409:
-        setTransferObject({
-          locationId: parcelLocation,
-          status: "`409",
-        })
-        setHasError(true);
-        break;
-      default:
-        setTransferObject({
-          locationId: '',
-          status: "unhandled error"
-        })
-        setHasError(true);
-    }
-  });
-}

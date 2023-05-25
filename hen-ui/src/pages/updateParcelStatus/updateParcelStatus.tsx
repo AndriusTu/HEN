@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Img, Text } from '../../components';
-import {useLocation} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import statusOptions from './data/statusOptions';
-import { getLocationOptions } from './data/statusOptions';
+import { useLocation } from 'react-router-dom';
 import Select from 'react-select';
-import {
-  getParcelById,
-  getParcelLocations, updateParcelStatusModal,
-} from '../../services/api/parcelService';
+import { Button, Img, Text } from '../../components';
 import { Parcel, ParcelLocation } from '../../models/GetParcelModel';
 import { StatusUpdateModel } from '../../models/StatusUpdateModel';
-import ParcelStatusTable from './components/ParcelStatusTable';
+import {
+  getParcelById,
+  getParcelLocations,
+  updateParcelStatus,
+} from '../../services/api/parcelService';
+import ExceptionModal from './components/ExceptionModal';
 import ParcelInformation from './components/ParcelInformation';
+import ParcelStatusTable from './components/ParcelStatusTable';
 import ReceiverInformation from './components/ReceiverInformation';
-import ExceptionModal from "./components/ExceptionModal";
+import statusOptions, { getLocationOptions } from './data/statusOptions';
 
 function UpdateParcelStatus() {
   const { state } = useLocation();
@@ -27,35 +27,41 @@ function UpdateParcelStatus() {
   const [hasError, setHasError] = useState(false);
   const [reload, setReload] = useState(false);
 
-    useEffect(() => {
-      getParcelLocations(state.id).then((responseData) => {
-        setParcelLocationList(responseData);
-      });
-      getParcelById(state.id).then((responseData) => {
-        setParcelInformation(responseData);
-      });
-    }, [state.id, ParcelLocationList, reload]);
+  useEffect(() => {
+    getParcelLocations(state.id).then((responseData) => {
+      setParcelLocationList(responseData);
+    });
+    getParcelById(state.id).then((responseData) => {
+      setParcelInformation(responseData);
+    });
+  }, [state.id, reload]);
 
-
-  const {
-    handleSubmit,
-  } = useForm();
+  const { handleSubmit } = useForm();
   const [transferObject, setTransferObject] = useState({} as StatusUpdateModel);
 
   const onSubmit = (data) => {
     const transferObject = {
       locationId: parcelLocation,
       status: parcelStatus,
+      version: parcelInformation.version,
     } as StatusUpdateModel;
-    setReload(!reload)
-    // setTransferObject(transferObject)
-    updateParcelStatusModal(state.id, transferObject, setHasError, setTransferObject, parcelLocation, parcelStatus);
+
+    updateParcelStatus(state.id, transferObject)
+      .then(() => {
+        setReload(!reload);
+      })
+      .catch((error) => {
+        if (error.response.status === 409) {
+          console.log(error.response.data.version); // If you want to override the object, pass this version to transfer object
+          setHasError(true);
+        }
+        // Probably ignore other errors as we are not handling them anywhere else
+      });
   };
 
   return (
     <div className="w-full">
-      <div className="mt-5 mb-5 ml-5">
-      </div>
+      <div className="mt-5 mb-5 ml-5"></div>
       <div className="row bg-gray_100 p-3.5 rounded-[20px] w-full parcel">
         <div
           className="parcelRowElement"
@@ -69,7 +75,13 @@ function UpdateParcelStatus() {
             />
           </div>
         </div>
-        <ExceptionModal className="align-middle" key={hasError} hasError={hasError} transferObject={transferObject} id={state.id} />
+        <ExceptionModal
+          className="align-middle"
+          key={hasError}
+          hasError={hasError}
+          transferObject={transferObject}
+          id={state.id}
+        />
         <div
           className="parcelRowElement w-1/6"
           style={{ verticalAlign: 'top' }}
@@ -141,4 +153,3 @@ function UpdateParcelStatus() {
 }
 
 export default UpdateParcelStatus;
-

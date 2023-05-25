@@ -59,7 +59,7 @@ namespace Api.Controllers
         [HttpPut("{id:Guid}/status")]
         public ParcelModel UpdateStatus(Guid id, StatusUpdateModel statusModel)
         {
-            var parcel = _parcelService.UpdateStatus(id, statusModel.Status, statusModel.LocationId);
+            var parcel = _parcelService.UpdateStatus(id, statusModel.Status, statusModel.LocationId, statusModel.Version);
 
             return Mapper.Map<ParcelModel>(parcel);
         }
