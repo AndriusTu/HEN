@@ -32,7 +32,7 @@ public class ErrorHandlerMiddleware
             response.StatusCode = (int)HttpStatusCode.Conflict;
             var version = error.Entries.FirstOrDefault()?.Entity.GetType().GetProperty("Version").GetValue(error.Entries.FirstOrDefault()?.Entity);
 
-            var result = JsonSerializer.Serialize(new { message = error.Message, version });
+            var result = JsonSerializer.Serialize(new { message = "Update failed due to concurrency (Optimistic lock)", version = version });
             await response.WriteAsync(result);
 
         }
