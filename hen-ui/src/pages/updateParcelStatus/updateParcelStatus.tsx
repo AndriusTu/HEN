@@ -1,65 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Img, Text } from '../../components';
-import { useLocation } from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import statusOptions from './data/statusOptions';
 import { getLocationOptions } from './data/statusOptions';
 import Select from 'react-select';
 import {
   getParcelById,
-  getParcelLocations,
-  updateParcelStatus,
+  getParcelLocations, updateParcelStatusModal,
 } from '../../services/api/parcelService';
 import { Parcel, ParcelLocation } from '../../models/GetParcelModel';
 import { StatusUpdateModel } from '../../models/StatusUpdateModel';
 import ParcelStatusTable from './components/ParcelStatusTable';
 import ParcelInformation from './components/ParcelInformation';
 import ReceiverInformation from './components/ReceiverInformation';
+import ExceptionModal from "./components/ExceptionModal";
 
 function UpdateParcelStatus() {
   const { state } = useLocation();
-  const [ParcelLocationList, setParcelLocationList] = useState(
-    [] as ParcelLocation[],
-  );
-
-  useEffect(() => {
-    getParcelLocations(state.id).then((responseData) => {
-      setParcelLocationList(responseData);
-    });
-    getParcelById(state.id).then((responseData) => {
-      setParcelInformation(responseData);
-    });
-  }, [state.id]);
-
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
   const [parcelStatus, setParcelStatus] = useState('');
   const [parcelLocation, setParcelLocation] = useState('');
   const [parcelInformation, setParcelInformation] = useState({} as Parcel);
+  const [ParcelLocationList, setParcelLocationList] = useState(
+    [] as ParcelLocation[],
+  );
+  const [hasError, setHasError] = useState(false);
+  const [reload, setReload] = useState(false);
+
+    useEffect(() => {
+      getParcelLocations(state.id).then((responseData) => {
+        setParcelLocationList(responseData);
+      });
+      getParcelById(state.id).then((responseData) => {
+        setParcelInformation(responseData);
+      });
+    }, [state.id, ParcelLocationList, reload]);
+
+
+  const {
+    handleSubmit,
+  } = useForm();
+  const [transferObject, setTransferObject] = useState({} as StatusUpdateModel);
 
   const onSubmit = (data) => {
-    console.log(data);
     const transferObject = {
       locationId: parcelLocation,
       status: parcelStatus,
     } as StatusUpdateModel;
-    updateParcelStatus(state.id, transferObject).then((responseData) => {
-      console.log(responseData);
-    });
+    setReload(!reload)
+    // setTransferObject(transferObject)
+    updateParcelStatusModal(state.id, transferObject, setHasError, setTransferObject, parcelLocation, parcelStatus);
   };
+
   return (
     <div className="w-full">
       <div className="mt-5 mb-5 ml-5">
-        <Text
-          className="text-indigo_600 w-auto text-left "
-          as="h2"
-          variant="h2"
-        >
-          Update Parcel Status
-        </Text>
       </div>
       <div className="row bg-gray_100 p-3.5 rounded-[20px] w-full parcel">
         <div
@@ -74,6 +69,7 @@ function UpdateParcelStatus() {
             />
           </div>
         </div>
+        <ExceptionModal className="align-middle" key={hasError} hasError={hasError} transferObject={transferObject} id={state.id} />
         <div
           className="parcelRowElement w-1/6"
           style={{ verticalAlign: 'top' }}
@@ -103,7 +99,7 @@ function UpdateParcelStatus() {
               </Text>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-row mt-4 max-w-fit">
-                  <div className="basis-1/2 md:basis-1/3 mr-5">
+                  <div className="basis-1/2 md:basis-1/3 mr-5 bg-gray_100">
                     <Select
                       className="text-ellipsis w-[150px]"
                       options={statusOptions}
@@ -114,7 +110,7 @@ function UpdateParcelStatus() {
                       }}
                     />
                   </div>
-                  <div className="basis-1/2 md:basis-1/3 w-[225px]">
+                  <div className="basis-1/2 md:basis-1/3 w-[225px] bg-gray_100">
                     <Select
                       className="text-ellipsis"
                       options={getLocationOptions(ParcelLocationList)}
@@ -132,7 +128,6 @@ function UpdateParcelStatus() {
                   size="md"
                   variant="FillIndigo600"
                   type="submit"
-                  // disabled={!isValid}
                 >
                   Update
                 </Button>
@@ -146,3 +141,4 @@ function UpdateParcelStatus() {
 }
 
 export default UpdateParcelStatus;
+

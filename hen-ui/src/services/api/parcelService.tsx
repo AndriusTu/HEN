@@ -22,5 +22,32 @@ export const getParcelLocations = async (id: number) => {
 
 export const updateParcelStatus = async (id: number, data: any) => {
   const response = await api.put(`/parcels/${id}/status`, data);
-  return response.data;
+  return response;
 };
+
+export function updateParcelStatusModal(id, transferObject, setHasError, setTransferObject, parcelLocation, parcelStatus) {
+  updateParcelStatus(id, transferObject).then((responseData) => {
+    setTransferObject({
+      locationId: parcelLocation,
+      status: parcelStatus,
+    })
+    switch (responseData.status){
+      case 200:
+        setHasError(false);
+        break;
+      case 409:
+        setTransferObject({
+          locationId: parcelLocation,
+          status: "`409",
+        })
+        setHasError(true);
+        break;
+      default:
+        setHasError(true);
+        setTransferObject({
+          locationId: '',
+          status: "unhandled error"
+        })
+    }
+  });
+}
