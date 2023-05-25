@@ -43,11 +43,11 @@ export function updateParcelStatusModal(id, transferObject, setHasError, setTran
         setHasError(true);
         break;
       default:
-        setHasError(true);
         setTransferObject({
           locationId: '',
           status: "unhandled error"
         })
+        setHasError(true);
     }
   });
 }
