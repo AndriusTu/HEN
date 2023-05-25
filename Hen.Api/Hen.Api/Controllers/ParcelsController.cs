@@ -5,6 +5,8 @@ using Hen.BLL.Services.SizeService;
 using Hen.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Hen.DAL.Enums;
+using Hen.BLL.Attributes;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -22,13 +24,15 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ParcelModel> GetAll([FromQuery] Guid? courierId)
+        [RolesRequired(nameof(AccountRole.COURIER))]
+        public IEnumerable<ParcelModel> GetAll()
         {
-            var parcels = _parcelService.GetAll(courierId);
+            var parcels = _parcelService.GetAll(Caller.AccountId);
             return Mapper.Map<IEnumerable<ParcelModel>>(parcels);
         }
 
         [HttpGet("{id:Guid}")]
+        [AllowAnonymous]
         public ParcelModel GetById(Guid id)
         {
             var parcel = _parcelService.GetById(id);
@@ -43,6 +47,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ParcelModel Create(CreateParcelModel request)
         {
             var parcel = _parcelService.Create(
@@ -65,6 +70,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
+        [RolesRequired(nameof(AccountRole.ADMIN))]
         public void Delete(Guid id)
         {
             _parcelService.Delete(id);

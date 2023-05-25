@@ -10,27 +10,23 @@ namespace Hen.BLL.Services.ParcelService;
 public class ParcelService : IParcelService
 {
     private readonly DataContext _context;
-    private readonly ISizeService _sizeService;
     private readonly IMailService _mailService;
-    public ParcelService(DataContext context, ISizeService sizeService, IMailService mailService)
+    public ParcelService(DataContext context, IMailService mailService)
     {
         _context = context;
-        _sizeService = sizeService;
         _mailService = mailService;
     }
 
-    public IEnumerable<ParcelEntity> GetAll(Guid? courierId)
+    public IEnumerable<ParcelEntity> GetAll(Guid courierId)
     {
-        var parcels = _context.Parcels.AsQueryable();
-        if (courierId.HasValue)
-        {
-            parcels = parcels.Where(x => x.CourierId == courierId);
-        }
-        return parcels
+        var parcels = _context.Parcels
+            .Where(x => x.CourierId == courierId)
             .Include(x => x.DeliveryStatuses)
             .ThenInclude(x => x.Status)
             .ThenInclude(x => x.Location)
             .ToList();
+        return parcels;
+            
     }
 
     public ParcelEntity GetById(Guid id)
@@ -110,7 +106,7 @@ public class ParcelService : IParcelService
 
         try
         {
-            // Thread.Sleep(10000);
+            //Thread.Sleep(2000);
             _context.SaveChanges();
             _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
         } 

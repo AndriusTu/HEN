@@ -1,8 +1,8 @@
 import React from 'react';
-import { Img, Text, Button, Input } from '../../components';
 import { useForm } from 'react-hook-form';
-import { createCourier } from '../../services/api/accountService';
+import { Button, Img, Input, Text } from '../../components';
 import Modal from '../../components/Modal';
+import { createCourier } from '../../services/api/accountService';
 
 function CreateCourierPage() {
   const {
@@ -14,7 +14,6 @@ function CreateCourierPage() {
   const [showSuccessModal, setShowSuccessModal] = React.useState(false);
 
   const onSubmit = (data: any) => {
-    console.log(data);
     createCourier(data)
       .then((res) => {
         alert('Courier creation succeeded');

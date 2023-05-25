@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button, Img, Text } from '../../../components';
-import ContactInformationForm from '../components/ContactInformationForm';
-import { ArrowSVG } from '../../../assets/images/arrow';
 import { useForm } from 'react-hook-form';
-import { useFormData } from '../context/CreateParcelFormContext';
-import { createParcel } from '../../../services/api/parcelService';
-import { CreateParcelModel } from '../../../models/ParcelModel';
-import { convertCmToM } from '../../../utils/measureUnitUtils';
-import { DeliveryInfo, Dimensions } from '../../../models/DeliveryModel';
+import { ArrowSVG } from '../../../assets/images/arrow';
+import { Button, Img, Text } from '../../../components';
 import { LocationType } from '../../../models/AddressModel';
+import { Dimensions } from '../../../models/DeliveryModel';
+import { CreateParcelModel } from '../../../models/ParcelModel';
+import { createParcel } from '../../../services/api/parcelService';
+import { convertCmToM } from '../../../utils/measureUnitUtils';
+import ContactInformationForm from '../components/ContactInformationForm';
+import { useFormData } from '../context/CreateParcelFormContext';
 
 interface ReceiverContactsTabProps {
   previousFormStep: () => void;
@@ -61,7 +61,6 @@ function ReceiverContactsTab(props: ReceiverContactsTabProps) {
 
     createParcel(createParcelModel)
       .then((data) => {
-        console.log(data);
         setIsSuccess(true);
       })
       .catch((error) => {

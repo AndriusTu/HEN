@@ -1,8 +1,10 @@
 ﻿using Hen.Api.Controllers;
 using Hen.Api.Models;
+using Hen.BLL.Attributes;
 using Hen.BLL.Services.AccountService;
 using Hen.BLL.Services.ParcelService;
 using Hen.DAL.Entities;
+using Hen.DAL.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -18,11 +20,18 @@ namespace Api.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost("courier")] // TODO: Add role check
+        [HttpPost("courier")]
+        [RolesRequired(nameof(AccountRole.ADMIN))]
         public AccountModel CreateCourier(CreateCourierModel request)
         {
             var account = _accountService.CreateCourier(Mapper.Map<AccountEntity>(request));
             return Mapper.Map<AccountModel>(account);
         }
+        [HttpGet("role")] 
+        public string GetRole()
+        {
+            return Caller.Role;
+        }
+
     }
 }

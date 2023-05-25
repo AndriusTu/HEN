@@ -1,24 +1,37 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import ROUTES from '../routes';
+import { getUserRole } from '../services/api/accountService';
+import authService from '../services/api/authService';
 
 interface ProtectedProps {
-  isLoggedIn: boolean;
-  // userRoles?: string[];
-  // acceptedRoles?: string[];
+  acceptedRoles?: string[];
   children: JSX.Element;
 }
 
 const Protected = (props: ProtectedProps) => {
-  const { isLoggedIn } = props;
+  const { acceptedRoles, children } = props;
+  const isLoggedIn = authService.isLoggedIn();
+  const userRole = getUserRole();
 
   if (!isLoggedIn) {
     return (
       <Navigate
-        to="/login"
+        to={ROUTES.LOGIN}
         replace
       />
     );
   }
-  return props.children;
+
+  if (acceptedRoles && !acceptedRoles.includes(userRole)) {
+    return (
+      <Navigate
+        to={ROUTES.CREATE_PARCEL}
+        replace
+      />
+    );
+  }
+
+  return children;
 };
 export default Protected;

@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Img, Text } from '../../components';
-import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import statusOptions from './data/statusOptions';
-import { getLocationOptions } from './data/statusOptions';
+import { useLocation } from 'react-router-dom';
 import Select from 'react-select';
+import { Button, Img, Text } from '../../components';
+import { Parcel, ParcelLocation } from '../../models/GetParcelModel';
+import { StatusUpdateModel } from '../../models/StatusUpdateModel';
 import {
   getParcelById,
   getParcelLocations,
   updateParcelStatus,
 } from '../../services/api/parcelService';
-import { Parcel, ParcelLocation } from '../../models/GetParcelModel';
-import { StatusUpdateModel } from '../../models/StatusUpdateModel';
-import ParcelStatusTable from './components/ParcelStatusTable';
 import ParcelInformation from './components/ParcelInformation';
+import ParcelStatusTable from './components/ParcelStatusTable';
 import ReceiverInformation from './components/ReceiverInformation';
+import statusOptions, { getLocationOptions } from './data/statusOptions';
 
 function UpdateParcelStatus() {
   const { state } = useLocation();
@@ -41,14 +40,11 @@ function UpdateParcelStatus() {
   const [parcelInformation, setParcelInformation] = useState({} as Parcel);
 
   const onSubmit = (data) => {
-    console.log(data);
     const transferObject = {
       locationId: parcelLocation,
       status: parcelStatus,
     } as StatusUpdateModel;
-    updateParcelStatus(state.id, transferObject).then((responseData) => {
-      console.log(responseData);
-    });
+    updateParcelStatus(state.id, transferObject).then((responseData) => {});
   };
   return (
     <div className="w-full">
