@@ -8,7 +8,7 @@ public interface IParcelService
     ParcelEntity GetById(Guid id);
     IEnumerable<LocationEntity> GetPossibleLocations(Guid parcelId);
     ParcelEntity Create(ParcelEntity request, ParcelSize size);
-    ParcelEntity UpdateStatus(Guid id, DeliveryStatus status, Guid locationId);
+    ParcelEntity UpdateStatus(Guid id, DeliveryStatus status, Guid locationId, Guid Version);
     void Delete(Guid id);
 }
 

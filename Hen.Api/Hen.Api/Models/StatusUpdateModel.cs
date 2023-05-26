@@ -6,5 +6,6 @@ namespace Hen.Api.Models
     {
         public Guid LocationId { get; set; }
         public DeliveryStatus Status { get; set; }
+        public Guid Version { get; set; }
     }
 }

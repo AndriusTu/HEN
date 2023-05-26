@@ -4,6 +4,7 @@ using Hen.DAL;
 using Hen.DAL.Entities;
 using Hen.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 
 namespace Hen.BLL.Services.ParcelService;
 
@@ -84,11 +85,12 @@ public class ParcelService : IParcelService
         return GetParcel(parcel.Id);
     }
 
-    public ParcelEntity UpdateStatus(Guid id, DeliveryStatus status, Guid locationId)
+    public ParcelEntity UpdateStatus(Guid id, DeliveryStatus status, Guid locationId, Guid version)
     {
         var parcel = GetParcel(id);
         parcel.Version = Guid.NewGuid();
 
+        _context.Entry(parcel).Property(x => x.Version).OriginalValue = version;
         var location = _context.Locations.FirstOrDefault(x => x.Id == locationId);
 
         if (location == null)
@@ -108,16 +110,10 @@ public class ParcelService : IParcelService
 
         _context.ParcelStatusGroups.Add(parcelStatusGroup);
 
-        try
-        {
-            // Thread.Sleep(10000);
-            _context.SaveChanges();
-            _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
-        } 
-        catch (DbUpdateConcurrencyException e)
-        {
-            throw new DbUpdateConcurrencyException("Parcel status update failed", e);
-        }
+
+        _context.SaveChanges();
+        _mailService.SendStatusUpdate(parcel.Receiver.Email!, parcel.Receiver.Name!, parcel.Id, status);
+
 
         return parcel;
     }

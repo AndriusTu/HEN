@@ -1,5 +1,5 @@
-import { User } from './UserModel';
 import { Courier } from './CourierModel';
+import { User } from './UserModel';
 
 export interface Parcel {
   id: number;
@@ -11,6 +11,7 @@ export interface Parcel {
   description: string;
   eta: string;
   parcelStatus: ParcelStatus[];
+  version?: string;
 }
 
 export interface ParcelStatus {

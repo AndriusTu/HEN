@@ -2,6 +2,8 @@
 using Hen.BLL.Exceptions;
 using Hen.DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SendGrid;
 using System.Net;
 using System.Text.Json;
 
@@ -23,6 +25,17 @@ public class ErrorHandlerMiddleware
         {
             await _next(context);
         }
+        catch (DbUpdateConcurrencyException error)
+        {
+            var response = context.Response;
+            response.ContentType = "application/json";
+            response.StatusCode = (int)HttpStatusCode.Conflict;
+            var version = error.Entries.FirstOrDefault()?.Entity.GetType().GetProperty("Version").GetValue(error.Entries.FirstOrDefault()?.Entity);
+
+            var result = JsonSerializer.Serialize(new { message = "Update failed due to concurrency (Optimistic lock)", version = version });
+            await response.WriteAsync(result);
+
+        }
         catch (Exception error)
         {
             var response = context.Response;
@@ -42,9 +55,6 @@ public class ErrorHandlerMiddleware
                     // not found error
                     response.StatusCode = (int)HttpStatusCode.NotFound;
                     break;
-                case DbUpdateConcurrencyException:
-                    response.StatusCode = (int)HttpStatusCode.Conflict;
-                    break;
                 default:
                     // unhandled error
                     _logger.LogError(error, error.Message);
@@ -55,5 +65,6 @@ public class ErrorHandlerMiddleware
             var result = JsonSerializer.Serialize(new { message = error?.Message });
             await response.WriteAsync(result);
         }
+        
     }
 }
