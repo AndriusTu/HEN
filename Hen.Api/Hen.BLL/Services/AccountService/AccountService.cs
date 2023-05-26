@@ -23,5 +23,14 @@ public class AccountService : IAccountService
         return account;
     }
 
+    public AccountRole GetRoleById(Guid id)
+    {
+        var account = _context.Accounts.FirstOrDefault(x => x.Id == id);
+        if (account == null)
+        {
+            throw new KeyNotFoundException("Account not found");
+        }
+        return account.Role;
+    }
 }
 
