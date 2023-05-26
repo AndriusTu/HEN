@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using Hen.BLL.Services.AccountService;
+using Hen.BLL.Services.LogService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,6 +88,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IAuthService, AuthService>();
     services.AddSingleton<IMailService, MailService>();
     services.AddScoped<IAccountService, AccountService>();
+    services.AddScoped<ILogService, LogService>();
 
 }
 
@@ -115,6 +117,10 @@ using (var scope = app.Services.CreateScope())
 
     // global error handler
     app.UseMiddleware<ErrorHandlerMiddleware>();
+    if (builder.Configuration["LogAccountEndpoints"] is "True")
+    {
+        app.UseMiddleware<HttpLoggingMiddleware>();
+    }
 
     app.MapControllers();
 }
