@@ -74,6 +74,8 @@ public class ParcelService : IParcelService
         parcel.Receiver = SetUser(parcel.Receiver);
         parcel.Sender = SetUser(parcel.Sender);
 
+        SophisticatedAlgorithmForCourierSelection(parcel);
+
         _context.Parcels.Add(parcel);
         _context.SaveChanges();
 
@@ -201,6 +203,15 @@ public class ParcelService : IParcelService
             };
         }
         return location;
+    }
+
+    private void SophisticatedAlgorithmForCourierSelection(ParcelEntity parcel)
+    {
+        var couriers = _context.Accounts.Where(x => x.Role == AccountRole.COURIER).ToList();
+        var parcels = _context.Parcels.ToList();
+
+        var courier = couriers.OrderBy(x => parcels.Where(y => y.CourierId == x.Id)).FirstOrDefault();
+        parcel.CourierId = courier.Id;
     }
 }
 
