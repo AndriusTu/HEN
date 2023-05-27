@@ -205,8 +205,9 @@ public class ParcelService : IParcelService
     {
         var couriers = _context.Accounts.Where(x => x.Role == AccountRole.COURIER).ToList();
         var parcels = _context.Parcels.ToList();
+        var orderedCouriers = couriers.OrderBy(x => parcels.Where(y => y.CourierId.HasValue && y.CourierId.Value == x.Id).Count()).ToList();
 
-        var courier = couriers.OrderBy(x => parcels.Where(y => y.CourierId == x.Id)).FirstOrDefault();
+        var courier = orderedCouriers.FirstOrDefault();
         parcel.CourierId = courier.Id;
     }
 }
