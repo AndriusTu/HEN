@@ -23,7 +23,7 @@ export interface ParcelStatus {
 }
 
 export interface ParcelLocation {
-  id: number;
+  id: string;
   type: string;
   country: string;
   city: string;

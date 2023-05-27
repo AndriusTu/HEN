@@ -18,12 +18,14 @@ import statusOptions, { getLocationOptions } from './data/statusOptions';
 
 function UpdateParcelStatus() {
   const { state } = useLocation();
-  const [parcelStatus, setParcelStatus] = useState('');
-  const [parcelLocation, setParcelLocation] = useState('');
   const [parcelInformation, setParcelInformation] = useState({} as Parcel);
   const [ParcelLocationList, setParcelLocationList] = useState(
     [] as ParcelLocation[],
   );
+  const [parcelStatusChoice, setParcelStatusChoice] = useState('');
+  const [parcelLocationChoice, setParcelLocationChoice] = useState('');
+
+  //element rendering
   const [hasError, setHasError] = useState(false);
   const [reload, setReload] = useState(false);
 
@@ -38,25 +40,27 @@ function UpdateParcelStatus() {
 
   const { handleSubmit } = useForm();
   const [transferObject, setTransferObject] = useState({} as StatusUpdateModel);
+  const [responseVersion, setResponseVersion] = useState();
 
   const onSubmit = (data) => {
-    const transferObject = {
-      locationId: parcelLocation,
-      status: parcelStatus,
+    setTransferObject ({
+      locationId: parcelLocationChoice,
+      status: parcelStatusChoice,
       version: parcelInformation.version,
-    } as StatusUpdateModel;
-
+    } as StatusUpdateModel);
     updateParcelStatus(state.id, transferObject)
-      .then(() => {
-        setReload(!reload);
-      })
-      .catch((error) => {
-        if (error.response.status === 409) {
-          console.log(error.response.data.version); // If you want to override the object, pass this version to transfer object
-          setHasError(true);
-        }
-        // Probably ignore other errors as we are not handling them anywhere else
-      });
+        .then(() => {
+          setReload(!reload);
+        })
+        .catch((error) => {
+          if (error.response.status === 409) {
+            setResponseVersion(error.response.data.version);
+            console.log("response version: "+responseVersion); // If you want to override the object, pass this version to transfer object
+            setHasError(true);
+            setReload(!reload)
+          }
+          // Probably ignore other errors as we are not handling them anywhere else
+        });
   };
 
   return (
@@ -80,6 +84,7 @@ function UpdateParcelStatus() {
           key={hasError}
           hasError={hasError}
           transferObject={transferObject}
+          modalResponseVersion={responseVersion}
           id={state.id}
         />
         <div
@@ -118,7 +123,7 @@ function UpdateParcelStatus() {
                       placeholder="Status"
                       required={true}
                       onChange={(e: any) => {
-                        setParcelStatus(e.value);
+                        setParcelStatusChoice(e.value);
                       }}
                     />
                   </div>
@@ -129,7 +134,7 @@ function UpdateParcelStatus() {
                       placeholder="Location"
                       required={true}
                       onChange={(e: any) => {
-                        setParcelLocation(e.value);
+                        setParcelLocationChoice(e.value);
                       }}
                     />
                   </div>

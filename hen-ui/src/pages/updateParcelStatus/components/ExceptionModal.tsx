@@ -1,38 +1,73 @@
 import React, {useEffect, useState} from 'react';
 import {StatusUpdateModel} from "../../../models/StatusUpdateModel";
-import {updateParcelStatus} from "../../../services/api/parcelService";
+import {getParcelById, updateParcelStatus} from "../../../services/api/parcelService";
+import {Parcel, ParcelStatus} from "../../../models/GetParcelModel";
+import ROUTES from "../../../routes";
+import {useNavigate} from "react-router-dom";
 function ExceptionModal(state: any){
     const [hasError, setHasError] = useState(state.hasError);
     const [transferObject, setTransferObject] = useState(state.transferObject as StatusUpdateModel);
+    const [responseVersion, setResponseVersion] = useState(state.modalResponseVersion);
+    const [lastState, setLastState] = useState({} as StatusUpdateModel)//state.transferObject as StatusUpdateModel);
+    const [parcelId, setParcelId] = useState(state.id);
+    const [updateMessage, setUpdateMessage] = useState("")
+    const [reload, setReload] = useState(state.reload);
+    const [compare, setCompare] = useState(false);
+    const navigate = useNavigate();
     useEffect(() => {
-
-    }, [transferObject])
-    const handleClose = () => setHasError(false);
-    const handleUpdate = () => {
+        let lastStateObject = getLastState();
+       setLastState({
+              locationId: lastStateObject.locationId,
+                status: lastStateObject.status,
+                version: lastStateObject.version
+       });
+    }, [transferObject, hasError, reload])
+    const handleClose = () => {
+        setHasError(false);
+    }
+    const handleReload = () => {
+        setReload(!reload);
+        setHasError(false);
+    }
+    const handleCompare = () => {
+        setReload(!reload)
+        setCompare(!compare);
+    }
+    const handleOverwrite = () => {
+        setTransferObject({
+            locationId: transferObject.locationId,
+            status: transferObject.status,
+            version: responseVersion
+        })
         updateParcelStatus(state.id, transferObject).then((responseData) => {
-            switch (responseData.status){
-                case 200:
-                    setTransferObject({
-                        locationId: responseData.data.status.locationId,
-                        status: responseData.data.status.status,
-                    })
-                    setHasError(true);
-                    break;
-                case 409:
-                    setTransferObject({
-                        locationId: transferObject.locationId,
-                        status: transferObject.status,
-                    })
-                    setHasError(true);
-                    break;
-                default:
-                    setHasError(true);
-                    setTransferObject({
-                        locationId: "-",
-                        status: "-",
-                    })
+            setUpdateMessage(responseData.data.message);
+            setReload(!reload);
+            setHasError(false);
+        }).catch((error) => {
+            if (error.response.status === 409) {
+                setHasError(true);
+                setResponseVersion(error.response.data.version);
             }
+            }
+        );
+        setReload(!reload);
+        navigate(ROUTES.PARCEL_STATUS_UPDATE, { state: { id: parcelId } });
+    }
+    const getLastState = () => {
+        let lastDateState = {} as ParcelStatus;
+        getParcelById(parcelId).then((responseData : Parcel) => {
+            const latestDate = new Date(Math.max(...responseData.parcelStatus.map(e => new Date(e.createdAt).getTime())));
+            lastDateState = responseData.parcelStatus.find((obj) => {
+                return new Date(obj.createdAt).getTime() === latestDate.getTime();
+            }) as ParcelStatus;
+            setLastState({
+                locationId: lastDateState.location.id,
+                status: lastDateState.status,
+                version: responseData.version!
+            })
+            return lastState;
         });
+        return lastState;
     }
     if(hasError){
         return (
@@ -40,7 +75,7 @@ function ExceptionModal(state: any){
                 <div className="fixed inset-0 bg-gray-200 bg-opacity-75 transition-opacity"></div>
                 <div className="fixed inset-0 z-10 overflow-y-auto">
                     <div className="flex min-h-full items-start justify-center p-[20%] text-center sm:items-center sm:p-0">
-                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-[40%]">
+                        <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-[80%]">
                             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div className="sm:flex sm:items-start">
                                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -50,24 +85,51 @@ function ExceptionModal(state: any){
                                     </div>
                                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                         <h3 className="text-base font-semibold leading-6 text-gray-900" id="modal-title">Status update has been interrupted</h3>
-                                        <div className="mt-2">
-                                            <p className="text-sm text-gray-500">Cannot perform latest update: {state.transferObject.status} {hasError}</p>
-                                            <p className="text-sm text-gray-500">Error occurred while trying to submit your parcel status update. You can either try again or cancel current status update submission</p>
-                                        </div>
+                                        <h4>{updateMessage}</h4>
+                                        { compare ? (
+                                        <div className="sm:flex-col content-stretch">
+                                            <div className="mt-2 w-[46%] p-[1%] inline-block align-text-top">
+                                                <h2 className="text-sm text-gray-500">State you tried to submit: </h2>
+                                                <p>{state.transferObject.status}</p>
+                                                <p className="text-sm text-gray-500">Your parcel version: {state.transferObject.version} </p>
+                                                <p className="text-sm text-gray-500">Error occurred while trying to submit your parcel status update. You can either try again or cancel current status update submission</p>
+                                            </div>
+                                            <div className="mt-2 w-[46%] inline-block align-text-top border-l-2 pl-3 pt-0">
+                                                <h2 className="text-sm text-gray-500">Last confirmed state:  </h2>
+                                                <p>{lastState.status}</p>
+                                                <p className="text-sm text-gray-500">Database parcel version: {responseVersion} </p>
+                                                {/*<p>{state.responseObject.status} </p>*/}
+                                                <p className="text-sm text-gray-500">Error occurred while trying to submit your parcel status update. You can either try again or cancel current status update submission</p>
+                                            </div>
+                                        </div>) : <></>
+                                    }
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <button  type="button"
-                                         className="inline-flex w-full justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 sm:ml-3 sm:w-1/3"
-                                         onClick={handleUpdate}>
-                                    Try again
-                                </button>
-                                <button type="button"
-                                        className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                                        onClick={handleClose}>
-                                    Cancel update
-                                </button>
+                            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6  border-t-2">
+                                <div className="sm:flex-col content-stretch">
+                                    <button  type="button"
+                                             className="w-[45%] mr-[5%] justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 sm:ml-3 sm:w-1/3"
+                                             onClick={handleReload}>
+                                        Reload page and try again
+                                    </button>
+
+                                    <button  type="button"
+                                             className="w-[45%] ml-[5%] justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 sm:ml-3 sm:w-1/3"
+                                             onClick={handleCompare}>
+                                        Compare last state with your state
+                                    </button>
+                                    <button  type="button"
+                                             className="mt-[5%] inline-flex w-full justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-600 sm:ml-3 sm:w-1/3"
+                                             onClick={handleOverwrite}>
+                                        Ignore and submit anyway
+                                    </button>
+                                    <button type="button"
+                                            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200 sm:mt-0 sm:w-auto"
+                                            onClick={handleClose}>
+                                        Cancel update
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
