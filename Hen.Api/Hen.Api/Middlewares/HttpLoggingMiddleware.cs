@@ -16,6 +16,12 @@ namespace Hen.Api.Middlewares
 
         public async Task Invoke(HttpContext context, ILogService logService, IAccountService accountService)
         {
+            if(context.User.Identity?.IsAuthenticated != true)
+            {
+                await _next(context);
+                return;
+            }
+
             var endpoint = context.GetEndpoint()!.Metadata.GetMetadata<ControllerActionDescriptor>();
             var accountId = Guid.Parse(context.User.Claims.FirstOrDefault(x => x.Type == "AccountId")?.Value);
 
