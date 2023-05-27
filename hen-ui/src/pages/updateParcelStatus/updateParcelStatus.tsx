@@ -19,7 +19,7 @@ import statusOptions, { getLocationOptions } from './data/statusOptions';
 function UpdateParcelStatus() {
   const { state } = useLocation();
   const [parcelInformation, setParcelInformation] = useState({} as Parcel);
-  const [ParcelLocationList, setParcelLocationList] = useState(
+  const [parcelLocationList, setParcelLocationList] = useState(
     [] as ParcelLocation[],
   );
   const [parcelStatusChoice, setParcelStatusChoice] = useState('');
@@ -36,31 +36,30 @@ function UpdateParcelStatus() {
     getParcelById(state.id).then((responseData) => {
       setParcelInformation(responseData);
     });
-  }, [state.id, reload]);
+  }, [reload]);
 
   const { handleSubmit } = useForm();
   const [transferObject, setTransferObject] = useState({} as StatusUpdateModel);
   const [responseVersion, setResponseVersion] = useState();
 
-  const onSubmit = (data) => {
-    setTransferObject ({
+  const onSubmit = () => {
+    const data = {
       locationId: parcelLocationChoice,
       status: parcelStatusChoice,
       version: parcelInformation.version,
-    } as StatusUpdateModel);
-    updateParcelStatus(state.id, transferObject)
-        .then(() => {
-          setReload(!reload);
-        })
-        .catch((error) => {
-          if (error.response.status === 409) {
-            setResponseVersion(error.response.data.version);
-            console.log("response version: "+responseVersion); // If you want to override the object, pass this version to transfer object
-            setHasError(true);
-            setReload(!reload)
-          }
-          // Probably ignore other errors as we are not handling them anywhere else
-        });
+    } as StatusUpdateModel;
+    setTransferObject(data);
+
+    updateParcelStatus(state.id, data)
+      .then(() => {
+        setReload(!reload);
+      })
+      .catch((error) => {
+        if (error.response.status === 409) {
+          setResponseVersion(error.response.data.version);
+          setHasError(true);
+        }
+      });
   };
 
   return (
@@ -83,9 +82,12 @@ function UpdateParcelStatus() {
           className="align-middle"
           key={hasError}
           hasError={hasError}
+          setHasError={setHasError}
           transferObject={transferObject}
           modalResponseVersion={responseVersion}
           id={state.id}
+          reload={reload}
+          setReload={setReload}
         />
         <div
           className="parcelRowElement w-1/6"
@@ -130,7 +132,7 @@ function UpdateParcelStatus() {
                   <div className="basis-1/2 md:basis-1/3 w-[225px] bg-gray_100">
                     <Select
                       className="text-ellipsis"
-                      options={getLocationOptions(ParcelLocationList)}
+                      options={getLocationOptions(parcelLocationList)}
                       placeholder="Location"
                       required={true}
                       onChange={(e: any) => {
