@@ -19,7 +19,7 @@ namespace Hen.BLL.Services.LogService
 
         public async Task Log(LogEntity log)
         {
-            _context.Logs.Add(log);
+            _context.Log.Add(log);
             await _context.SaveChangesAsync();
         }
     }

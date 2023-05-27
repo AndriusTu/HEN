@@ -1,5 +1,5 @@
-import api from './api';
 import { CreateParcelModel } from '../../models/ParcelModel';
+import api from './api';
 
 export const getParcels = async () => {
   const response = await api.get('/parcels');
@@ -22,5 +22,5 @@ export const getParcelLocations = async (id: number) => {
 
 export const updateParcelStatus = async (id: number, data: any) => {
   const response = await api.put(`/parcels/${id}/status`, data);
-  return response.data;
+  return response;
 };

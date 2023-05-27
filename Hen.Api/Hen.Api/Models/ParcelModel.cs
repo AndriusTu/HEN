@@ -16,5 +16,6 @@ namespace Hen.Api.Models
         public IList<ParcelStatusModel>? ParcelStatus { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public Guid? Version { get; set; }
     }
 }
