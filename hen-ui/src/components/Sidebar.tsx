@@ -1,7 +1,8 @@
-import { Button, Img } from 'components';
+import { Img } from 'components';
 import React from 'react';
+import ROLES from '../enums/roles';
 import ROUTES from '../routes';
-import authService from '../services/api/authService';
+import { getUserRole } from '../services/api/accountService';
 import Tab from './Tab';
 
 type SidebarProps = React.DetailedHTMLProps<
@@ -15,6 +16,7 @@ interface TabInformation {
   link: string;
   imageSrc: string;
   activeImageSrc?: string;
+  acceptedRoles?: string[];
 }
 
 const tabs: TabInformation[] = [
@@ -27,45 +29,43 @@ const tabs: TabInformation[] = [
     title: 'My parcels',
     link: ROUTES.PARCELS,
     imageSrc: 'images/img_mail.svg',
+    acceptedRoles: [ROLES.COURIER],
+  },
+  {
+    title: 'My parcels',
+    link: ROUTES.GET_PARCEL,
+    imageSrc: 'images/img_mail.svg',
+    acceptedRoles: [ROLES.CLIENT, ROLES.GUEST],
   },
   {
     title: 'Add courier',
     link: ROUTES.CREATE_COURIER,
     imageSrc: 'images/img_user31.svg',
+    acceptedRoles: [ROLES.ADMIN],
   },
 ];
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
   const [activeTab, setActiveTab] = React.useState<string>(tabs[0].link);
-
+  const userRole = getUserRole();
   return (
     <aside className="flex flex-col md:hidden justify-start w-[252px]">
       <div className="bg-white_A700 h-[797px] mr-0.5 w-full"></div>
       <div className="flex flex-col items-start justify-start absolute">
-        {tabs.map((tab) => (
-          <Tab
-            key={tab.link}
-            title={tab.title}
-            link={tab.link}
-            isActive={activeTab === tab.link}
-            onClick={() => setActiveTab(tab.link)}
-          >
-            <Img src={tab.imageSrc} />
-          </Tab>
-        ))}
-        {/* logout Button */}
-        {authService.isLoggedIn() && (
-          <Button
-            id="logout"
-            className="flex flex-row gap-2 justify-center items-center cursor-pointer font-medium leading-[normal] min-w-[190px] mt-5 text-center text-md text-white_A700 w-auto"
-            shape="RoundedBorder15"
-            size="md"
-            variant="FillIndigo600"
-            type="submit"
-            onClick={() => authService.logout()}
-          >
-            <div>Logout</div>
-          </Button>
+        {tabs.map(
+          (tab) =>
+            (!tab.acceptedRoles ||
+              (tab.acceptedRoles && tab.acceptedRoles.includes(userRole))) && (
+              <Tab
+                key={tab.link}
+                title={tab.title}
+                link={tab.link}
+                isActive={activeTab === tab.link}
+                onClick={() => setActiveTab(tab.link)}
+              >
+                <Img src={tab.imageSrc} />
+              </Tab>
+            ),
         )}
       </div>
     </aside>

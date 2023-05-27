@@ -2,6 +2,7 @@
 
 import React, { FormEvent, useState } from 'react';
 import { Button, Input, Text } from '../../components';
+import { loadUserRole } from '../../services/api/accountService';
 import authService from '../../services/api/authService';
 
 export const LoginPage = () => {
@@ -13,6 +14,8 @@ export const LoginPage = () => {
     event.preventDefault();
     try {
       await authService.login({ username, password });
+      await loadUserRole();
+
       window.location.href = '/home';
     } catch (error: any) {
       setError(error.response.data.message);
@@ -20,7 +23,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white_A700 flex flex-1 flex-col items-center justify-start md:mt-0 p-[19px] rounded-[25px] w-full h-[797px]">
       <Text
         className="text-left text-indigo_600 mb-4"
         as="h2"

@@ -2,14 +2,14 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import Protected from './components/Protected';
+import ROLES from './enums/roles';
+import CreateCourierPage from './pages/createCourier/CreateCourierPage';
 import CreateParcelPage from './pages/createParcel/CreateParcelPage';
+import GetParcelByIdPage from './pages/getParcelById/GetParcelByIdPage';
 import { LoginPage } from './pages/login/LoginPage';
-import ROUTES from './routes';
-import authService from './services/api/authService';
 import SeePendingDeliveries from './pages/seePendingDeliveries/SeePendingDeliveries';
 import UpdateParcelStatus from './pages/updateParcelStatus/updateParcelStatus';
-import GetParcelByIdPage from './pages/getParcelById/GetParcelByIdPage';
-import CreateCourierPage from './pages/createCourier/CreateCourierPage';
+import ROUTES from './routes';
 
 function App() {
   return (
@@ -27,13 +27,9 @@ function App() {
           element={<GetParcelByIdPage />}
         />
         <Route
-          path={ROUTES.GET_PARCEL}
-          element={<GetParcelByIdPage />}
-        />
-        <Route
           path={ROUTES.PARCELS}
           element={
-            <Protected isLoggedIn={authService.isLoggedIn()}>
+            <Protected acceptedRoles={[ROLES.COURIER]}>
               <SeePendingDeliveries />
             </Protected>
           }
@@ -41,7 +37,7 @@ function App() {
         <Route
           path={ROUTES.CREATE_COURIER}
           element={
-            <Protected isLoggedIn={authService.isLoggedIn()}>
+            <Protected acceptedRoles={[ROLES.ADMIN]}>
               <CreateCourierPage />
             </Protected>
           }
@@ -50,10 +46,7 @@ function App() {
           path={ROUTES.PARCEL_STATUS_UPDATE}
           element={<UpdateParcelStatus />}
         />
-        <Route
-          path={ROUTES.LOGIN}
-          element={<LoginPage />}
-        />
+
         <Route
           path="*"
           element={
@@ -64,6 +57,10 @@ function App() {
           }
         />
       </Route>
+      <Route
+        path={ROUTES.LOGIN}
+        element={<LoginPage />}
+      />
     </Routes>
   );
 }
