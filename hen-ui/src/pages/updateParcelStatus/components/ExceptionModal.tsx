@@ -85,21 +85,20 @@ function ExceptionModal(state: any){
                                     </div>
                                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                         <h3 className="text-base font-semibold leading-6 text-gray-900" id="modal-title">Status update has been interrupted</h3>
-                                        <h4>{updateMessage}</h4>
+                                        <p className="text-sm text-gray-500">Error occurred while trying to submit your parcel status update. You can either try again or cancel current status update submission</p>
                                         { compare ? (
                                         <div className="sm:flex-col content-stretch">
-                                            <div className="mt-2 w-[46%] p-[1%] inline-block align-text-top">
+                                            <div className="mt-2 w-[46%] p-[1%] inline-block align-text-top pt-0">
                                                 <h2 className="text-sm text-gray-500">State you tried to submit: </h2>
                                                 <p>{state.transferObject.status}</p>
-                                                <p className="text-sm text-gray-500">Your parcel version: {state.transferObject.version} </p>
-                                                <p className="text-sm text-gray-500">Error occurred while trying to submit your parcel status update. You can either try again or cancel current status update submission</p>
+                                                <p className="text-sm text-gray-500">Your parcel version: </p>
+                                                <p>{state.transferObject.version}</p>
                                             </div>
                                             <div className="mt-2 w-[46%] inline-block align-text-top border-l-2 pl-3 pt-0">
                                                 <h2 className="text-sm text-gray-500">Last confirmed state:  </h2>
                                                 <p>{lastState.status}</p>
-                                                <p className="text-sm text-gray-500">Database parcel version: {responseVersion} </p>
-                                                {/*<p>{state.responseObject.status} </p>*/}
-                                                <p className="text-sm text-gray-500">Error occurred while trying to submit your parcel status update. You can either try again or cancel current status update submission</p>
+                                                <p className="text-sm text-gray-500">Database parcel version:</p>
+                                                <p> {responseVersion} </p>
                                             </div>
                                         </div>) : <></>
                                     }
