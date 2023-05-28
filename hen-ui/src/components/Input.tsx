@@ -34,10 +34,10 @@ export type InputProps = Omit<
     label: string;
     prefix: React.ReactNode;
     suffix: React.ReactNode;
-    onChange: (e?) => void;
     shape: keyof typeof shapes;
     variant: keyof typeof variants;
     size: keyof typeof sizes;
+    onChange: (event: any) => void;
   }>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -53,19 +53,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       label = '',
       prefix,
       suffix,
-      onChange,
-
       shape = '',
       variant = '',
       size = '',
+      onChange,
       ...restProps
     },
     ref,
   ) => {
-    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-      if (onChange) onChange(e?.target?.value);
-    };
-
     return (
       <div className="h-16">
         <div
@@ -82,7 +77,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={type}
             name={name}
             placeholder={placeholder}
-            onChange={handleChange}
+            onChange={onChange}
             {...restProps}
           />
           {!!suffix && suffix}

@@ -16,7 +16,7 @@ function SeePendingDeliveries() {
       <div className="display-block">
         {ParcelList.length > 0 &&
           ParcelList.map((parcelInformation, index) => (
-            <div>
+            <div className="py-2">
               <ParcelCard
                 key={index}
                 {...parcelInformation}

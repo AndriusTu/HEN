@@ -40,9 +40,7 @@ function CreateParcelPage() {
     for (let key in requestData.dimensions) {
       requestData.dimensions[key] = convertCmToM(requestData.dimensions[key]);
     }
-    let responseData = await getDeliveryOptions(requestData);
-
-    return responseData;
+    return await getDeliveryOptions(requestData);
   };
 
   return (

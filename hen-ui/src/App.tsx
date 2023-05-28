@@ -46,7 +46,10 @@ function App() {
           path={ROUTES.PARCEL_STATUS_UPDATE}
           element={<UpdateParcelStatus />}
         />
-
+        <Route
+          path={ROUTES.LOGIN}
+          element={<LoginPage />}
+        />
         <Route
           path="*"
           element={
@@ -57,10 +60,6 @@ function App() {
           }
         />
       </Route>
-      <Route
-        path={ROUTES.LOGIN}
-        element={<LoginPage />}
-      />
     </Routes>
   );
 }

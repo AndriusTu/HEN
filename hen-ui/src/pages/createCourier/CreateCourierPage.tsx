@@ -11,18 +11,18 @@ function CreateCourierPage() {
     reset,
     formState: { errors },
   } = useForm();
-  const [showSuccessModal, setShowSuccessModal] = React.useState(false);
+  const [response, setResponse] = React.useState<
+    'success' | 'error' | undefined
+  >(undefined);
 
   const onSubmit = (data: any) => {
     createCourier(data)
-      .then((res) => {
-        alert('Courier creation succeeded');
-        // TODO: make a popup for success message
-        // setShowSuccessModal(true);
+      .then(() => {
+        setResponse('success');
         reset();
       })
-      .catch((err) => {
-        alert('Courier creation failed');
+      .catch(() => {
+        setResponse('error');
       });
   };
 
@@ -132,15 +132,15 @@ function CreateCourierPage() {
           </form>
         </div>
       </div>
-      {
-        // TODO: make a popup for success message
-      }
       <Modal
-        type="success"
-        isShow={showSuccessModal}
-        onClose={() => setShowSuccessModal(false)}
+        type={response}
+        isShow={response !== undefined}
+        onClose={() => setResponse(undefined)}
       >
-        <Text variant="h4">Courier was created</Text>
+        {response === 'success' && (
+          <Text variant="h4">Courier was created successfully</Text>
+        )}
+        {response === 'error' && <Text variant="h4">Something went wrong</Text>}
       </Modal>
     </>
   );
