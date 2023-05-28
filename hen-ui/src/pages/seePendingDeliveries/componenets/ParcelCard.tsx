@@ -14,9 +14,8 @@ function ParcelCard(this: any, props: Parcel) {
   const parcelStatus = parcel.parcelStatus.pop();
 
   return (
-    <div className="">
-      <div className="row bg-gray_100 p-3.5 rounded-[20px] w-full ">
-        <div className="parcelRowElement ">
+      <div className="flex flex-row items-center bg-gray_100 p-3.5 gap-5 rounded-[20px] w-full">
+        <div className="parcelRowElement">
           <div className="parcelIcon">
             <Img
               src="images/img_mail_indigo_600.svg "
@@ -25,7 +24,7 @@ function ParcelCard(this: any, props: Parcel) {
             />
           </div>
         </div>
-        <div className="parcelRowElement ">
+        <div className="parcelRowElement w-4/12">
           Parcel
           <Text
             className="font-normal not-italic text-bluegray_400 text-left w-auto"
@@ -36,7 +35,7 @@ function ParcelCard(this: any, props: Parcel) {
           </Text>
         </div>
 
-        <div className="parcelRowElement ">
+        <div className="parcelRowElement w-1/12">
           Status
           <Text
             className="font-normal not-italic text-bluegray_400 text-left w-auto"
@@ -50,7 +49,7 @@ function ParcelCard(this: any, props: Parcel) {
             }
           </Text>
         </div>
-        <div className="parcelRowElement ">
+        <div className="parcelRowElement w-2/12">
           Location
           <Text
             className="font-normal not-italic text-bluegray_400 text-left w-auto"
@@ -60,7 +59,7 @@ function ParcelCard(this: any, props: Parcel) {
             {parcelStatus?.location.type}
           </Text>
         </div>
-        <div className="parcelRowElement ">
+        <div className="parcelRowElement w-2/12">
           ETA
           <Text
             className="font-normal not-italic text-bluegray_400 text-left w-auto"
@@ -70,7 +69,7 @@ function ParcelCard(this: any, props: Parcel) {
             {parcel.eta.toString().slice(0, 10)}
           </Text>
         </div>
-        <div className="parcelRowElement">
+        <div className="parcelRowElement w-2/12">
           <Button
             className="parcelRowElementDetails top-[1px]"
             shape="RoundedBorder25"
@@ -82,7 +81,6 @@ function ParcelCard(this: any, props: Parcel) {
           </Button>
         </div>
       </div>
-    </div>
   );
 }
 
