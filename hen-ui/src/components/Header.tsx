@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Button, Img, Text } from 'components';
 import authService from '../services/api/authService';
-import ROUTES from "../routes";
+import ROUTES from '../routes';
 
 type HeaderProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,

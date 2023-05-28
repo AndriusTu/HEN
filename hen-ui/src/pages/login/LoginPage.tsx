@@ -2,8 +2,8 @@ import React from 'react';
 import { Button, Input, Text } from '../../components';
 import { loadUserRole } from '../../services/api/accountService';
 import authService from '../../services/api/authService';
-import {useForm} from "react-hook-form";
-import ROUTES from "../../routes";
+import { useForm } from 'react-hook-form';
+import ROUTES from '../../routes';
 
 export const LoginPage = () => {
   const [error, setError] = React.useState('');
@@ -46,7 +46,7 @@ export const LoginPage = () => {
             variant="OutlineGray300"
             type="text"
             errors={errors}
-            {...register("username", { required: true })}
+            {...register('username', { required: true })}
           />
         </div>
         <div>
@@ -60,7 +60,7 @@ export const LoginPage = () => {
             id="password"
             type="password"
             errors={errors}
-            {...register("password", { required: true })}
+            {...register('password', { required: true })}
           />
         </div>
         <Button

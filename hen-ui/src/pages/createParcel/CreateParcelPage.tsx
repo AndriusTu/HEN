@@ -1,8 +1,8 @@
-import {Line} from 'components';
-import React, {useState} from 'react';
-import {DeliveryInfo} from '../../models/DeliveryModel';
-import {getDeliveryOptions} from '../../services/api/deliveryOptionsService';
-import {convertCmToM} from '../../utils/measureUnitUtils';
+import { Line } from 'components';
+import React, { useState } from 'react';
+import { DeliveryInfo } from '../../models/DeliveryModel';
+import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
+import { convertCmToM } from '../../utils/measureUnitUtils';
 import Tab from './components/Tab';
 import FormProvider from './context/CreateParcelFormContext';
 import DeliveryInformationTab from './tabs/DeliveryInformationTab';

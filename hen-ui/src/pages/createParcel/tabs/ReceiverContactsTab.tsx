@@ -9,6 +9,7 @@ import { createParcel } from '../../../services/api/parcelService';
 import { convertCmToM } from '../../../utils/measureUnitUtils';
 import ContactInformationForm from '../components/ContactInformationForm';
 import { useFormData } from '../context/CreateParcelFormContext';
+import Modal from '../../../components/Modal';
 
 interface ReceiverContactsTabProps {
   previousFormStep: () => void;
@@ -16,7 +17,10 @@ interface ReceiverContactsTabProps {
 
 function ReceiverContactsTab(props: ReceiverContactsTabProps) {
   const { previousFormStep } = props;
-  const [isSuccess, setIsSuccess] = React.useState(false);
+  const [response, setResponse] = React.useState<
+    'success' | 'error' | undefined
+  >(undefined);
+  const [showModal, setShowModal] = React.useState(false);
   const { data } = useFormData();
   const {
     register,
@@ -61,77 +65,91 @@ function ReceiverContactsTab(props: ReceiverContactsTabProps) {
 
     createParcel(createParcelModel)
       .then(() => {
-        setIsSuccess(true);
+        setResponse('success');
+        setShowModal(true);
       })
       .catch(() => {
-        setIsSuccess(false);
+        setResponse('error');
+        setShowModal(true);
       });
   };
 
   return (
-    <div className="flex flex-row gap-[25px] justify-start mt-[7px] w-full justify-center">
-      {isSuccess ? (
-        <div className="flex flex-col items-center mt-10">
-          <Img
-            src="images/img_success.png"
-            className="mx-auto"
-            alt="parcel"
-          />
-          <Text
-            className="text-bluegray_400"
-            as="h2"
-            variant="h2"
-          >
-            We’re on our way to pick up your parcel!
-          </Text>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col items-start justify-between md:ml-[0] ml-8 pr-10 mt-5">
+    <>
+      <div className="flex flex-row gap-[25px] justify-start mt-[7px] w-full justify-center">
+        {response === 'success' ? (
+          <div className="flex flex-col items-center mt-10">
+            <Img
+              src="images/img_success.png"
+              className="mx-auto"
+              alt="parcel"
+            />
             <Text
-              className="text-left text-indigo_600 mb-4"
+              className="text-bluegray_400"
               as="h2"
               variant="h2"
             >
-              Receiver contact information
+              We’re on our way to pick up your parcel!
             </Text>
-            <ContactInformationForm
-              register={register}
-              errors={errors}
-            />
-            <div className="flex flex-row gap-10 w-full justify-between">
-              <Button
-                className="flex flex-row gap-2 justify-center items-center cursor-pointer font-medium leading-[normal] min-w-[190px] mt-5 text-center text-md text-indigo_600 w-auto"
-                shape="RoundedBorder15"
-                size="md"
-                variant="OutlineIndigo500"
-                type="button"
-                onClick={previousFormStep}
-              >
-                <ArrowSVG
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                  direction="left"
-                />
-                <div>Go back</div>
-              </Button>
-              <Button
-                className="flex flex-row gap-2 justify-center items-center cursor-pointer font-medium leading-[normal] min-w-[190px] mt-5 text-md text-white_A700 w-auto"
-                shape="RoundedBorder15"
-                size="md"
-                variant="FillIndigo600"
-                type="submit"
-              >
-                <div>Register</div>
-              </Button>
-            </div>
           </div>
-        </form>
-      )}
-    </div>
+        ) : (
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col items-start justify-between md:ml-[0] ml-8 pr-10 mt-5">
+              <Text
+                className="text-left text-indigo_600 mb-4"
+                as="h2"
+                variant="h2"
+              >
+                Receiver contact information
+              </Text>
+              <ContactInformationForm
+                register={register}
+                errors={errors}
+              />
+              <div className="flex flex-row gap-10 w-full justify-between">
+                <Button
+                  className="flex flex-row gap-2 justify-center items-center cursor-pointer font-medium leading-[normal] min-w-[190px] mt-5 text-center text-md text-indigo_600 w-auto"
+                  shape="RoundedBorder15"
+                  size="md"
+                  variant="OutlineIndigo500"
+                  type="button"
+                  onClick={previousFormStep}
+                >
+                  <ArrowSVG
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                    direction="left"
+                  />
+                  <div>Go back</div>
+                </Button>
+                <Button
+                  className="flex flex-row gap-2 justify-center items-center cursor-pointer font-medium leading-[normal] min-w-[190px] mt-5 text-md text-white_A700 w-auto"
+                  shape="RoundedBorder15"
+                  size="md"
+                  variant="FillIndigo600"
+                  type="submit"
+                >
+                  <div>Register</div>
+                </Button>
+              </div>
+            </div>
+          </form>
+        )}
+      </div>
+      <Modal
+        type={response}
+        isShow={response !== undefined && showModal}
+        onClose={() => setShowModal(false)}
+      >
+        {response === 'success' && (
+          <Text variant="h4">Parcel was created successfully</Text>
+        )}
+        {response === 'error' && <Text variant="h4">Something went wrong</Text>}
+      </Modal>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import api from './api';
-import ROUTES from "../../routes";
+import ROUTES from '../../routes';
 
 export interface LoginRequest {
   username: string;
