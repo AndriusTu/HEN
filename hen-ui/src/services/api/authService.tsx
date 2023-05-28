@@ -1,4 +1,5 @@
 import api from './api';
+import ROUTES from "../../routes";
 
 export interface LoginRequest {
   username: string;
@@ -13,7 +14,7 @@ const login = (request: LoginRequest) =>
 const logout = () => {
   localStorage.removeItem('apiToken');
   localStorage.removeItem('userRole');
-  window.location.href = '/home';
+  window.location.href = ROUTES.CREATE_PARCEL;
 };
 
 const getToken = () => {

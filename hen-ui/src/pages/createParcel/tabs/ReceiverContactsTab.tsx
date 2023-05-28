@@ -17,7 +17,7 @@ interface ReceiverContactsTabProps {
 function ReceiverContactsTab(props: ReceiverContactsTabProps) {
   const { previousFormStep } = props;
   const [isSuccess, setIsSuccess] = React.useState(false);
-  const { data, setFormValues } = useFormData();
+  const { data } = useFormData();
   const {
     register,
     handleSubmit,
@@ -60,10 +60,10 @@ function ReceiverContactsTab(props: ReceiverContactsTabProps) {
     };
 
     createParcel(createParcelModel)
-      .then((data) => {
+      .then(() => {
         setIsSuccess(true);
       })
-      .catch((error) => {
+      .catch(() => {
         setIsSuccess(false);
       });
   };

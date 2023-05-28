@@ -1,22 +1,25 @@
-// login page functional component
-
-import React, { FormEvent, useState } from 'react';
+import React from 'react';
 import { Button, Input, Text } from '../../components';
 import { loadUserRole } from '../../services/api/accountService';
 import authService from '../../services/api/authService';
+import {useForm} from "react-hook-form";
+import ROUTES from "../../routes";
 
 export const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = React.useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
+    const { username, password } = data;
     try {
       await authService.login({ username, password });
       await loadUserRole();
 
-      window.location.href = '/home';
+      window.location.href = ROUTES.CREATE_PARCEL;
     } catch (error: any) {
       setError(error.response.data.message);
     }
@@ -31,7 +34,7 @@ export const LoginPage = () => {
       >
         Login
       </Text>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         {error && <div>{error}</div>}
         <div>
           <label htmlFor="username">Username</label>
@@ -42,9 +45,8 @@ export const LoginPage = () => {
             size="sm"
             variant="OutlineGray300"
             type="text"
-            id="username"
-            value={username}
-            onChange={(event) => setUsername(event)}
+            errors={errors}
+            {...register("username", { required: true })}
           />
         </div>
         <div>
@@ -57,8 +59,8 @@ export const LoginPage = () => {
             variant="OutlineGray300"
             id="password"
             type="password"
-            value={password}
-            onChange={(event) => setPassword(event)}
+            errors={errors}
+            {...register("password", { required: true })}
           />
         </div>
         <Button

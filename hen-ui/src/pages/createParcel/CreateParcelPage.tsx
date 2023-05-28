@@ -1,8 +1,8 @@
-import { Line } from 'components';
-import React, { useState } from 'react';
-import { DeliveryInfo } from '../../models/DeliveryModel';
-import { getDeliveryOptions } from '../../services/api/deliveryOptionsService';
-import { convertCmToM } from '../../utils/measureUnitUtils';
+import {Line} from 'components';
+import React, {useState} from 'react';
+import {DeliveryInfo} from '../../models/DeliveryModel';
+import {getDeliveryOptions} from '../../services/api/deliveryOptionsService';
+import {convertCmToM} from '../../utils/measureUnitUtils';
 import Tab from './components/Tab';
 import FormProvider from './context/CreateParcelFormContext';
 import DeliveryInformationTab from './tabs/DeliveryInformationTab';
@@ -40,9 +40,7 @@ function CreateParcelPage() {
     for (let key in requestData.dimensions) {
       requestData.dimensions[key] = convertCmToM(requestData.dimensions[key]);
     }
-    let responseData = await getDeliveryOptions(requestData);
-
-    return responseData;
+    return await getDeliveryOptions(requestData);
   };
 
   return (
