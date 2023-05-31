@@ -57,6 +57,11 @@ public class ParcelService : IParcelService
 
         parcel.Size = size;
 
+
+
+        parcel.Receiver = SetUser(parcel.Receiver);
+        parcel.Sender = SetUser(parcel.Sender);
+
         var parcelStatusGroup = new ParcelStatusGroupEntity()
         {
             ParcelId = parcel.Id,
@@ -65,15 +70,12 @@ public class ParcelService : IParcelService
                 Id = Guid.NewGuid(),
                 Status = DeliveryStatus.SUBMITTED,
                 CreatedAt = DateTime.UtcNow,
-                Location = GetDistributionLocation(),
+                Location = parcel.Sender.Location ?? GetDistributionLocation(),
                 Description = "Parcel submitted"
             }
         };
 
         _context.ParcelStatusGroups.Add(parcelStatusGroup);
-
-        parcel.Receiver = SetUser(parcel.Receiver);
-        parcel.Sender = SetUser(parcel.Sender);
 
         SophisticatedAlgorithmForCourierSelection(parcel);
 
@@ -189,12 +191,12 @@ public class ParcelService : IParcelService
                 Type = LocationType.DISTRIBUTION_POINT,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                City = "Sofia",
-                Country = "Bulgaria",
-                Street = "Bulgaria",
+                City = "Vilnius",
+                Country = "Lietuva",
+                Street = "Paskirstymo g.",
                 HouseNumber = 1,
                 FlatNumber = 1,
-                PostalCode = "1000",
+                PostalCode = "68000",
                 Description = "Good place to distribute things",
             };
         }
