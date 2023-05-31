@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Button, Img, Input, Text } from '../../components';
 import Modal from '../../components/Modal';
 import { createCourier } from '../../services/api/accountService';
+import { emailRegex, lithuanianPhoneRegex } from '../../utils/stringUtils';
 
 function CreateCourierPage() {
   const {
@@ -95,7 +96,13 @@ function CreateCourierPage() {
                   size="sm"
                   variant="OutlineGray300"
                   errors={errors}
-                  {...register('phone', { required: 'Required' })}
+                  {...register('phone', {
+                    required: 'Required',
+                    pattern: {
+                      value: lithuanianPhoneRegex,
+                      message: 'Invalid phone number',
+                    },
+                  })}
                 ></Input>
               </div>
               <div className="flex md:flex-1 flex-col gap-2.5 items-start justify-start w-[49%] md:w-full">
@@ -114,7 +121,13 @@ function CreateCourierPage() {
                   size="sm"
                   variant="OutlineGray300"
                   errors={errors}
-                  {...register('email', { required: 'Required' })}
+                  {...register('email', {
+                    required: 'Required',
+                    pattern: {
+                      value: emailRegex,
+                      message: 'Invalid email address',
+                    },
+                  })}
                 ></Input>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Input, Text } from '../../../components';
+import { emailRegex, lithuanianPhoneRegex } from '../../../utils/stringUtils';
 
 interface ContactInformationFormProps {
   register: any;
@@ -86,7 +87,13 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           size="sm"
           variant="OutlineGray300"
           errors={errors}
-          {...register('phone', { required: 'Required' })}
+          {...register('phone', {
+            required: 'Required',
+            pattern: {
+              value: lithuanianPhoneRegex,
+              message: 'Invalid phone number',
+            },
+          })}
         ></Input>
       </div>
       <div className="flex flex-row gap-7 items-start justify-start md:w-full">
@@ -145,7 +152,10 @@ function ContactInformationForm(props: ContactInformationFormProps) {
           size="sm"
           variant="OutlineGray300"
           errors={errors}
-          {...register('email', { required: 'Required' })}
+          {...register('email', {
+            required: 'Required',
+            pattern: { value: emailRegex, message: 'Invalid email address' },
+          })}
         ></Input>
       </div>
       <div className="flex flex-row items-start justify-start gap-7 w-full">
